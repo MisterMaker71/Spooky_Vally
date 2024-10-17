@@ -85,4 +85,8 @@ public class InventoryManager : MonoBehaviour
 
         isDragging = false;
     }
+    public void AddItem(Item i)
+    {
+        //To do
+    }
 }

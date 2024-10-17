@@ -12,9 +12,11 @@ public class PlayerMovement : MonoBehaviour
     [SerializeField] float mouseSensebility = 100;
     float camXRotation = 0;
     float camYRotation = 0;
+    InventoryManager inventoryManager;
     // Start is called before the first frame update
     void Start()
     {
+        inventoryManager = FindObjectOfType<InventoryManager>();
         //pCamera = Camera.main;
         controller = GetComponent<CharacterController>();
     }
@@ -29,7 +31,7 @@ public class PlayerMovement : MonoBehaviour
         controller.Move(transform.forward * MoveVector.y * movementSpeed * Time.deltaTime + transform.right * MoveVector.x * movementSpeed * Time.deltaTime);
 
         
-        if(!Input.GetMouseButton(1))
+        if(!Input.GetMouseButton(1) && !inventoryManager.InventoryIsVisibel)
         {
             Cursor.lockState = CursorLockMode.Locked;
 

@@ -14,7 +14,7 @@ GameObject:
   - component: {fileID: 6016847065766423288}
   - component: {fileID: 252603821451274885}
   - component: {fileID: -6579610298431120327}
-  - component: {fileID: 5407236034276614743}
+  - component: {fileID: 4198255156978345931}
   m_Layer: 0
   m_Name: Wheet
   m_TagString: Untagged
@@ -290,7 +290,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   lookMode: 0
---- !u!114 &5407236034276614743
+--- !u!114 &4198255156978345931
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -299,7 +299,6 @@ MonoBehaviour:
   m_GameObject: {fileID: 3664187865272135441}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: fe272619bf170f847a4eb469401c0e7c, type: 3}
+  m_Script: {fileID: 11500000, guid: cb4bb42a1da059945939c7788081b1b5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  cropName: crop

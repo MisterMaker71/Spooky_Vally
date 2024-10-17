@@ -5,7 +5,7 @@ using UnityEngine;
 public class Item : MonoBehaviour
 {
     public string name;
-    public int count;
+    public int count = 1;
     // Start is called before the first frame update
     void Start()
     {

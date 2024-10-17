@@ -52,6 +52,11 @@ public class InventorySlot : MonoBehaviour
             {
                 if(Item == null)
                     AddToSlot(InventoryManager.MainInstance.StopDragging(this));
+                else if(Item.name == InventoryManager.MainInstance.dragging.name)
+                {
+                    Item.count += InventoryManager.MainInstance.dragging.count;
+                    Destroy(InventoryManager.MainInstance.dragging.gameObject);
+                }
                 else
                     InventoryManager.MainInstance.Cancle();
             }

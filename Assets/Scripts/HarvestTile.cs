@@ -4,18 +4,18 @@ using UnityEngine;
 
 public class HarvestTile : MonoBehaviour
 {
-    public Crop crop;
+    public Farmebel farmebel;
     // Start is called before the first frame update
     void Start()
     {
-        if (crop == null)
-            crop = GetComponentInChildren<Crop>();
+        if (farmebel == null)
+            farmebel = GetComponentInChildren<Farmebel>();
     }
 
-    public Crop colectCrop()
+    public Farmebel colectCrop()
     {
-        if (crop != null)
-            return crop.Destroy();
+        if (farmebel != null)
+            return farmebel.Destroy();
         else
             return null;
     }
