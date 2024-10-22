@@ -2,9 +2,11 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+public enum DayTime { Day, Night }
 [RequireComponent(typeof(Light))]
 public class DayNightCical : MonoBehaviour
 {
+    public static DayTime time;
     //[SerializeField] float y;
     //[SerializeField] float z;
     [Tooltip("Angel of the sun")]
@@ -24,9 +26,15 @@ public class DayNightCical : MonoBehaviour
     void Update()
     {
         if (v > 190 && v < 350)
+        {
+            time = DayTime.Night;
             v += Time.deltaTime * speed * 5;
+        }
         else
+        {
+            time = DayTime.Day;
             v += Time.deltaTime * speed;
+        }
 
 
         if (v > 360)
@@ -40,10 +48,17 @@ public class DayNightCical : MonoBehaviour
             transform.localRotation = Quaternion.Euler(new Vector3(v, 0, 0));
         if (sun != null)
         {
-            if (v > 10 && v < 160)
-                sun.intensity += Time.deltaTime * speed / 15;
-            if (v > 160 && v < 360)
-                sun.intensity -= Time.deltaTime * speed / 15;
+            if(FarmManager.instance.Raining)
+            {
+                sun.intensity -= Time.deltaTime * speed / 5;
+            }
+            else
+            {
+                if (v > 10 && v < 160)
+                    sun.intensity += Time.deltaTime * speed / 15;
+                if (v > 160 && v < 360)
+                    sun.intensity -= Time.deltaTime * speed / 15;
+            }
             sun.intensity = Mathf.Clamp(sun.intensity, 0, 1);
         }
     }

@@ -1,15 +1,17 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using TMPro;
 
-public class HarvestTIle : MonoBehaviour
+public class ItemInfo : MonoBehaviour
 {
-    public Crop crop;
+    public string Title;
+    [Multiline(10)]
+    public string Description;
     // Start is called before the first frame update
     void Start()
     {
-        if (crop == null)
-            crop = GetComponentInChildren<Crop>();
+        
     }
 
     // Update is called once per frame

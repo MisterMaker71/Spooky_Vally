@@ -7,12 +7,15 @@ using TMPro;
 public class InventorySlot : MonoBehaviour
 {
     [HideInInspector]
-    public float index = 0;
+    public int index = 0;
     public Item Item;
-    [SerializeField] TMP_Text ItemCount;
+    //[SerializeField] TMP_Text ItemCount;
+    Color c1;
+    [SerializeField]Color SelecktedCollor = Color.gray;
     // Start is called before the first frame update
     void Start()
     {
+        c1 = GetComponent<Image>().color;
         if (Item == null)
             Item = GetComponentInChildren<Item>();
         if (Item != null)
@@ -22,23 +25,23 @@ public class InventorySlot : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if(ItemCount != null)
-        {
-            if(Item != null)
-            {
-                ItemCount.text = Item.count.ToString();
-                ItemCount.gameObject.SetActive(true);
-            }
-            else
-            {
-                ItemCount.gameObject.SetActive(false);
-            }
-        }
+        //if(ItemCount != null)
+        //{
+        //    if(Item != null)
+        //    {
+        //        ItemCount.text = Item.count.ToString();
+        //        ItemCount.gameObject.SetActive(true);
+        //    }
+        //    else
+        //    {
+        //        ItemCount.gameObject.SetActive(false);
+        //    }
+        //}
 
 
         if(IsSelected())
         {
-            GetComponent<Image>().color = Color.gray;
+            GetComponent<Image>().color = SelecktedCollor;
             if(Input.GetMouseButtonDown(0))
             {
                 if (Item != null)
@@ -52,7 +55,7 @@ public class InventorySlot : MonoBehaviour
             {
                 if(Item == null)
                     AddToSlot(InventoryManager.MainInstance.StopDragging(this));
-                else if(Item.name == InventoryManager.MainInstance.dragging.name)
+                else if(Item.Name == InventoryManager.MainInstance.dragging.Name)
                 {
                     Item.count += InventoryManager.MainInstance.dragging.count;
                     Destroy(InventoryManager.MainInstance.dragging.gameObject);
@@ -62,7 +65,7 @@ public class InventorySlot : MonoBehaviour
             }
         }
         else
-            GetComponent<Image>().color = Color.white;
+            GetComponent<Image>().color = c1;
     }
 
     /// <returns>Returns if item could be added</returns>

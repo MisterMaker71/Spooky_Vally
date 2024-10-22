@@ -4,5 +4,5 @@ using UnityEngine;
 
 public class Crop : Item
 {
-    
+    public int nutrien = 0;
 }

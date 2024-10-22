@@ -1167,6 +1167,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4834b603fd8281249b7b5e28aa14af88, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  farmebel: {fileID: 0}
 --- !u!1001 &5026581348835425293
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -1177,7 +1178,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: -6579610298431120327, guid: deeef7775d14a8647a2c866fdfed7423, type: 3}
       propertyPath: lookMode
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 3493077278110081218, guid: deeef7775d14a8647a2c866fdfed7423, type: 3}
       propertyPath: m_VersionIndex

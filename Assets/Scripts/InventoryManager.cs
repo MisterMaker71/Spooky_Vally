@@ -1,15 +1,21 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class InventoryManager : MonoBehaviour
 {
     public bool InventoryIsVisibel = false;
-    [SerializeField] GameObject inventory;
+    public GameObject inventory;
     public static InventoryManager MainInstance;
     public Item dragging;
     public bool isDragging;
-    InventorySlot lastSlot;
+    InventorySlot lastSlot = null;
+    public Inventory HB;
+    public Inventory INV;
+    public Transform HBSelect;
+    public int selected;
+    public ItemInfo itemInfo;
     // Start is called before the first frame update
     void Start()
     {
@@ -21,6 +27,35 @@ public class InventoryManager : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        if (Input.GetKeyDown(KeyCode.Alpha1)) selected = 0;
+        if (Input.GetKeyDown(KeyCode.Alpha2)) selected = 1;
+        if (Input.GetKeyDown(KeyCode.Alpha3)) selected = 2;
+        if (Input.GetKeyDown(KeyCode.Alpha4)) selected = 3;
+        if (Input.GetKeyDown(KeyCode.Alpha5)) selected = 4;
+        if (Input.GetKeyDown(KeyCode.Alpha6)) selected = 5;
+        if (Input.GetKeyDown(KeyCode.Alpha7)) selected = 6;
+        if (Input.GetKeyDown(KeyCode.Alpha8)) selected = 7;
+        if (Input.GetKeyDown(KeyCode.Alpha9)) selected = 8;
+
+        if (Input.GetAxis("Mouse ScrollWheel") < 0f)
+        {
+            selected++;
+            if (selected > HB.slots.Count - 1)
+                selected = 0;
+        }
+        else if (Input.GetAxis("Mouse ScrollWheel") > 0f)
+        {
+            selected--;
+            if (selected < 0)
+                selected = HB.slots.Count - 1;
+        }
+
+        if(HBSelect != null)
+        {
+            if(HB.slots[selected] != null)
+                HBSelect.position = HB.slots[selected].transform.position;
+        }
+
         if (Input.GetKeyDown(KeyCode.I))
             InventoryIsVisibel = !InventoryIsVisibel;
         inventory.SetActive(InventoryIsVisibel);
@@ -31,6 +66,17 @@ public class InventoryManager : MonoBehaviour
             if (Input.GetMouseButtonUp(0) && !IsOverSlot())
             {
                 Cancle();
+            }
+        }
+
+        if(itemInfo != null)
+        {
+            itemInfo.gameObject.SetActive(false);
+            if (SlotOver() != null)
+            {
+                if(SlotOver().Item != null)
+                    itemInfo.gameObject.SetActive(true);
+                //itemInfo.transform.position = SlotOver().transform.position + new Vector3(0, itemInfo.GetComponent<RectTransform>().rect.height, 0);
             }
         }
     }
@@ -44,6 +90,18 @@ public class InventoryManager : MonoBehaviour
                 return true;
         }
         return false;
+    }
+    InventorySlot SlotOver()
+    {
+        if (IsOverSlot())
+        {
+            foreach (InventorySlot slot in FindObjectsOfType<InventorySlot>())
+            {
+                if (slot.IsSelected())
+                    return slot;
+            }
+        }
+        return null;
     }
 
     public void StartDragging(Item i)
@@ -85,8 +143,66 @@ public class InventoryManager : MonoBehaviour
 
         isDragging = false;
     }
-    public void AddItem(Item i)
+    public void AddItem(string name, int count)
     {
-        //To do
+        if (Resources.Load<GameObject>("items/" + name) != null)
+        {
+            if (HB.FirstFreeSlot() != -1)
+            {
+                int i = 0;
+                GameObject g = Instantiate(Resources.Load<GameObject>("items/" + name), HB.slots[i = HB.FirstFreeSlot(name)].transform);
+                if(HB.slots[i].Item == null)
+                {
+                    if (INV.slots[INV.FirstFreeSlot(name)].Item != null)
+                    {
+                        Destroy(g);
+                        g = Instantiate(Resources.Load<GameObject>("items/" + name), INV.slots[i = INV.FirstFreeSlot(name)].transform);
+                        if (INV.slots[i].Item == null)
+                            INV.slots[i].Item = g.GetComponent<Item>();
+                        else
+                        {
+                            INV.slots[i].Item.count += g.GetComponent<Item>().count;
+                            Destroy(g);
+                        }
+                        return;
+                    }
+
+                    HB.slots[i].Item = g.GetComponent<Item>();
+                    //print("set " + name + " at " + i);
+                }
+                else
+                {
+                    HB.slots[i].Item.count += g.GetComponent<Item>().count;
+                    Destroy(g);
+                    //print("add " + name + " at " + i);
+                }
+            }
+            else if (INV.FirstFreeSlot() != -1)
+            {
+                int i = -1;
+                GameObject g = Instantiate(Resources.Load<GameObject>("items/" + name), INV.slots[i = INV.FirstFreeSlot(name)].transform);
+                if(INV.slots[i].Item == null)
+                    INV.slots[i].Item = g.GetComponent<Item>();
+                else
+                {
+                    INV.slots[i].Item.count += g.GetComponent<Item>().count;
+                    Destroy(g);
+                }
+                //GetInventory().slots[GetInventory().FirstFreeSlot()].Item = i;
+            }
+            else
+            {
+
+            }
+        }
     }
+    //public Inventory GetInventory()
+    //{
+    //    return GameObject.Find("Inventory").GetComponent<Inventory>();
+
+    //}
+    //public Inventory GetHotbar()
+    //{
+    //    return GameObject.Find("Hotbar").GetComponent<Inventory>();
+    //}
 }

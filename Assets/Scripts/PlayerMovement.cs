@@ -2,14 +2,18 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+public enum CameraMode { ThirdPerson, FirstPerson, TopDown }
 [RequireComponent(typeof(CharacterController))]
 public class PlayerMovement : MonoBehaviour
 {
+    public CameraMode cameraMode = CameraMode.ThirdPerson;
+    public CammeraExtander cExtander = null;
     public float movementSpeed = 4;
-    CharacterController controller;
+    public float sprintSpeed = 7;
+    CharacterController controller = null;
     [Tooltip("reference of camer rotation object")]
-    [SerializeField] Transform pCamera;
-    [SerializeField] float mouseSensebility = 100;
+    public Transform pCamera;
+    public float mouseSensebility = 100;
     float camXRotation = 0;
     float camYRotation = 0;
     InventoryManager inventoryManager;
@@ -28,9 +32,24 @@ public class PlayerMovement : MonoBehaviour
         float inputY = Input.GetAxisRaw("Vertical");
 
         Vector2 MoveVector = new Vector2(inputX, inputY).normalized;
-        controller.Move(transform.forward * MoveVector.y * movementSpeed * Time.deltaTime + transform.right * MoveVector.x * movementSpeed * Time.deltaTime);
+        float sSpeed = movementSpeed;
+        if (Input.GetKey(KeyCode.LeftShift))
+            sSpeed = sprintSpeed;
+
+        controller.Move(transform.forward * MoveVector.y * sSpeed * Time.deltaTime + transform.right * MoveVector.x * sSpeed * Time.deltaTime);
 
         
+        if(Input.GetKeyDown(KeyCode.F5))
+        {
+            if (cameraMode == CameraMode.ThirdPerson) cameraMode = CameraMode.FirstPerson;
+            else cameraMode = CameraMode.ThirdPerson;
+            //if (cameraMode == CameraMode.ThirdPerson) cameraMode = CameraMode.FirstPerson;
+            //else if (cameraMode == CameraMode.FirstPerson) cameraMode = CameraMode.TopDown;
+            //else if(cameraMode == CameraMode.TopDown) cameraMode = CameraMode.ThirdPerson;
+            ChangeCameMode();
+        }
+
+
         if(!Input.GetMouseButton(1) && !inventoryManager.InventoryIsVisibel)
         {
             Cursor.lockState = CursorLockMode.Locked;
@@ -55,6 +74,21 @@ public class PlayerMovement : MonoBehaviour
         {
             Cursor.lockState = CursorLockMode.Confined;
             Cursor.visible = false;
+        }
+    }
+
+    public void ChangeCameMode()
+    {
+        switch (cameraMode)
+        {
+            case CameraMode.ThirdPerson:
+                cExtander.extendet = true;
+                break;
+            case CameraMode.FirstPerson:
+                cExtander.extendet = false;
+                break;
+            case CameraMode.TopDown:
+                break;
         }
     }
 }

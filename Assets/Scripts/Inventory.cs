@@ -19,4 +19,42 @@ public class Inventory : MonoBehaviour
     {
         
     }
+
+    public int itemCount()
+    {
+        int count = 0;
+        foreach (InventorySlot slot in slots)
+        {
+            if (slot.Item != null)
+            {
+                count++;
+            }
+        }
+        return count;
+    }
+    public int FirstFreeSlot()
+    {
+        return FirstFreeSlot("");
+    }
+    public int FirstFreeSlot(string name)
+    {
+        for (int i = 0; i < slots.Count; i++)
+        {
+            if(slots[i].Item != null)
+            {
+                if (slots[i].Item.Name == name)
+                {
+                    return i;
+                }
+            }
+        }
+        for (int i = 0; i < slots.Count; i++)
+        {
+            if (slots[i].Item == null)
+            {
+                return i;
+            }
+        }
+        return -1;
+    }
 }

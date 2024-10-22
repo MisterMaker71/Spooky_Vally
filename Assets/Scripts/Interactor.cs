@@ -7,6 +7,7 @@ public class Interactor : MonoBehaviour
     public Transform playerBoddy;
     public Transform outline;
     public LayerMask interactionLayer;
+    public static string selectedCrop = "Wheat";
     void Start()
     {
         
@@ -28,7 +29,27 @@ public class Interactor : MonoBehaviour
                 {
                     if(hit.transform.GetComponent<HarvestTile>() != null)
                     {
-                        hit.transform.GetComponent<HarvestTile>().colectCrop();
+                        if (hit.transform.GetComponent<HarvestTile>().farmebel != null)
+                        {
+                            //if(hit.transform.GetComponent<HarvestTile>().farmebel.canColect)
+                            //{
+                                hit.transform.GetComponent<HarvestTile>().colectCrop();
+                            //}
+                        }
+                    }
+                    Interactebel inter = hit.transform.GetComponent<Interactebel>();
+                    if (inter != null)
+                    {
+                        inter.Interact();
+                    }
+                }
+                if (Input.GetMouseButtonDown(0))
+                {
+                    if (hit.transform.GetComponent<HarvestTile>() != null)
+                    {
+                        //GameObject g = Instantiate(Resources.Load<GameObject>("items/" + name), hit.transform);
+                        GameObject g = Instantiate(FarmManager.instance.FindCrop(selectedCrop).gameObject, hit.transform);
+                        
                     }
                 }
             }
