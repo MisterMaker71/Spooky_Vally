@@ -290,7 +290,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 914e04f78dc71ef4bb0fa55055f34d60, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  lookMode: 0
+  lookMode: 1
 --- !u!114 &4198255156978345931
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -304,12 +304,12 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   itemNames:
-  - name: Wheat
+  - item: {fileID: 6595116681051174210, guid: 347d9a96dcfa56d41a4e15d50e996393, type: 3}
     countRange: {x: 1, y: 1}
-  - name: Wheat seeds
+  - item: {fileID: -7156611825095598562, guid: 624f151e3a65b714fb11455667570b8b, type: 3}
     countRange: {x: 0, y: 3}
   unGrowenItemNames:
-  - name: Wheat seeds
+  - item: {fileID: -7156611825095598562, guid: 624f151e3a65b714fb11455667570b8b, type: 3}
     countRange: {x: 1, y: 1}
   canColect: 0
 --- !u!114 &1771766272412576735
@@ -330,7 +330,7 @@ MonoBehaviour:
   - {fileID: 2100000, guid: e24ba0ef7ce969a459e3842aee80d99a, type: 2}
   - {fileID: 2100000, guid: 1ab29a75503b59642bf09f4d35cdedd6, type: 2}
   - {fileID: 2100000, guid: 5f18a73930a3ce847a597b85e43b9a56, type: 2}
-  growSpeed: 25
+  growSpeed: 35
   growNoise: {x: 0, y: 0.5}
   GrowMultyplyerByRain: 2
   GrowTime: 0

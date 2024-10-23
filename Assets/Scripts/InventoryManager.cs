@@ -143,36 +143,44 @@ public class InventoryManager : MonoBehaviour
 
         isDragging = false;
     }
-    public void AddItem(string name, int count)
+    public void AddItem(Item item, int count)
     {
-        if (Resources.Load<GameObject>("items/" + name) != null)
+        if (Resources.Load<GameObject>("items/" + item.Name) != null)
         {
             if (HB.FirstFreeSlot() != -1)
             {
                 int i = 0;
-                GameObject g = Instantiate(Resources.Load<GameObject>("items/" + name), HB.slots[i = HB.FirstFreeSlot(name)].transform);
+                //GameObject g = Instantiate(Resources.Load<GameObject>("items/" + item.Name), HB.slots[i = HB.FirstFreeSlot(item.Name)].transform);
+                GameObject g = Instantiate(Resources.Load<GameObject>("items/" + item.Name), HB.slots[i = HB.FirstFreeSlot(item.Name)].transform);
                 if(HB.slots[i].Item == null)
                 {
-                    if (INV.slots[INV.FirstFreeSlot(name)].Item != null)
+                    if (INV.slots[INV.FirstFreeSlot(item.Name)].Item != null)
                     {
                         Destroy(g);
-                        g = Instantiate(Resources.Load<GameObject>("items/" + name), INV.slots[i = INV.FirstFreeSlot(name)].transform);
+                        //g = Instantiate(Resources.Load<GameObject>("items/" + item.Name), INV.slots[i = INV.FirstFreeSlot(item.Name)].transform);
+                        g = Instantiate(Resources.Load<GameObject>("items/" + item.Name), INV.slots[i = INV.FirstFreeSlot(item.Name)].transform);
                         if (INV.slots[i].Item == null)
+                        {
                             INV.slots[i].Item = g.GetComponent<Item>();
+                            INV.slots[i].Item.count = count;
+                        }
                         else
                         {
-                            INV.slots[i].Item.count += g.GetComponent<Item>().count;
+                            //INV.slots[i].Item.count += g.GetComponent<Item>().count;
+                            INV.slots[i].Item.count += count;
                             Destroy(g);
                         }
                         return;
                     }
 
                     HB.slots[i].Item = g.GetComponent<Item>();
+                    HB.slots[i].Item.count = count;
                     //print("set " + name + " at " + i);
                 }
                 else
                 {
-                    HB.slots[i].Item.count += g.GetComponent<Item>().count;
+                    //HB.slots[i].Item.count += g.GetComponent<Item>().count;
+                    HB.slots[i].Item.count += count;
                     Destroy(g);
                     //print("add " + name + " at " + i);
                 }
@@ -180,12 +188,17 @@ public class InventoryManager : MonoBehaviour
             else if (INV.FirstFreeSlot() != -1)
             {
                 int i = -1;
-                GameObject g = Instantiate(Resources.Load<GameObject>("items/" + name), INV.slots[i = INV.FirstFreeSlot(name)].transform);
+                //GameObject g = Instantiate(Resources.Load<GameObject>("items/" + item.Name), INV.slots[i = INV.FirstFreeSlot(item.Name)].transform);
+                GameObject g = Instantiate(Resources.Load<GameObject>("items/" + item.Name), INV.slots[i = INV.FirstFreeSlot(item.Name)].transform);
                 if(INV.slots[i].Item == null)
+                {
                     INV.slots[i].Item = g.GetComponent<Item>();
+                    INV.slots[i].Item.count = count;
+                }
                 else
                 {
-                    INV.slots[i].Item.count += g.GetComponent<Item>().count;
+                    //INV.slots[i].Item.count += g.GetComponent<Item>().count;
+                    INV.slots[i].Item.count += count;
                     Destroy(g);
                 }
                 //GetInventory().slots[GetInventory().FirstFreeSlot()].Item = i;

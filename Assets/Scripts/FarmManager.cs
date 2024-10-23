@@ -7,6 +7,7 @@ public class FarmManager : MonoBehaviour
     public static FarmManager instance;
     public bool Raining = false;
     public ParticleSystem rain;
+    public ParticleSystem clouds;
     [Tooltip("procent 0-100"), Min(0)]
     public int rainPosebility = 5;
     [Tooltip("Time intervall to test to start raining"), Min(0)]
@@ -63,10 +64,12 @@ public class FarmManager : MonoBehaviour
             if (Raining && rain.isStopped)
             {
                 rain.Play();
+                clouds.Play();
             }
             if (!Raining && rain.isPlaying)
             {
                 rain.Stop();
+                clouds.Stop();
             }
         }
     }

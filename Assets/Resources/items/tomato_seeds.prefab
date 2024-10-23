@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 3590187617690784741}
   - component: {fileID: 1293008540214002217}
   - component: {fileID: 950261533177140140}
-  - component: {fileID: 8382127106346027352}
+  - component: {fileID: 100680488059642427}
   m_Layer: 5
   m_Name: tomato_seeds
   m_TagString: Untagged
@@ -59,14 +59,14 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 1, g: 0, b: 0, a: 1}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 10913, guid: 0000000000000000f000000000000000, type: 0}
+  m_Sprite: {fileID: 21300000, guid: 42e7cf96cb765b648846bec4a31c94ee, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -76,7 +76,7 @@ MonoBehaviour:
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
   m_PixelsPerUnitMultiplier: 1
---- !u!114 &8382127106346027352
+--- !u!114 &100680488059642427
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -85,8 +85,9 @@ MonoBehaviour:
   m_GameObject: {fileID: 3394705674139290374}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: fe272619bf170f847a4eb469401c0e7c, type: 3}
+  m_Script: {fileID: 11500000, guid: 44e7a2ca982a7584194427fc2ef26778, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   Name: tomato_seeds
   count: 1
+  crop: {fileID: 4198255156978345931, guid: c01a692f6c4630849b032b3bd2cb4044, type: 3}

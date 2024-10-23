@@ -47,9 +47,27 @@ public class Interactor : MonoBehaviour
                 {
                     if (hit.transform.GetComponent<HarvestTile>() != null)
                     {
-                        //GameObject g = Instantiate(Resources.Load<GameObject>("items/" + name), hit.transform);
-                        GameObject g = Instantiate(FarmManager.instance.FindCrop(selectedCrop).gameObject, hit.transform);
-                        
+                        if(hit.transform.GetComponent<HarvestTile>().farmebel == null)
+                        {
+                            //GameObject g = Instantiate(Resources.Load<GameObject>("items/" + name), hit.transform);
+                            if(InventoryManager.MainInstance.HB.slots[InventoryManager.MainInstance.selected].Item != null)
+                            {
+                                if(InventoryManager.MainInstance.HB.slots[InventoryManager.MainInstance.selected].Item.GetType() == typeof(Seed))
+                                {
+                                    Seed s = (Seed)InventoryManager.MainInstance.HB.slots[InventoryManager.MainInstance.selected].Item;
+                                    print(s.crop.name);
+                                    GameObject g = Instantiate(FarmManager.instance.FindCrop(s.crop.name).gameObject, hit.transform);
+                                    hit.transform.GetComponent<HarvestTile>().farmebel = g.GetComponent<Farmebel>();
+
+                                    InventoryManager.MainInstance.HB.slots[InventoryManager.MainInstance.selected].Item.count -= 1;
+
+                                    if (InventoryManager.MainInstance.HB.slots[InventoryManager.MainInstance.selected].Item.count <= 0)
+                                    {
+                                        Destroy(InventoryManager.MainInstance.HB.slots[InventoryManager.MainInstance.selected].Item.gameObject);
+                                    }
+                                }
+                            }
+                        }
                     }
                 }
             }

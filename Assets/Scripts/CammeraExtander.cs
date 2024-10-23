@@ -21,17 +21,37 @@ public class CammeraExtander : MonoBehaviour
     {
         if(extendet)
         {
-            if (mD < maxDistance)
-                mD += Time.deltaTime * moveSpeed;
+            if (maxDistance > 0)
+            {
+                if (mD < maxDistance)
+                    mD += Time.deltaTime * moveSpeed;
+                else
+                    mD = maxDistance;
+            }
             else
-                mD = maxDistance;
+            {
+                if (mD > maxDistance)
+                    mD -= Time.deltaTime * moveSpeed;
+                else
+                    mD = maxDistance;
+            }
         }
         else
         {
-            if (mD > 0)
-                mD -= Time.deltaTime * moveSpeed;
+            if(maxDistance > 0)
+            {
+                if (mD > 0)
+                    mD -= Time.deltaTime * moveSpeed;
+                else
+                    mD = 0;
+            }
             else
-                mD = 0;
+            {
+                if (mD < 0)
+                    mD += Time.deltaTime * moveSpeed;
+                else
+                    mD = 0;
+            }
         }
 
         RaycastHit hit;
