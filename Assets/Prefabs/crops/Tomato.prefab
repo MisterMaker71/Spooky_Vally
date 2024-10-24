@@ -307,7 +307,7 @@ MonoBehaviour:
   - item: {fileID: 2635362331597069101, guid: 6abcdb2168153cd4b936dc8665a1af9a, type: 3}
     countRange: {x: 1, y: 2}
   - item: {fileID: 100680488059642427, guid: ce43e8caf87eacc4abf5273815cdbd9f, type: 3}
-    countRange: {x: 0, y: 2}
+    countRange: {x: 1, y: 2}
   unGrowenItemNames:
   - item: {fileID: 100680488059642427, guid: ce43e8caf87eacc4abf5273815cdbd9f, type: 3}
     countRange: {x: 1, y: 1}
@@ -331,7 +331,7 @@ MonoBehaviour:
   - {fileID: 2100000, guid: 616b40544fd11ce4ab8c96dac52e0c71, type: 2}
   - {fileID: 2100000, guid: f9a1e79f77112524a926be010dd088f7, type: 2}
   growSpeed: 35
-  growNoise: {x: 0, y: 0.5}
+  growNoise: {x: 0, y: 1}
   GrowMultyplyerByRain: 2
   GrowTime: 0
   GrowState: 0

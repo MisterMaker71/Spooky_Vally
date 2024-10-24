@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 3590187617690784741}
   - component: {fileID: 1293008540214002217}
   - component: {fileID: 950261533177140140}
-  - component: {fileID: -4165746321749008243}
+  - component: {fileID: 9028283134539112849}
   m_Layer: 5
   m_Name: Sword1
   m_TagString: Untagged
@@ -76,7 +76,7 @@ MonoBehaviour:
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
   m_PixelsPerUnitMultiplier: 1
---- !u!114 &-4165746321749008243
+--- !u!114 &9028283134539112849
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -85,8 +85,17 @@ MonoBehaviour:
   m_GameObject: {fileID: 3394705674139290374}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 99dcfa55d97775f4c872357ab12b9650, type: 3}
+  m_Script: {fileID: 11500000, guid: 6af163c1ea55ad944b79d0cc5c2afa61, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   Name: Sword1
   count: 1
+  maxDurebility: 100
+  Durebility: 100
+  use:
+    m_PersistentCalls:
+      m_Calls: []
+  heal:
+    m_PersistentCalls:
+      m_Calls: []
+  damage: 10

@@ -17,6 +17,7 @@ public class PlayerMovement : MonoBehaviour
     float camXRotation = 0;
     float camYRotation = 0;
     InventoryManager inventoryManager;
+    public Effects effect = new Effects();
     // Start is called before the first frame update
     void Start()
     {
@@ -28,6 +29,8 @@ public class PlayerMovement : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        effect.Update();
+
         float inputX = Input.GetAxisRaw("Horizontal");
         float inputY = Input.GetAxisRaw("Vertical");
 
@@ -35,6 +38,8 @@ public class PlayerMovement : MonoBehaviour
         float sSpeed = movementSpeed;
         if (Input.GetKey(KeyCode.LeftShift))
             sSpeed = sprintSpeed;
+
+        sSpeed += effect.Speed;
 
         controller.Move(transform.forward * MoveVector.y * sSpeed * Time.deltaTime + transform.right * MoveVector.x * sSpeed * Time.deltaTime);
 
