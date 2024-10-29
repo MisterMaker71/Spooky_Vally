@@ -28,8 +28,13 @@ public class GrowCrop : MonoBehaviour
     {
         if (GrowState < states.Count-1 && DayNightCical.time == DayTime.Day)
         {
-            if(FarmManager.instance.Raining && Random.Range(0, 2) == 0)
-                GrowTime += (Time.deltaTime + Random.Range(growNoise.x, growNoise.y)) / 20 * GrowMultyplyerByRain;
+            if(GetComponentInParent<HarvestTile>() != null)
+            {
+                if (GetComponentInParent<HarvestTile>().isWhett && Random.Range(0, 2) == 0)
+                    GrowTime += (Time.deltaTime + Random.Range(growNoise.x, growNoise.y)) / 20 * GrowMultyplyerByRain;
+                else
+                    GrowTime += (Time.deltaTime + Random.Range(growNoise.x, growNoise.y)) / 20 * Random.Range(0.75f, 1);
+            }
             else
                 GrowTime += (Time.deltaTime + Random.Range(growNoise.x, growNoise.y)) / 20 * Random.Range(0.75f, 1);
 

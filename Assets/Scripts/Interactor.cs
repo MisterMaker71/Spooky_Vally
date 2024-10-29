@@ -25,7 +25,7 @@ public class Interactor : MonoBehaviour
                 outline.position = new Vector3(Mathf.Floor(hit.point.x) + 0.5f, 0, Mathf.Floor(hit.point.z) + 0.5f);
                 //Debug.DrawRay(new Vector3(Mathf.Floor(hit.point.x) + 0.5f, 0, Mathf.Floor(hit.point.z) + 0.5f), Vector3.up, Color.red, 1);
 
-                if(Input.GetKeyDown(KeyCode.E))
+                if(Input.GetKeyDown(KeyCode.E) && !InventoryManager.MainInstance.InventoryIsVisibel)
                 {
                     if(hit.transform.GetComponent<HarvestTile>() != null)
                     {

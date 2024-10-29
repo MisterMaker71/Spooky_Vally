@@ -22,32 +22,71 @@ public class InventoryManager : MonoBehaviour
         if (MainInstance != null)
             throw new System.Exception("Only one Inventory Manager in one scene!");
         MainInstance = this;
+        ChangeSlot();
     }
 
     // Update is called once per frame
     void Update()
     {
-        if (Input.GetKeyDown(KeyCode.Alpha1)) selected = 0;
-        if (Input.GetKeyDown(KeyCode.Alpha2)) selected = 1;
-        if (Input.GetKeyDown(KeyCode.Alpha3)) selected = 2;
-        if (Input.GetKeyDown(KeyCode.Alpha4)) selected = 3;
-        if (Input.GetKeyDown(KeyCode.Alpha5)) selected = 4;
-        if (Input.GetKeyDown(KeyCode.Alpha6)) selected = 5;
-        if (Input.GetKeyDown(KeyCode.Alpha7)) selected = 6;
-        if (Input.GetKeyDown(KeyCode.Alpha8)) selected = 7;
-        if (Input.GetKeyDown(KeyCode.Alpha9)) selected = 8;
+        if (Input.GetKeyDown(KeyCode.Alpha1))
+        {
+            selected = 0;
+            ChangeSlot();
+        }
+            if (Input.GetKeyDown(KeyCode.Alpha2))
+        {
+            selected = 1;
+            ChangeSlot();
+        }
+        if (Input.GetKeyDown(KeyCode.Alpha3))
+        {
+            selected = 2;
+            ChangeSlot();
+        }
+        if (Input.GetKeyDown(KeyCode.Alpha4))
+        {
+            selected = 3;
+            ChangeSlot();
+        }
+        if (Input.GetKeyDown(KeyCode.Alpha5))
+        {
+            selected = 4;
+            ChangeSlot();
+        }
+        if (Input.GetKeyDown(KeyCode.Alpha6))
+        {
+            selected = 5;
+            ChangeSlot();
+        }
+        if (Input.GetKeyDown(KeyCode.Alpha7))
+        {
+            selected = 6;
+            ChangeSlot();
+        }
+        if (Input.GetKeyDown(KeyCode.Alpha8))
+        {
+            selected = 7;
+            ChangeSlot();
+        }
+        if (Input.GetKeyDown(KeyCode.Alpha9))
+        {
+            selected = 8;
+            ChangeSlot();
+        }
 
         if (Input.GetAxis("Mouse ScrollWheel") < 0f)
         {
             selected++;
             if (selected > HB.slots.Count - 1)
                 selected = 0;
+            ChangeSlot();
         }
         else if (Input.GetAxis("Mouse ScrollWheel") > 0f)
         {
             selected--;
             if (selected < 0)
                 selected = HB.slots.Count - 1;
+            ChangeSlot();
         }
 
         if(HBSelect != null)
@@ -56,7 +95,7 @@ public class InventoryManager : MonoBehaviour
                 HBSelect.position = HB.slots[selected].transform.position;
         }
 
-        if (Input.GetKeyDown(KeyCode.I))
+        if (Input.GetKeyDown(KeyCode.I) || Input.GetKeyDown(KeyCode.Escape))
             InventoryIsVisibel = !InventoryIsVisibel;
         inventory.SetActive(InventoryIsVisibel);
         if (dragging != null)
@@ -79,6 +118,10 @@ public class InventoryManager : MonoBehaviour
                 //itemInfo.transform.position = SlotOver().transform.position + new Vector3(0, itemInfo.GetComponent<RectTransform>().rect.height, 0);
             }
         }
+    }
+    public void SetOpenState(bool state)
+    {
+        InventoryIsVisibel = state;
     }
 
     bool IsOverSlot()
@@ -115,6 +158,7 @@ public class InventoryManager : MonoBehaviour
             isDragging = true;
             dragging = i;
         }
+        ChangeSlotHidden();
     }
     public Item StopDragging(InventorySlot target)
     {
@@ -129,6 +173,8 @@ public class InventoryManager : MonoBehaviour
         dragging = null;
 
         isDragging = false;
+
+        ChangeSlotHidden();
         return i;
     }
     public void Cancle()
@@ -142,6 +188,20 @@ public class InventoryManager : MonoBehaviour
         }
 
         isDragging = false;
+    }
+    public void ChangeSlotHidden()
+    {
+        if (GetComponentInChildren<ItemBehavier>() != null)
+        {
+            GetComponentInChildren<ItemBehavier>().HideItem();
+        }
+    }
+    public void ChangeSlot()
+    {
+        if(HB.slots[selected].Item != null && GetComponentInChildren<ItemBehavier>() != null)
+        {
+            GetComponentInChildren<ItemBehavier>().ShowItem(HB.slots[selected].Item);
+        }
     }
     public void AddItem(Item item, int count)
     {
@@ -170,6 +230,7 @@ public class InventoryManager : MonoBehaviour
                             INV.slots[i].Item.count += count;
                             Destroy(g);
                         }
+                        ChangeSlot();
                         return;
                     }
 
@@ -208,6 +269,7 @@ public class InventoryManager : MonoBehaviour
 
             }
         }
+        ChangeSlot();
     }
     //public Inventory GetInventory()
     //{
