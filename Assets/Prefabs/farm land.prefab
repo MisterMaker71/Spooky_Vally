@@ -15,9 +15,9 @@ GameObject:
   - component: {fileID: 1440623570408701079}
   - component: {fileID: 198473683386152882}
   - component: {fileID: 966916385523109130}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: farm land
-  m_TagString: Untagged
+  m_TagString: FarmLand
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -1166,4 +1166,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4834b603fd8281249b7b5e28aa14af88, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  isWhett: 0
+  whettTime: 0
   farmebel: {fileID: 0}

@@ -10,7 +10,7 @@ public class DayNightCical : MonoBehaviour
     //[SerializeField] float y;
     //[SerializeField] float z;
     [Tooltip("Angel of the sun")]
-    public float v = 0;
+    public static float timeOfDay = 0;
     Light sun;
     [Tooltip("Sun rotation (night is 5 times faster)")]
     [SerializeField] float speed = 5f;
@@ -25,27 +25,27 @@ public class DayNightCical : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (v > 190 && v < 350)
+        if (timeOfDay > 190 && timeOfDay < 350)
         {
             time = DayTime.Night;
-            v += Time.deltaTime * speed * 5;
+            timeOfDay += Time.deltaTime * speed * 5;
         }
         else
         {
             time = DayTime.Day;
-            v += Time.deltaTime * speed;
+            timeOfDay += Time.deltaTime * speed;
         }
 
 
-        if (v > 360)
-            v = 0;
-        if (v < 0)
-            v = 360;
+        if (timeOfDay > 360)
+            timeOfDay = 0;
+        if (timeOfDay < 0)
+            timeOfDay = 360;
 
-        if (v > 90 && v < 270)
-            transform.localRotation = Quaternion.Euler(new Vector3(v, 0, -0));
+        if (timeOfDay > 90 && timeOfDay < 270)
+            transform.localRotation = Quaternion.Euler(new Vector3(timeOfDay, 0, -0));
         else
-            transform.localRotation = Quaternion.Euler(new Vector3(v, 0, 0));
+            transform.localRotation = Quaternion.Euler(new Vector3(timeOfDay, 0, 0));
         if (sun != null)
         {
             if(FarmManager.instance.Raining)
@@ -54,9 +54,9 @@ public class DayNightCical : MonoBehaviour
             }
             else
             {
-                if (v > 10 && v < 160)
+                if (timeOfDay > 10 && timeOfDay < 160)
                     sun.intensity += Time.deltaTime * speed / 15;
-                if (v > 160 && v < 360)
+                if (timeOfDay > 160 && timeOfDay < 360)
                     sun.intensity -= Time.deltaTime * speed / 15;
             }
             sun.intensity = Mathf.Clamp(sun.intensity, 0, 1);

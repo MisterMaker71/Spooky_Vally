@@ -203,6 +203,19 @@ public class InventoryManager : MonoBehaviour
             GetComponentInChildren<ItemBehavier>().ShowItem(HB.slots[selected].Item);
         }
     }
+    public void AddItem(string itemName, int count)
+    {
+        Item i = Resources.Load<Item>("items/" + itemName);
+        if (i != null)
+        {
+            AddItem(i, count);
+        }
+        else
+        {
+            Debug.LogWarning("cant add missing Item");
+        }
+    }
+
     public void AddItem(Item item, int count)
     {
         if (Resources.Load<GameObject>("items/" + item.Name) != null)

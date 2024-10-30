@@ -25,18 +25,19 @@ public class ItemBehavier : MonoBehaviour
         Destroy(ItemModel);
         if(item != null)
         {
-            if (Resources.Load<GameObject>("ItemModels/" + item.Name) != null)
+            GameObject g = Resources.Load<GameObject>("ItemModels/" + item.Name);
+            if (g != null)
             {
-                ItemModel = Instantiate(Resources.Load<GameObject>("ItemModels/" + item.name), transform.position, Quaternion.identity, transform);
+                ItemModel = Instantiate(g, transform.position, Quaternion.identity, transform);
                 if (ItemModel != null)
                 {
-                    print("[" + item.Name + "]: Me is Visibel!");
+                    //print("[" + item.Name + "]: Me is Visibel!");
                     
                     ItemModel.transform.localPosition = Vector3.zero;
                 }
                 else
                 {
-                    print(":(");
+                    //print(":(");
                 }
             }
         }

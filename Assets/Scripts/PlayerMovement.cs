@@ -6,6 +6,7 @@ public enum CameraMode { ThirdPerson, FirstPerson, TopDown }
 [RequireComponent(typeof(CharacterController))]
 public class PlayerMovement : MonoBehaviour
 {
+    public static PlayerMovement PlayerInstance;
     public CameraMode cameraMode = CameraMode.ThirdPerson;
     public CammeraExtander cExtander = null;
     public float movementSpeed = 4;
@@ -19,11 +20,15 @@ public class PlayerMovement : MonoBehaviour
     InventoryManager inventoryManager;
     public Effects effect = new Effects();
     // Start is called before the first frame update
+    void Awake()
+    {
+        PlayerInstance = this;
+        controller = GetComponent<CharacterController>();
+    }
     void Start()
     {
         inventoryManager = FindObjectOfType<InventoryManager>();
         //pCamera = Camera.main;
-        controller = GetComponent<CharacterController>();
     }
 
     // Update is called once per frame
@@ -81,6 +86,27 @@ public class PlayerMovement : MonoBehaviour
             Cursor.visible = false;
         }
     }
+
+    public void Teleport(Vector3 Pos)
+    {
+        Teleport(Pos, new Vector2(pCamera.transform.localEulerAngles.x, transform.localEulerAngles.y));
+    }
+    public void Teleport(Vector3 Pos, Vector2 Rot)
+    {
+        controller.enabled = false;
+        transform.position = Pos;
+        controller.enabled = true;
+
+
+        camXRotation = Rot.x;
+        camYRotation = Rot.y;
+    }
+
+    public Vector2 GetCamRotation()
+    {
+        return new Vector2(camXRotation, camYRotation);
+    }
+
 
     public void ChangeCameMode()
     {

@@ -21,7 +21,9 @@ public class Interactor : MonoBehaviour
         {
             if (Vector3.Distance(new Vector3(hit.point.x, 0, hit.point.z), playerBoddy.position) < 3.5f)
             {
-                outline.gameObject.SetActive(true);
+                //print(hit.transform.tag);
+                if(hit.transform.tag == "FarmLand")
+                    outline.gameObject.SetActive(true);
                 outline.position = new Vector3(Mathf.Floor(hit.point.x) + 0.5f, 0, Mathf.Floor(hit.point.z) + 0.5f);
                 //Debug.DrawRay(new Vector3(Mathf.Floor(hit.point.x) + 0.5f, 0, Mathf.Floor(hit.point.z) + 0.5f), Vector3.up, Color.red, 1);
 
@@ -57,6 +59,7 @@ public class Interactor : MonoBehaviour
                                     Seed s = (Seed)InventoryManager.MainInstance.HB.slots[InventoryManager.MainInstance.selected].Item;
                                     print(s.crop.name);
                                     GameObject g = Instantiate(FarmManager.instance.FindCrop(s.crop.name).gameObject, hit.transform);
+                                    g.name = FarmManager.instance.FindCrop(s.crop.name).gameObject.name;
                                     hit.transform.GetComponent<HarvestTile>().farmebel = g.GetComponent<Farmebel>();
 
                                     InventoryManager.MainInstance.HB.slots[InventoryManager.MainInstance.selected].Item.count -= 1;

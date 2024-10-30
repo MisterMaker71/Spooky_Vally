@@ -4,7 +4,9 @@ using UnityEngine;
 
 public class BuildingGrid : MonoBehaviour
 {
+    public LayerMask Mask;
     public Material m;
+    float f = 0;
     // Start is called before the first frame update
     void Start()
     {
@@ -15,9 +17,19 @@ public class BuildingGrid : MonoBehaviour
     void Update()
     {
         RaycastHit hit;
-        if (Physics.Raycast(Camera.main.ScreenPointToRay(Input.mousePosition), out hit, 10))
+        if (Physics.Raycast(Camera.main.ScreenPointToRay(Input.mousePosition), out hit, 10, Mask))
         {
             m.SetVector("_Position", hit.point);
+            if (f > 0)
+                f -= Time.deltaTime * 10;
+            else f = 0;
         }
+        else
+        {
+            if(f < 1)
+                f += Time.deltaTime * 10;
+            else f = 1;
+        }
+        m.SetFloat("_camera_dependent", f);
     }
 }
