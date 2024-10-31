@@ -108,11 +108,11 @@ Material:
     - _SrcBlend: 1
     - _UVSec: 0
     - _ZWrite: 1
-    - _camera_dependent: 0
+    - _camera_dependent: 1
     - _fade: 1
     m_Colors:
     - _Color: {r: 0, g: 0, b: 0, a: 1}
     - _EmissionColor: {r: 0, g: 0, b: 0, a: 1}
-    - _Position: {r: 10, g: 1.401421, b: -3.583395, a: 0}
+    - _Position: {r: 1.4036293, g: 0.0001, b: 11.135334, a: 0}
     - _tint: {r: 0.05, g: 0.05, b: 0.05, a: 0}
   m_BuildTextureStacks: []
