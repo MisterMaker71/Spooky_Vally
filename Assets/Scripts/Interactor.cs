@@ -6,11 +6,12 @@ public class Interactor : MonoBehaviour
 {
     public Transform playerBoddy;
     public Transform outline;
+    public Transform point;
     public LayerMask interactionLayer;
     public static string selectedCrop = "Wheat";
     void Start()
     {
-        
+
     }
 
     // Update is called once per frame
@@ -19,23 +20,25 @@ public class Interactor : MonoBehaviour
         RaycastHit hit;
         if (Physics.Raycast(Camera.main.ScreenPointToRay(Input.mousePosition), out hit, 10, interactionLayer))
         {
+            if (point != null)
+                point.position = Vector3.MoveTowards(point.position, hit.point, Time.deltaTime * 10);
             if (Vector3.Distance(new Vector3(hit.point.x, 0, hit.point.z), playerBoddy.position) < 3.5f)
             {
                 //print(hit.transform.tag);
-                if(hit.transform.tag == "FarmLand")
+                if (hit.transform.tag == "FarmLand")
                     outline.gameObject.SetActive(true);
                 outline.position = new Vector3(Mathf.Floor(hit.point.x) + 0.5f, 0, Mathf.Floor(hit.point.z) + 0.5f);
                 //Debug.DrawRay(new Vector3(Mathf.Floor(hit.point.x) + 0.5f, 0, Mathf.Floor(hit.point.z) + 0.5f), Vector3.up, Color.red, 1);
 
-                if(Input.GetKeyDown(KeyCode.E) && !InventoryManager.MainInstance.InventoryIsVisibel)
+                if (Input.GetKeyDown(KeyCode.E) && !InventoryManager.MainInstance.InventoryIsVisibel)
                 {
-                    if(hit.transform.GetComponent<HarvestTile>() != null)
+                    if (hit.transform.GetComponent<HarvestTile>() != null)
                     {
                         if (hit.transform.GetComponent<HarvestTile>().farmebel != null)
                         {
                             //if(hit.transform.GetComponent<HarvestTile>().farmebel.canColect)
                             //{
-                                hit.transform.GetComponent<HarvestTile>().colectCrop();
+                            hit.transform.GetComponent<HarvestTile>().colectCrop();
                             //}
                         }
                     }
@@ -49,12 +52,12 @@ public class Interactor : MonoBehaviour
                 {
                     if (hit.transform.GetComponent<HarvestTile>() != null)
                     {
-                        if(hit.transform.GetComponent<HarvestTile>().farmebel == null)
+                        if (hit.transform.GetComponent<HarvestTile>().farmebel == null)
                         {
                             //GameObject g = Instantiate(Resources.Load<GameObject>("items/" + name), hit.transform);
-                            if(InventoryManager.MainInstance.HB.slots[InventoryManager.MainInstance.selected].Item != null)
+                            if (InventoryManager.MainInstance.HB.slots[InventoryManager.MainInstance.selected].Item != null)
                             {
-                                if(InventoryManager.MainInstance.HB.slots[InventoryManager.MainInstance.selected].Item.GetType() == typeof(Seed))
+                                if (InventoryManager.MainInstance.HB.slots[InventoryManager.MainInstance.selected].Item.GetType() == typeof(Seed))
                                 {
                                     Seed s = (Seed)InventoryManager.MainInstance.HB.slots[InventoryManager.MainInstance.selected].Item;
                                     print(s.crop.name);
@@ -78,6 +81,18 @@ public class Interactor : MonoBehaviour
                 outline.gameObject.SetActive(false);
         }
         else
+        {
             outline.gameObject.SetActive(false);
+        }
+        if (Physics.Raycast(Camera.main.ScreenPointToRay(Input.mousePosition), out hit, 100, interactionLayer))
+        {
+            if (point != null)
+                point.position = Vector3.MoveTowards(point.position, hit.point, Time.deltaTime * 10);
+        }
+        else
+        {
+            if (point != null)
+                point.position = Vector3.MoveTowards(point.position, transform.position + transform.forward * 8, Time.deltaTime * 10);
+        }
     }
 }

@@ -9,6 +9,9 @@ public class CammeraExtander : MonoBehaviour
     float mD = 0;
     public float moveSpeed = 23;
     [SerializeField] LayerMask cameraCollisionLayer;
+    [HideInInspector]
+    float distance = 0;
+    public float Distance { get { return distance; } }
     // Start is called before the first frame update
     void Start()
     {
@@ -60,9 +63,11 @@ public class CammeraExtander : MonoBehaviour
             transform.position = Vector3.MoveTowards(transform.position, hit.point - (transform.parent.forward * ((mD - -1) / (1 - -1) * 0.2f)), Time.deltaTime * moveSpeed);
             Debug.DrawLine(transform.parent.position, hit.point, Color.white);
             Debug.DrawLine(transform.position, hit.point, Color.red);
+            distance = Vector3.Distance(transform.position, hit.point);
         }
         else
         {
+            distance = Vector3.Distance(transform.position, transform.parent.position);
             transform.position = Vector3.MoveTowards(transform.position, transform.parent.position + transform.parent.forward * mD, Time.deltaTime * moveSpeed);
         }
     }

@@ -6,6 +6,17 @@ public enum CameraMode { ThirdPerson, FirstPerson, TopDown }
 [RequireComponent(typeof(CharacterController))]
 public class PlayerMovement : MonoBehaviour
 {
+    //[SerializeField] CoppyTransform cT;
+    public bool isBeta = false;
+    [SerializeField] Transform AHead;
+    [SerializeField] Transform BHead;
+    [SerializeField] GameObject AModel;
+    [SerializeField] GameObject BModel;
+    public Animator BAnimator;
+    public Animator AAnimator;
+    Animator animator;
+    float animationMovementX = 0;
+    float animationMovementY = 0;
     public static PlayerMovement PlayerInstance;
     public CameraMode cameraMode = CameraMode.ThirdPerson;
     public CammeraExtander cExtander = null;
@@ -34,6 +45,8 @@ public class PlayerMovement : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        if (Input.GetKeyDown(KeyCode.F10))
+            isBeta = !isBeta;
         effect.Update();
 
         float inputX = Input.GetAxisRaw("Horizontal");
@@ -73,7 +86,7 @@ public class PlayerMovement : MonoBehaviour
             camXRotation -= Yrot;
             camYRotation += Xrot;
 
-            camXRotation = Mathf.Clamp(camXRotation, -90, 90);
+            camXRotation = Mathf.Clamp(camXRotation, -50, 80);
             //camYRotation = Mathf.Clamp(camYRotation, -90, 90);
 
             if (pCamera != null)
@@ -84,6 +97,56 @@ public class PlayerMovement : MonoBehaviour
         {
             Cursor.lockState = CursorLockMode.Confined;
             Cursor.visible = false;
+        }
+
+        //if(cT != null)
+        //{
+        //    if (isBeta)
+        //    {
+        //        cT.target = BHead;
+        //    }
+        //    else
+        //    {
+        //        cT.target = AHead;
+        //    }
+        //}
+        if (isBeta)
+        {
+            AModel.SetActive(false);
+            BModel.SetActive(true);
+            //pCamera = BHead.parent;
+        }
+        else
+        {
+            AModel.SetActive(true);
+            BModel.SetActive(false);
+            //pCamera = AHead.parent;
+        }
+
+        //FP
+        if(Mathf.Abs(cExtander.Distance) < 0.1f)
+        {
+            AHead.localScale = Vector3.zero;
+            BHead.localScale = Vector3.zero;
+        }
+        else
+        {
+            AHead.localScale = Vector3.one;
+            BHead.localScale = Vector3.one;
+        }
+
+        //Animations
+        if (isBeta)
+            animator = BAnimator;
+        else
+            animator = AAnimator;
+
+        if (animator != null)
+        {
+            animationMovementX = Vector3.MoveTowards(Vector3.one * animationMovementX, Vector3.one * inputX, Time.deltaTime * 10).x;
+            animationMovementY = Vector3.MoveTowards(Vector3.one * animationMovementY, Vector3.one * inputY, Time.deltaTime * 10).x;
+            animator.SetFloat("Input_X", animationMovementX);
+            animator.SetFloat("Input_Y", animationMovementY);
         }
     }
 

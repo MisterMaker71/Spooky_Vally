@@ -34,6 +34,7 @@ public class SaveManager : MonoBehaviour
                     File.Delete(Application.dataPath + "/Saves/" + saveName + ".save");
                 }
                 save = new Saver(new Vector3(), new Vector2(), 0);
+                SceneManager.LoadScene(SceneManager.GetActiveScene().name);
             }
     }
 
