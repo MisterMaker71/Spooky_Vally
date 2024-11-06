@@ -1,7 +1,8 @@
 @echo off
 git.exe pull %2
 
-pause
+choice /c YN /n /m "Quit [Y|N] "
+IF "%errorlevel%" == "1" (exit)
 
 git.exe add * %2
 
