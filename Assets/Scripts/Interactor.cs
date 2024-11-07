@@ -87,12 +87,12 @@ public class Interactor : MonoBehaviour
         if (Physics.Raycast(Camera.main.ScreenPointToRay(Input.mousePosition), out hit, 100, interactionLayer))
         {
             if (point != null)
-                point.position = Vector3.MoveTowards(point.position, hit.point, Time.deltaTime * 10);
+                point.position = Vector3.MoveTowards(point.position, hit.point, Time.deltaTime * 10 * (Vector3.Distance(point.position, hit.point) / 5));
         }
         else
         {
             if (point != null)
-                point.position = Vector3.MoveTowards(point.position, transform.position + transform.forward * 8, Time.deltaTime * 10);
+                point.position = Vector3.MoveTowards(point.position, transform.position + transform.forward * 8, Time.deltaTime * 10 * (Vector3.Distance(point.position, hit.point) / 5));
         }
     }
 }

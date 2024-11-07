@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Animations.Rigging;
 
 public enum CameraMode { ThirdPerson, FirstPerson, TopDown }
 [RequireComponent(typeof(CharacterController))]
@@ -86,7 +87,7 @@ public class PlayerMovement : MonoBehaviour
             camXRotation -= Yrot;
             camYRotation += Xrot;
 
-            camXRotation = Mathf.Clamp(camXRotation, -50, 80);
+            camXRotation = Mathf.Clamp(camXRotation, -60, 70);//max and min up and down rotation
             //camYRotation = Mathf.Clamp(camYRotation, -90, 90);
 
             if (pCamera != null)
@@ -124,15 +125,26 @@ public class PlayerMovement : MonoBehaviour
         }
 
         //FP
+        print(Mathf.Abs(cExtander.Distance) < 0.1f);
         if(Mathf.Abs(cExtander.Distance) < 0.1f)
         {
-            AHead.localScale = Vector3.zero;
-            BHead.localScale = Vector3.zero;
+            if(AHead.localScale.x > 0.5f)
+            {
+                AModel.GetComponent<RigBuilder>().enabled = false;
+                BModel.GetComponent<RigBuilder>().enabled = false;
+                AHead.localScale = Vector3.zero;
+                BHead.localScale = Vector3.zero;
+            }
         }
         else
         {
-            AHead.localScale = Vector3.one;
-            BHead.localScale = Vector3.one;
+            if (AHead.localScale.x < 0.5f)
+            {
+                AModel.GetComponent<RigBuilder>().enabled = true;
+                BModel.GetComponent<RigBuilder>().enabled = true;
+                AHead.localScale = Vector3.one;
+                BHead.localScale = Vector3.one;
+            }
         }
 
         //Animations
