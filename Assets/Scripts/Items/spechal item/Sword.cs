@@ -13,6 +13,6 @@ public class Sword : Wapon
     public void Atack()
     {
         //Inserte Damege Script here
-
+        print("sword used");
     }
 }

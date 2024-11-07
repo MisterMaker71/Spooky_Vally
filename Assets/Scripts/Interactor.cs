@@ -50,15 +50,15 @@ public class Interactor : MonoBehaviour
                 }
                 if (Input.GetMouseButtonDown(0))
                 {
-                    if (hit.transform.GetComponent<HarvestTile>() != null)
+                    if (InventoryManager.MainInstance.HB.slots[InventoryManager.MainInstance.selected].Item != null)
                     {
-                        if (hit.transform.GetComponent<HarvestTile>().farmebel == null)
+                        if (InventoryManager.MainInstance.HB.slots[InventoryManager.MainInstance.selected].Item.GetType() == typeof(Seed))
                         {
-                            //GameObject g = Instantiate(Resources.Load<GameObject>("items/" + name), hit.transform);
-                            if (InventoryManager.MainInstance.HB.slots[InventoryManager.MainInstance.selected].Item != null)
+                            if (hit.transform.GetComponent<HarvestTile>() != null)
                             {
-                                if (InventoryManager.MainInstance.HB.slots[InventoryManager.MainInstance.selected].Item.GetType() == typeof(Seed))
+                                if (hit.transform.GetComponent<HarvestTile>().farmebel == null)
                                 {
+                                    //GameObject g = Instantiate(Resources.Load<GameObject>("items/" + name), hit.transform);
                                     Seed s = (Seed)InventoryManager.MainInstance.HB.slots[InventoryManager.MainInstance.selected].Item;
                                     print(s.crop.name);
                                     GameObject g = Instantiate(FarmManager.instance.FindCrop(s.crop.name).gameObject, hit.transform);
@@ -74,6 +74,14 @@ public class Interactor : MonoBehaviour
                                 }
                             }
                         }
+                        else
+                        {
+                            Wapon w = InventoryManager.MainInstance.HB.slots[InventoryManager.MainInstance.selected].Item.GetComponent<Wapon>() as Wapon;
+                            if(w != null)
+                            {
+                                ((Wapon)(InventoryManager.MainInstance.HB.slots[InventoryManager.MainInstance.selected].Item)).Use();
+                            }
+                        }
                     }
                 }
             }
@@ -87,12 +95,12 @@ public class Interactor : MonoBehaviour
         if (Physics.Raycast(Camera.main.ScreenPointToRay(Input.mousePosition), out hit, 100, interactionLayer))
         {
             if (point != null)
-                point.position = Vector3.MoveTowards(point.position, hit.point, Time.deltaTime * 10 * (Vector3.Distance(point.position, hit.point) / 5));
+                point.position = Vector3.MoveTowards(point.position, hit.point, Time.deltaTime * 10 * (Vector3.Distance(point.position, hit.point) / 2));
         }
         else
         {
             if (point != null)
-                point.position = Vector3.MoveTowards(point.position, transform.position + transform.forward * 8, Time.deltaTime * 10 * (Vector3.Distance(point.position, hit.point) / 5));
+                point.position = Vector3.MoveTowards(point.position, transform.position + transform.forward * 8, Time.deltaTime * 10 * (Vector3.Distance(point.position, hit.point) / 2));
         }
     }
 }

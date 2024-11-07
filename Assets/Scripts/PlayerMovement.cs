@@ -125,7 +125,6 @@ public class PlayerMovement : MonoBehaviour
         }
 
         //FP
-        print(Mathf.Abs(cExtander.Distance) < 0.1f);
         if(Mathf.Abs(cExtander.Distance) < 0.1f)
         {
             if(AHead.localScale.x > 0.5f)
