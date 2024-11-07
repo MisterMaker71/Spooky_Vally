@@ -21,8 +21,6 @@ public class Gegner : MonoBehaviour
     {
     if (player != null)
     {
-     
-
         if(Vector3.Distance(transform.position,player.position) <followRange)
         {
             transform.position = Vector3.MoveTowards(transform.position, player.position , Time.deltaTime * speed);
