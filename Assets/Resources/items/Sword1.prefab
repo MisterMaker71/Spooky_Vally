@@ -98,4 +98,4 @@ MonoBehaviour:
   heal:
     m_PersistentCalls:
       m_Calls: []
-  damage: 10
+  damage: 25
