@@ -4,15 +4,9 @@ using UnityEngine;
 
 public class Buildebel : MonoBehaviour
 {
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
+    public Vector2 placeOffset;
+    public Vector3 placeRotationOffset;
+    public Vector2[] coverdTiles;
 
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
+    //public GetCoverdTile
 }
