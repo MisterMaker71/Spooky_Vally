@@ -4,15 +4,23 @@ using UnityEngine;
 
 public class BuildManager : MonoBehaviour
 {
-    // Start is called before the first frame update
-    void Start()
+    public static BuildingGrid[] grids = new BuildingGrid[0];
+    public static bool isGridSelected = false;
+    public static int selectedGrid = 0;
+    private void Start()
     {
-        
+        grids = FindObjectsOfType<BuildingGrid>();
     }
-
-    // Update is called once per frame
     void Update()
     {
-        
+        isGridSelected = false;
+        for (int i = 0; i < grids.Length; i++)
+        {
+            if (grids[i].isSelected)
+            {
+                selectedGrid = i;
+                isGridSelected = true;
+            }
+        }
     }
 }

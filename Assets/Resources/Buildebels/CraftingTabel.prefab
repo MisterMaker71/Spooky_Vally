@@ -491,19 +491,11 @@ MonoBehaviour:
   m_PreserveMeshAssetOnDestroy: 0
   assetGuid: 
   m_Mesh: {fileID: 0}
-  m_VersionIndex: 1015
+  m_VersionIndex: 1021
   m_IsSelectable: 1
-  m_SelectedFaces: 00000000
-  m_SelectedEdges:
-  - a: 0
-    b: 1
-  - a: 2
-    b: 0
-  - a: 1
-    b: 3
-  - a: 3
-    b: 2
-  m_SelectedVertices: 00000000010000000200000003000000
+  m_SelectedFaces: 
+  m_SelectedEdges: []
+  m_SelectedVertices: 
 --- !u!114 &8951124032695682902
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -616,6 +608,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 43ff295b33bd5de408414d9a239f3a4e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  placeOffset: {x: 0.25, y: -0.25}
+  placeRotationOffset: {x: 0, y: 0, z: 0}
+  coverdTiles:
+  - {x: 0, y: 0}
+  - {x: 0, y: -1}
 --- !u!114 &-5444858169902801375
 MonoBehaviour:
   m_ObjectHideFlags: 0

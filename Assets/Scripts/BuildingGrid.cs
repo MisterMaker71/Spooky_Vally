@@ -6,7 +6,7 @@ public class BuildingGrid : MonoBehaviour
 {
     public LayerMask Mask;
     public List<GridTile> covertGrid = new List<GridTile>();
-
+    public bool isSelected;
     public List<Buildebel> objecsOnGrid = new List<Buildebel>();
     // Start is called before the first frame update
     void Start()
@@ -27,6 +27,52 @@ public class BuildingGrid : MonoBehaviour
             }
         }
     }
+    private void Update()
+    {
+        RaycastHit hit;
+        if (Physics.Raycast(Camera.main.ScreenPointToRay(Input.mousePosition), out hit, 15, Mask))
+        {
+            isSelected = true;
+        }
+        else
+        {
+            isSelected = false;
+        }
+    }
+    public void Place(string g, Vector3 v)
+    {
+        if(Resources.Load("Buildebels/" + g) != null)
+        {
+            GameObject gam = Resources.Load<GameObject>("Buildebels/" + g);
+            Buildebel b = gam.GetComponent<Buildebel>();
+            if (gam != null && b != null)
+            {
+                GridTile t = nearestTile(v);
+                GameObject placed = Instantiate(gam, t.position + new Vector3(-b.placeOffset.x, 0, -b.placeOffset.y), Quaternion.identity);
+                placed.transform.Rotate(b.placeRotationOffset);
+                foreach (Vector2 vector in b.coverdTiles)
+                {
+                    nearestTile(placed.transform.position + new Vector3(b.placeOffset.x / 2, 0, b.placeOffset.y / 2) + new Vector3(vector.x / 2, 0, vector.y / 2)).ocupied = true;
+                }
+            }
+        }
+    }
+    public GridTile nearestTile(Vector3 pos)
+    {
+        float dist = 1000;
+        GridTile tile = new GridTile(Vector3.zero);
+        foreach (GridTile item in covertGrid)
+        {
+            if(Vector3.Distance(pos, item.position) < dist)
+            {
+                dist = Vector3.Distance(pos, item.position);
+                tile = item;
+            }
+        }
+        return tile;
+    }
+
+
     [System.Serializable]
     public class GridTile
     {

@@ -88,6 +88,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 15945dc33726af643a4a323d1dfc1917, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Name: 
+  Name: Carfting Tabel
   count: 1
   buildebel: CraftingTabel

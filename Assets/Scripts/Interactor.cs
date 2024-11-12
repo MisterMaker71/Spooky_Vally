@@ -52,6 +52,7 @@ public class Interactor : MonoBehaviour
                 {
                     if (InventoryManager.MainInstance.HB.slots[InventoryManager.MainInstance.selected].Item != null)
                     {
+                        Wapon w = InventoryManager.MainInstance.HB.slots[InventoryManager.MainInstance.selected].Item.GetComponent<Wapon>() as Wapon;
                         if (InventoryManager.MainInstance.HB.slots[InventoryManager.MainInstance.selected].Item.GetType() == typeof(Seed))
                         {
                             if (hit.transform.GetComponent<HarvestTile>() != null)
@@ -74,12 +75,15 @@ public class Interactor : MonoBehaviour
                                 }
                             }
                         }
-                        else
+                        else if (w != null)
                         {
-                            Wapon w = InventoryManager.MainInstance.HB.slots[InventoryManager.MainInstance.selected].Item.GetComponent<Wapon>() as Wapon;
-                            if(w != null)
+                            ((Wapon)(InventoryManager.MainInstance.HB.slots[InventoryManager.MainInstance.selected].Item)).Use();
+                        }
+                        else if(InventoryManager.MainInstance.HB.slots[InventoryManager.MainInstance.selected].Item.GetType() == typeof(BuildebelItem))
+                        {
+                            if(BuildManager.isGridSelected)
                             {
-                                ((Wapon)(InventoryManager.MainInstance.HB.slots[InventoryManager.MainInstance.selected].Item)).Use();
+                                BuildManager.grids[BuildManager.selectedGrid].Place(((BuildebelItem)(InventoryManager.MainInstance.HB.slots[InventoryManager.MainInstance.selected].Item)).buildebel, hit.point);
                             }
                         }
                     }

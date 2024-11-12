@@ -15,6 +15,8 @@ public class InventorySlot : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        if (Item == null)
+            GetComponentInChildren<Item>();
         c1 = GetComponent<Image>().color;
         if (Item == null)
             Item = GetComponentInChildren<Item>();
