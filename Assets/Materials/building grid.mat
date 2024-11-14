@@ -21,18 +21,16 @@ Material:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_Name: building grid
-  m_Shader: {fileID: -6465566751694194690, guid: 8f4e8d04b3e89c747a06e4238d8df23a, type: 3}
+  m_Shader: {fileID: -6465566751694194690, guid: 8ea7396a508ba0042af6f92e49e4bc18, type: 3}
   m_Parent: {fileID: 0}
   m_ModifiedSerializedProperties: 0
   m_ValidKeywords: []
-  m_InvalidKeywords:
-  - _BUILTIN_SURFACE_TYPE_TRANSPARENT
+  m_InvalidKeywords: []
   m_LightmapFlags: 4
   m_EnableInstancingVariants: 0
   m_DoubleSidedGI: 0
   m_CustomRenderQueue: -1
-  stringTagMap:
-    RenderType: Transparent
+  stringTagMap: {}
   disabledShaderPasses: []
   m_LockedProperties: 
   m_SavedProperties:
@@ -113,6 +111,6 @@ Material:
     m_Colors:
     - _Color: {r: 0, g: 0, b: 0, a: 1}
     - _EmissionColor: {r: 0, g: 0, b: 0, a: 1}
-    - _Position: {r: 1.6205158, g: -0.24990001, b: -9.153602, a: 0}
+    - _Position: {r: -7.3269825, g: 4.4277716, b: 12.003845, a: 0}
     - _tint: {r: 0.05, g: 0.05, b: 0.05, a: 0}
   m_BuildTextureStacks: []

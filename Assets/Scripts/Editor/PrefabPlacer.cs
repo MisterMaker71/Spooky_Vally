@@ -5,9 +5,7 @@ using UnityEngine.UIElements;
 
 public class PrefabPlacer : EditorWindow
 {
-    string mins = "no";
-    string maxs = "no";
-    new char[] c = { '0' , '1', '2', '3', '4', '4', '5' , '6', '7', '8' , '9' , ','};
+    bool children = false;
     [MenuItem("Tools/Qualety Tools")]
     public static void ShowExample()
     {
@@ -26,80 +24,97 @@ public class PrefabPlacer : EditorWindow
         //}
         //maxs = maxs.Trim(c);
         //mins = mins.Trim(c);
-        if(Selection.transforms.Length > 0)
+        bool b = Selection.transforms.Length > 0;
+        if(children)
         {
+            b = Selection.activeTransform.childCount > 0;
+        }
+        if (b)
+        {
+            children = GUILayout.Toggle(children, "Use children transform");
             if (GUILayout.Button("Rotate Y"))
             {
-                Undo.RecordObjects(Selection.activeTransform.GetComponentsInChildren<Transform>(), "rotated on y");
-                foreach (Transform item in Selection.transforms)
+                if(!children)
                 {
-                    item.rotation = Quaternion.Euler(item.rotation.x, Random.Range(-180, 181), item.rotation.z);
+                    Undo.RecordObjects(Selection.transforms, "rotated on y");
+                    foreach (Transform item in Selection.transforms)
+                    {
+                        item.rotation = Quaternion.Euler(item.rotation.x, Random.Range(-180, 181), item.rotation.z);
+                    }
+                }
+                else
+                {
+                    Undo.RecordObjects(Selection.activeTransform.GetComponentsInChildren<Transform>(), "rotated children on y");
+                    for (int i = 0; i < Selection.activeTransform.childCount; i++)
+                    {
+                        Selection.activeTransform.GetChild(i).rotation = Quaternion.Euler(Selection.activeTransform.GetChild(i).rotation.x, Random.Range(-180, 181), Selection.activeTransform.GetChild(i).rotation.z);
+                    }
                 }
             }
-            if (GUILayout.Button("Rotate Y Children"))
+            if (GUILayout.Button("Random Scale (0.9 - 1.2)"))
             {
-                Undo.RecordObjects(Selection.activeTransform.GetComponentsInChildren<Transform>(), "rotated children on y");
-                for (int i = 0; i < Selection.activeTransform.childCount; i++)
+                if (!children)
                 {
-                    Selection.activeTransform.GetChild(i).rotation = Quaternion.Euler(Selection.activeTransform.GetChild(i).rotation.x, Random.Range(-180, 181), Selection.activeTransform.GetChild(i).rotation.z);
+                    Undo.RecordObjects(Selection.transforms, "randomised scale");
+                    foreach (Transform item in Selection.transforms)
+                    {
+                        item.localScale = Vector3.one * Random.Range(0.9f, 1.2f);
+                    }
                 }
-            }
-            GUILayout.TextField("X");
-            if (GUILayout.Button("Random Scale"))
-            {
-                //Undo.RecordObjects(null, "rotated children on y");
+                else
+                {
+                    Undo.RecordObjects(Selection.activeTransform.GetComponentsInChildren<Transform>(), "randomised scale of children");
+                    for (int i = 0; i < Selection.activeTransform.childCount; i++)
+                    {
+                        Selection.activeTransform.GetChild(i).localScale = Vector3.one * Random.Range(0.9f, 1.2f);
+                    }
+                }
             }
         }
         else
         {
+            children = GUILayout.Toggle(children, "Use children transform");
             GUI.color = Color.gray;
             GUILayout.Button("Rotate Y");
-            GUILayout.Button("Rotate Y Children");
-            GUI.color = Color.white;
-            mins = GUILayout.TextField(removeText(mins));
-            maxs = GUILayout.TextField(removeText(maxs));
-            //maxs = removeText(maxs);
-            //mins = removeText(mins);
-            GUI.color = Color.gray;
-            GUILayout.Button("Random Scale");
+            GUILayout.Button("Random Scale (0.9 - 1.2)");
         }
-        string removeText(string s)
-        {
-            string str = "";
-            foreach (char item in s)
-            {
-                foreach (char ch in c)
-                {
-                    if (item == ch)
-                        str += item;
-                }
-            }
-            return str;
-        }
-        double ToDouble(string s)
-        {
-            if (s == "")
-                return 0;
-            try
-            {
-                string str = "";
-                foreach (char item in s)
-                {
-                    foreach (char ch in c)
-                    {
-                        if (item == ch)
-                            str += s;
-                    }
-                }
-                Debug.Log(str);
-                double f = System.Convert.ToDouble(str);
-                return f;
-            }
-            catch (System.Exception)
-            {
-                return 0.5f;
-            }
-        }
+        //string removeText(string s)
+        //{
+        //    string str = "";
+        //    foreach (char item in s)
+        //    {
+        //        foreach (char ch in c)
+        //        {
+        //            if (item == ch)
+        //                str += item;
+        //        }
+        //    }
+        //    return str;
+        //}
+        //double ToDouble(string s)
+        //{
+        //    if (s == "")
+        //        return 0;
+        //    try
+        //    {
+        //        string str = "";
+        //        foreach (char item in s)
+        //        {
+        //            foreach (char ch in c)
+        //            {
+        //                if (item == ch)
+        //                    str += s;
+        //            }
+        //        }
+        //        Debug.Log(str);
+        //        double f = System.Convert.ToDouble(str);
+        //        return f;
+        //    }
+        //    catch (System.Exception)
+        //    {
+        //        return 0.5f;
+        //    }
+        //}
     }
     private void OnSelectionChange()
     {

@@ -32,7 +32,14 @@ public class BuildingGrid : MonoBehaviour
         RaycastHit hit;
         if (Physics.Raycast(Camera.main.ScreenPointToRay(Input.mousePosition), out hit, 15, Mask))
         {
-            isSelected = true;
+            if (hit.transform == transform)
+            {
+                isSelected = true;
+            }
+            else
+            {
+                isSelected = false;
+            }
         }
         else
         {
@@ -47,23 +54,41 @@ public class BuildingGrid : MonoBehaviour
             Buildebel b = gam.GetComponent<Buildebel>();
             if (gam != null && b != null)
             {
-                GridTile t = nearestTile(v);
-                GameObject placed = Instantiate(gam, t.position + new Vector3(-b.placeOffset.x, 0, -b.placeOffset.y), Quaternion.identity);
-                placed.transform.Rotate(b.placeRotationOffset);
-                foreach (Vector2 vector in b.coverdTiles)
+                GridTile t = nearestTile(v, 0.5f);
+                if(TestFreeTiles(b.coverdTiles, t.position + new Vector3(b.placeOffset.x / 2, 0, b.placeOffset.y / 2)))
                 {
-                    nearestTile(placed.transform.position + new Vector3(b.placeOffset.x / 2, 0, b.placeOffset.y / 2) + new Vector3(vector.x / 2, 0, vector.y / 2)).ocupied = true;
+                    GameObject placed = Instantiate(gam, t.position + new Vector3(-b.placeOffset.x, 0, -b.placeOffset.y), Quaternion.identity);
+                    placed.transform.Rotate(b.placeRotationOffset);
+                    foreach (Vector2 vector in b.coverdTiles)
+                    {
+                        nearestTile(placed.transform.position + new Vector3(b.placeOffset.x / 2, 0, b.placeOffset.y / 2) + new Vector3(vector.x / 2, 0, vector.y / 2), 0.5f).ocupied = true;
+                    }
                 }
             }
         }
     }
-    public GridTile nearestTile(Vector3 pos)
+    public bool TestFreeTiles(Vector2[] positions, Vector3 origin)
+    {
+        foreach (Vector2 pos in positions)
+        {
+            GridTile t = nearestTile(new Vector3(pos.x / 2, 0, pos.y / 2) + origin, 0.5f);
+            if (t.ocupied)
+            {
+                Debug.DrawRay(t.position, Vector3.up, Color.red, 5);
+                return false;
+            }
+            else
+                Debug.DrawRay(t.position, Vector3.up, Color.green, 5);
+        }
+        return true;
+    }
+    public GridTile nearestTile(Vector3 pos, float maxDistance)
     {
         float dist = 1000;
         GridTile tile = new GridTile(Vector3.zero);
         foreach (GridTile item in covertGrid)
         {
-            if(Vector3.Distance(pos, item.position) < dist)
+            if(Vector3.Distance(pos, item.position) < dist && Vector3.Distance(pos, item.position) < maxDistance)
             {
                 dist = Vector3.Distance(pos, item.position);
                 tile = item;
