@@ -38,6 +38,15 @@ public class Gegner : MonoBehaviour
         }
     }
 
+    public void takedmg(int damage)
+    {
+        health -= damage;
+        if (health <= 0)
+        {
+            Die();
+        }
+    }
+
     private void Die()
     {
         Destroy(gameObject);

@@ -14,5 +14,12 @@ public class Sword : Wapon
     {
         //Inserte Damege Script here
         print("sword used");
+        foreach(Gegner g FindObjectsByType<Gegner>())
+        {
+            if(Vector3.Distance(PlayerMovement.PlayerInstance.damagePosition.position, g.transform.position) < 2.5f)
+            {
+                g.takeDamage()
+            }
+        }
     }
 }
