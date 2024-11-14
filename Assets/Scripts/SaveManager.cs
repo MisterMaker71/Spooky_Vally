@@ -15,6 +15,9 @@ public class SaveManager : MonoBehaviour
         //{
         //    Directory.CreateDirectory(Application.dataPath + "/Saves");
         //}
+
+        saveName = PlayerPrefs.GetString("saveName", saveName);
+
         StartCoroutine(st());
     }
 
