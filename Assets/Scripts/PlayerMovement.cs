@@ -75,7 +75,7 @@ public class PlayerMovement : MonoBehaviour
         }
 
 
-        if(!Input.GetMouseButton(1) && !inventoryManager.InventoryIsVisibel)
+        if((!Input.GetMouseButton(1) && !inventoryManager.InventoryIsVisibel) && Time.timeScale == 1)
         {
             Cursor.lockState = CursorLockMode.Locked;
 

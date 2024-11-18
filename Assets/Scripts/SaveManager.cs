@@ -61,6 +61,22 @@ public class SaveManager : MonoBehaviour
             save.enabeldObjects.Add(item.activeSelf);
         }
 
+
+        FarmManager fm = FindFirstObjectByType<FarmManager>();
+        save.rainTime = fm.RainTime;
+        save.rainLenth = fm.RainLenth;
+        save.rainTestTime = fm.RainTestTime;
+        save.raining = fm.Raining;
+
+
+        save.placed.Clear();
+        foreach (BuildingGrid grid in FindObjectsOfType<BuildingGrid>())
+        {
+            foreach (Buildebel obj in grid.objecsOnGrid)
+            {
+                save.placed.Add(new SavePlcebel(grid.name, obj.name, obj.transform.position + new Vector3(obj.placeOffset.x, 0, obj.placeOffset.y)));
+            }
+        }
         save.Items.Clear();
         foreach (Inventory inv in FindObjectsOfType<Inventory>())
         {
@@ -103,6 +119,8 @@ public class SaveManager : MonoBehaviour
         string j = JsonUtility.ToJson(save);
         File.WriteAllText(Application.dataPath + "/Saves/" + saveName + ".save", j);
     }
+
+
     public void Load()
     {
         LoadImage.SetActive(true);
@@ -122,6 +140,7 @@ public class SaveManager : MonoBehaviour
         }
         //Aplly changes:
 
+
         if (enabeldObjects.Count != save.enabeldObjects.Count)
         {
             save.enabeldObjects = new List<bool>(enabeldObjects.Count);
@@ -140,6 +159,27 @@ public class SaveManager : MonoBehaviour
 
             if (PlayerMovement.PlayerInstance != null)
                 PlayerMovement.PlayerInstance.Teleport(save.PlayerPos, save.PlayerRot);
+
+            FarmManager fm = FindFirstObjectByType<FarmManager>();
+            fm.RainTime = save.rainTime;
+            fm.RainLenth = save.rainLenth;
+            fm.RainTestTime = save.rainTestTime;
+            fm.Raining = save.raining;
+
+            foreach (BuildingGrid item in FindObjectsOfType<BuildingGrid>())//clear Objects
+            {
+                foreach (Buildebel obj in item.objecsOnGrid)
+                {
+                    Destroy(obj.gameObject);
+                }
+                item.objecsOnGrid.Clear();
+                item.ResetCoverd();
+            }
+            foreach (SavePlcebel plcebel in save.placed)//place Objects
+            {
+                GetGidByBuildebelName(plcebel.gridName).Place(plcebel.buildebelName, plcebel.position);
+            }
+
 
             foreach (SaveLevelLoader loader in save.Loaders)
             {
@@ -207,6 +247,17 @@ public class SaveManager : MonoBehaviour
         LoadImage.SetActive(false);
     }
 
+    public BuildingGrid GetGidByBuildebelName(string gridName)
+    {
+        foreach (BuildingGrid item in FindObjectsOfType<BuildingGrid>())
+        {
+            if (gridName == item.name)
+            {
+                return item;
+            }
+        }
+        return null;
+    }
     public LoadAndDeload GetLevelLoader(string id)
     {
         foreach (LoadAndDeload lad in FindObjectsOfType<LoadAndDeload>())
@@ -239,6 +290,14 @@ public class SaveManager : MonoBehaviour
         public List<SaveCrop> crops = new List<SaveCrop>();
         public List<SaveLevelLoader> Loaders = new List<SaveLevelLoader>();
         public List<SaveItem> Items = new List<SaveItem>();
+        public List<SavePlcebel> placed = new List<SavePlcebel>();
+        
+        public bool raining;
+
+        public float rainTime;
+        public float rainTestTime;
+        public float rainLenth;
+        
         public float timeOfDay;
         public TimedEvent timedEvent;
         public Vector3 PlayerPos;
@@ -275,6 +334,20 @@ public class SaveManager : MonoBehaviour
             index = _index;
             Name = _name;
             count = _count;
+        }
+    }
+    [System.Serializable]
+    public class SavePlcebel
+    {
+        public string gridName;
+        public string buildebelName;
+        public Vector3 position;
+
+        public SavePlcebel(string _gridName, string _buildebelName, Vector3 _position)
+        {
+            gridName = _gridName;
+            buildebelName = _buildebelName;
+            position = _position;
         }
     }
     [System.Serializable]
