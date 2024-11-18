@@ -18,6 +18,7 @@ public class PlayerMovement : MonoBehaviour
     Animator animator;
     float animationMovementX = 0;
     float animationMovementY = 0;
+    public Transform damagePosition;
     public static PlayerMovement PlayerInstance;
     public CameraMode cameraMode = CameraMode.ThirdPerson;
     public CammeraExtander cExtander = null;

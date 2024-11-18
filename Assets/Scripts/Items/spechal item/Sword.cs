@@ -13,12 +13,12 @@ public class Sword : Wapon
     public void Atack()
     {
         //Inserte Damege Script here
-        print("sword used");
-        foreach(Gegner g FindObjectsByType<Gegner>())
+        //print("sword used");
+        foreach(Gegner g in FindObjectsOfType<Gegner>())
         {
             if(Vector3.Distance(PlayerMovement.PlayerInstance.damagePosition.position, g.transform.position) < 2.5f)
             {
-                g.takeDamage()
+                g.takedmg(damage);
             }
         }
     }
