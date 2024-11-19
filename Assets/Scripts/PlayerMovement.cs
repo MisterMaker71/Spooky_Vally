@@ -32,6 +32,11 @@ public class PlayerMovement : MonoBehaviour
     float camYRotation = 0;
     InventoryManager inventoryManager;
     public Effects effect = new Effects();
+
+    public float health = 100.0f;
+    public float maxHealth = 100.0f;
+
+
     // Start is called before the first frame update
     void Awake()
     {
@@ -161,6 +166,25 @@ public class PlayerMovement : MonoBehaviour
             animator.SetFloat("Input_Y", animationMovementY);
         }
     }
+
+    //NEWNEWNEWNEW
+    public void takedmg( float dmg)
+    {
+        health -= dmg;
+        Debug.Log($"Player took {dmg} damage. reamining health: {health}");
+        if (health <= 0)
+        {
+            Die();
+        }
+
+    }
+
+    void Die()
+    {
+        Debug.Log("Player has died!");
+        //Respawn logik?
+    }
+
 
     public void Teleport(Vector3 Pos)
     {
