@@ -55,7 +55,7 @@ public class BuildingGrid : MonoBehaviour
     }
     public void Place(string g, Vector3 v)
     {
-        print(v);
+        //print(v);
         if(Resources.Load("Buildebels/" + g) != null)
         {
             GameObject gam = Resources.Load<GameObject>("Buildebels/" + g);

@@ -123,6 +123,7 @@ public class SaveManager : MonoBehaviour
 
     public void Load()
     {
+        Debug.Log("Loading: "+saveName+" ...");
         LoadImage.SetActive(true);
         OnLoad.Invoke();
         if (save == null)
@@ -137,6 +138,7 @@ public class SaveManager : MonoBehaviour
                 string j = File.ReadAllText(Application.dataPath + "/Saves/" + saveName + ".save");
                 save = JsonUtility.FromJson<Saver>(j);                
             }
+            Debug.Log("Reading: " + new FileInfo(Application.dataPath + "/Saves/" + saveName + ".save").Length + " bites");
         }
         //Aplly changes:
 
@@ -245,6 +247,7 @@ public class SaveManager : MonoBehaviour
             Save();
         }
         LoadImage.SetActive(false);
+        Debug.Log("Loading finished");
     }
 
     public BuildingGrid GetGidByBuildebelName(string gridName)
