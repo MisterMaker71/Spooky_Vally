@@ -46,8 +46,16 @@ public class BuildingGrid : MonoBehaviour
             isSelected = false;
         }
     }
+    public void ResetCoverd()
+    {
+        foreach (var item in covertGrid)
+        {
+            item.ocupied = false;
+        }
+    }
     public void Place(string g, Vector3 v)
     {
+        //print(v);
         if(Resources.Load("Buildebels/" + g) != null)
         {
             GameObject gam = Resources.Load<GameObject>("Buildebels/" + g);
@@ -57,7 +65,9 @@ public class BuildingGrid : MonoBehaviour
                 GridTile t = nearestTile(v, 0.5f);
                 if(TestFreeTiles(b.coverdTiles, t.position + new Vector3(b.placeOffset.x / 2, 0, b.placeOffset.y / 2)))
                 {
-                    GameObject placed = Instantiate(gam, t.position + new Vector3(-b.placeOffset.x, 0, -b.placeOffset.y), Quaternion.identity);
+                    GameObject placed = Instantiate(gam, t.position + new Vector3(-b.placeOffset.x, 0, -b.placeOffset.y), Quaternion.identity, transform);
+                    placed.name = gam.name;
+                    objecsOnGrid.Add(placed.GetComponent<Buildebel>());
                     placed.transform.Rotate(b.placeRotationOffset);
                     foreach (Vector2 vector in b.coverdTiles)
                     {

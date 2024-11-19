@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Events;
 
 public enum DayTime { Day, Night }
 [RequireComponent(typeof(Light))]
@@ -14,7 +15,15 @@ public class DayNightCical : MonoBehaviour
     Light sun;
     [Tooltip("Sun rotation (night is 5 times faster)")]
     [SerializeField] float speed = 5f;
-    // Start is called before the first frame update
+    [SerializeField] float nightMultyplyer = 5;
+
+    public UnityEvent<DayTime> changeDaytime;
+
+    private void OnEnable()
+    {
+        print("[" + name + "] is active");
+    }
+
     void Start()
     {
         sun = GetComponent<Light>();
@@ -27,12 +36,20 @@ public class DayNightCical : MonoBehaviour
     {
         if (timeOfDay > 190 && timeOfDay < 350)
         {
-            time = DayTime.Night;
-            timeOfDay += Time.deltaTime * speed * 5;
+            if (time == DayTime.Day)
+            {
+                time = DayTime.Night;
+                changeDaytime.Invoke(time);
+            }
+            timeOfDay += Time.deltaTime * speed * nightMultyplyer;
         }
         else
         {
-            time = DayTime.Day;
+            if(time == DayTime.Night)
+            {
+                time = DayTime.Day;
+                changeDaytime.Invoke(time);
+            }
             timeOfDay += Time.deltaTime * speed;
         }
 

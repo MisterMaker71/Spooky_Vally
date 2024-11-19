@@ -2,12 +2,16 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using UnityEngine.Events;
 using System.IO;
 
 public class SaveManager : MonoBehaviour
 {
     public string saveName = "DEV";
     public Saver save;
+    public UnityEvent OnLoad;
+    public List<GameObject> enabeldObjects = new List<GameObject>();
+    public GameObject LoadImage;
     // Start is called before the first frame update
     void Start()
     {
@@ -48,8 +52,31 @@ public class SaveManager : MonoBehaviour
         save = new Saver(
             PlayerMovement.PlayerInstance.transform.position,
             PlayerMovement.PlayerInstance.GetCamRotation(),
-            DayNightCical.timeOfDay
+            DayNightCical.timeOfDay,
+            TimedEvents.timedEvent
             );
+        save.enabeldObjects.Clear();
+        foreach (var item in enabeldObjects)
+        {
+            save.enabeldObjects.Add(item.activeSelf);
+        }
+
+
+        FarmManager fm = FindFirstObjectByType<FarmManager>();
+        save.rainTime = fm.RainTime;
+        save.rainLenth = fm.RainLenth;
+        save.rainTestTime = fm.RainTestTime;
+        save.raining = fm.Raining;
+
+
+        save.placed.Clear();
+        foreach (BuildingGrid grid in FindObjectsOfType<BuildingGrid>())
+        {
+            foreach (Buildebel obj in grid.objecsOnGrid)
+            {
+                save.placed.Add(new SavePlcebel(grid.name, obj.name, obj.transform.position + new Vector3(obj.placeOffset.x, 0, obj.placeOffset.y)));
+            }
+        }
         save.Items.Clear();
         foreach (Inventory inv in FindObjectsOfType<Inventory>())
         {
@@ -75,6 +102,14 @@ public class SaveManager : MonoBehaviour
             else
                 save.crops.Add(new SaveCrop("", 0, 0));
         }
+        save.Loaders.Clear();
+        foreach (LoadAndDeload lad in FindObjectsOfType<LoadAndDeload>())
+        {
+            if(lad.loadedScenes.Count > 0)
+                save.Loaders.Add(new SaveLevelLoader(lad.saveId, lad.loadedScenes));
+            else
+                save.Loaders.Add(new SaveLevelLoader(lad.saveId));
+        }
 
         //Save:
         if (!Directory.Exists(Application.dataPath+"/Saves"))
@@ -84,8 +119,13 @@ public class SaveManager : MonoBehaviour
         string j = JsonUtility.ToJson(save);
         File.WriteAllText(Application.dataPath + "/Saves/" + saveName + ".save", j);
     }
+
+
     public void Load()
     {
+        Debug.Log("Loading: "+saveName+" ...");
+        LoadImage.SetActive(true);
+        OnLoad.Invoke();
         if (save == null)
         {
             save = new Saver(new Vector3(), new Vector2(), 0);
@@ -98,8 +138,22 @@ public class SaveManager : MonoBehaviour
                 string j = File.ReadAllText(Application.dataPath + "/Saves/" + saveName + ".save");
                 save = JsonUtility.FromJson<Saver>(j);                
             }
+            Debug.Log("Reading: " + new FileInfo(Application.dataPath + "/Saves/" + saveName + ".save").Length + " bites");
         }
-        //Aplay changes:
+        //Aplly changes:
+
+
+        if (enabeldObjects.Count != save.enabeldObjects.Count)
+        {
+            save.enabeldObjects = new List<bool>(enabeldObjects.Count);
+        }
+        if (enabeldObjects.Count == save.enabeldObjects.Count)
+        {
+            for (int i = 0; i < enabeldObjects.Count; i++)
+            {
+                enabeldObjects[i].SetActive(save.enabeldObjects[i]);
+            }
+        }
 
         if (File.Exists(Application.dataPath + "/Saves/" + saveName + ".save"))
         {
@@ -107,6 +161,36 @@ public class SaveManager : MonoBehaviour
 
             if (PlayerMovement.PlayerInstance != null)
                 PlayerMovement.PlayerInstance.Teleport(save.PlayerPos, save.PlayerRot);
+
+            FarmManager fm = FindFirstObjectByType<FarmManager>();
+            fm.RainTime = save.rainTime;
+            fm.RainLenth = save.rainLenth;
+            fm.RainTestTime = save.rainTestTime;
+            fm.Raining = save.raining;
+
+            foreach (BuildingGrid item in FindObjectsOfType<BuildingGrid>())//clear Objects
+            {
+                foreach (Buildebel obj in item.objecsOnGrid)
+                {
+                    Destroy(obj.gameObject);
+                }
+                item.objecsOnGrid.Clear();
+                item.ResetCoverd();
+            }
+            foreach (SavePlcebel plcebel in save.placed)//place Objects
+            {
+                GetGidByBuildebelName(plcebel.gridName).Place(plcebel.buildebelName, plcebel.position);
+            }
+
+
+            foreach (SaveLevelLoader loader in save.Loaders)
+            {
+                LoadAndDeload l = GetLevelLoader(loader.id);
+                if(l != null)
+                {
+                    l.LoadAll(loader.loadedScenes);
+                }
+            }
 
             foreach (Inventory inv in FindObjectsOfType<Inventory>())
             {
@@ -162,6 +246,31 @@ public class SaveManager : MonoBehaviour
             SceneManager.LoadScene(SceneManager.GetActiveScene().name);
             Save();
         }
+        LoadImage.SetActive(false);
+        Debug.Log("Loading finished");
+    }
+
+    public BuildingGrid GetGidByBuildebelName(string gridName)
+    {
+        foreach (BuildingGrid item in FindObjectsOfType<BuildingGrid>())
+        {
+            if (gridName == item.name)
+            {
+                return item;
+            }
+        }
+        return null;
+    }
+    public LoadAndDeload GetLevelLoader(string id)
+    {
+        foreach (LoadAndDeload lad in FindObjectsOfType<LoadAndDeload>())
+        {
+            if(lad.saveId == id)
+            {
+                return lad;
+            }
+        }
+        return null;
     }
     public SaveItem GetItemInInventory(string inventory, int index)
     {
@@ -180,15 +289,34 @@ public class SaveManager : MonoBehaviour
     [System.Serializable]
     public class Saver
     {
+        public List<bool> enabeldObjects = new List<bool>();
         public List<SaveCrop> crops = new List<SaveCrop>();
+        public List<SaveLevelLoader> Loaders = new List<SaveLevelLoader>();
         public List<SaveItem> Items = new List<SaveItem>();
+        public List<SavePlcebel> placed = new List<SavePlcebel>();
+        
+        public bool raining;
+
+        public float rainTime;
+        public float rainTestTime;
+        public float rainLenth;
+        
         public float timeOfDay;
+        public TimedEvent timedEvent;
         public Vector3 PlayerPos;
         public Vector2 PlayerRot;
 
         public Saver(Vector3 PPos, Vector2 PRot, float _timeOfDay)
         {
             timeOfDay = _timeOfDay;
+            timedEvent = TimedEvent.NoEvent;
+            PlayerPos = PPos;
+            PlayerRot = PRot;
+        }
+        public Saver(Vector3 PPos, Vector2 PRot, float _timeOfDay, TimedEvent _timedEvent)
+        {
+            timeOfDay = _timeOfDay;
+            timedEvent = _timedEvent;
             PlayerPos = PPos;
             PlayerRot = PRot;
         }
@@ -212,6 +340,20 @@ public class SaveManager : MonoBehaviour
         }
     }
     [System.Serializable]
+    public class SavePlcebel
+    {
+        public string gridName;
+        public string buildebelName;
+        public Vector3 position;
+
+        public SavePlcebel(string _gridName, string _buildebelName, Vector3 _position)
+        {
+            gridName = _gridName;
+            buildebelName = _buildebelName;
+            position = _position;
+        }
+    }
+    [System.Serializable]
     public class SaveCrop
     {
         public string Name = "";
@@ -224,8 +366,24 @@ public class SaveManager : MonoBehaviour
             Name = _name;
         }
     }
+    [System.Serializable]
+    public class SaveLevelLoader
+    {
+        public string id;
+        public List<string> loadedScenes = new List<string>();
+        public SaveLevelLoader(string _id)
+        {
+            id = _id;
+        }
+        public SaveLevelLoader(string _id, List<string> _loadedScenes)
+        {
+            id = _id;
+            loadedScenes = _loadedScenes;
+        }
+    }
     IEnumerator st()
     {
+        LoadImage.SetActive(true);
         yield return new WaitForSeconds(0.2f);
         Load();
     }

@@ -95,8 +95,10 @@ public class InventoryManager : MonoBehaviour
                 HBSelect.position = HB.slots[selected].transform.position;
         }
 
-        if (Input.GetKeyDown(KeyCode.I) || Input.GetKeyDown(KeyCode.Escape))
+        if ((Input.GetKeyDown(KeyCode.I) || Input.GetKeyDown(KeyCode.Tab)) && Time.timeScale == 1)
             InventoryIsVisibel = !InventoryIsVisibel;
+        if (Input.GetKeyDown(KeyCode.Escape))
+            InventoryIsVisibel = false;
         inventory.SetActive(InventoryIsVisibel);
         if (dragging != null)
         {

@@ -27,7 +27,7 @@ public class CraftingManager : MonoBehaviour
             InventoryManager.MainInstance.InventoryIsVisibel = false;
             crafterPosition = new Vector3(1000, 1000, 1000);
         }
-        if ((Input.GetKeyDown(KeyCode.I) || Input.GetKeyDown(KeyCode.Escape)) && InventoryManager.MainInstance.InventoryIsVisibel && CraftingIsVisibel)
+        if ((Input.GetKeyDown(KeyCode.I) || Input.GetKeyDown(KeyCode.Tab) || Input.GetKeyDown(KeyCode.Escape)) && /*InventoryManager.MainInstance.InventoryIsVisibel &&*/ CraftingIsVisibel)
         {
             CraftingIsVisibel = false;
             crafterPosition = new Vector3(1000, 1000, 1000);

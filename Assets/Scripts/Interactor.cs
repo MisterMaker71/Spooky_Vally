@@ -18,7 +18,7 @@ public class Interactor : MonoBehaviour
     void Update()
     {
         RaycastHit hit;
-        if (Physics.Raycast(Camera.main.ScreenPointToRay(Input.mousePosition), out hit, 10, interactionLayer))
+        if (Physics.Raycast(Camera.main.ScreenPointToRay(Input.mousePosition), out hit, 10, interactionLayer) && Time.timeScale == 1)
         {
             if (point != null)
                 point.position = Vector3.MoveTowards(point.position, hit.point, Time.deltaTime * 10);

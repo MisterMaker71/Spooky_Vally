@@ -25,7 +25,7 @@ public class PrefabPlacer : EditorWindow
         //maxs = maxs.Trim(c);
         //mins = mins.Trim(c);
         bool b = Selection.transforms.Length > 0;
-        if(children)
+        if(children && Selection.activeTransform != null)
         {
             b = Selection.activeTransform.childCount > 0;
         }

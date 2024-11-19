@@ -13,9 +13,15 @@ public class FarmManager : MonoBehaviour
     [Tooltip("Time intervall to test to start raining"), Min(0)]
     public float rainColldown = 15;
     public Vector2 rainTime = new Vector2(10, 50);
+
     float rC = 0;
     float rTM = 0;
     float rT = -1;
+
+    public float RainTime { get { return rT; } set { rT = value; } }
+    public float RainLenth { get { return rTM; } set { rTM = value; } }
+    public float RainTestTime { get { return rC; } set { rC = value; } }
+
     public List<Farmebel> rCrops = new List<Farmebel>();
 
     // Start is called before the first frame update
