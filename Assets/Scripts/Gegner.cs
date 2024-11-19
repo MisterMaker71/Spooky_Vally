@@ -20,9 +20,7 @@ public class Gegner : MonoBehaviour
     public float lastAttackTime = 0.0f;
 
 
-    //takedmg 
-    //eigenes script für den spawner
-    //spawner als likste 3gegener 
+    
 
     // Update is called once per frame
     void Start()

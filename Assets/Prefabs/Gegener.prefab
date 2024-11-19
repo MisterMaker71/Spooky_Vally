@@ -76,6 +76,10 @@ MonoBehaviour:
   disepearRange: 30
   health: 100
   maxOutofrangetime: 10
+  attackRange: 2
+  attackDmg: 10
+  attackCd: 1
+  lastAttackTime: 0
 --- !u!1001 &1778159958641991980
 PrefabInstance:
   m_ObjectHideFlags: 0
