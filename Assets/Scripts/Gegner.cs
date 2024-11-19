@@ -14,6 +14,12 @@ public class Gegner : MonoBehaviour
     private float timeSinceoutofrange = 0.0f;
     public float maxOutofrangetime = 10.0f;
 
+    public float attackRange = 2.0f;
+    public float attackDmg = 10.0f;
+    public float attackCd = 2.0f;
+    public float lastAttackTime = 0.0f;
+
+
     //takedmg 
     //eigenes script für den spawner
     //spawner als likste 3gegener 
@@ -38,6 +44,14 @@ public class Gegner : MonoBehaviour
                     blend = 1;
                 timeSinceoutofrange = 0.0f;
                 transform.position = Vector3.MoveTowards(transform.position, player.position, Time.deltaTime * speed);
+            
+                //NEWENEWNNENEW
+                if (distanceToplayer <= attackRange && Time.time - lastAttackTime >= attackCd)
+                {
+                    AttackPlayer();
+                    lastAttackTime = Time.time;
+                }
+                
             }
             else if (distanceToplayer > disepearRange)
             {
@@ -60,6 +74,11 @@ public class Gegner : MonoBehaviour
         {
             Die();
         }
+    }
+
+    void AttackPlayer()
+    {
+        PlayerMovement.PlayerInstance.takedmg(attackDmg);
     }
 
     public void takedmg(float damage)
