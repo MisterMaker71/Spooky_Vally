@@ -63,7 +63,7 @@ public class BuildingGrid : MonoBehaviour
             if (gam != null && b != null)
             {
                 GridTile t = nearestTile(v, 0.5f);
-                if(TestFreeTiles(b.coverdTiles, t.position + new Vector3(b.placeOffset.x / 2, 0, b.placeOffset.y / 2)))
+                if(TestFreeTiles(b.coverdTiles, t.position + new Vector3(b.placeOffset.x / 2, 0, b.placeOffset.y / 2), 0.25f))
                 {
                     GameObject placed = Instantiate(gam, t.position + new Vector3(-b.placeOffset.x, 0, -b.placeOffset.y), Quaternion.identity, transform);
                     placed.name = gam.name;
@@ -71,17 +71,17 @@ public class BuildingGrid : MonoBehaviour
                     placed.transform.Rotate(b.placeRotationOffset);
                     foreach (Vector2 vector in b.coverdTiles)
                     {
-                        nearestTile(placed.transform.position + new Vector3(b.placeOffset.x / 2, 0, b.placeOffset.y / 2) + new Vector3(vector.x / 2, 0, vector.y / 2), 0.5f).ocupied = true;
+                        nearestTile(placed.transform.position + new Vector3(b.placeOffset.x / 2, 0, b.placeOffset.y / 2) + new Vector3(vector.x / 2, 0, vector.y / 2), 0.1f).ocupied = true;
                     }
                 }
             }
         }
     }
-    public bool TestFreeTiles(Vector2[] positions, Vector3 origin)
+    public bool TestFreeTiles(Vector2[] positions, Vector3 origin, float searchRadius)
     {
         foreach (Vector2 pos in positions)
         {
-            GridTile t = nearestTile(new Vector3(pos.x / 2, 0, pos.y / 2) + origin, 0.5f);
+            GridTile t = nearestTile(new Vector3(pos.x / 2, 0, pos.y / 2) + origin, searchRadius);
             if (t.ocupied)
             {
                 Debug.DrawRay(t.position, Vector3.up, Color.red, 5);
@@ -95,7 +95,7 @@ public class BuildingGrid : MonoBehaviour
     public GridTile nearestTile(Vector3 pos, float maxDistance)
     {
         float dist = 1000;
-        GridTile tile = new GridTile(Vector3.zero);
+        GridTile tile = new GridTile(Vector3.one * 100, true);
         foreach (GridTile item in covertGrid)
         {
             if(Vector3.Distance(pos, item.position) < dist && Vector3.Distance(pos, item.position) < maxDistance)
@@ -104,6 +104,7 @@ public class BuildingGrid : MonoBehaviour
                 tile = item;
             }
         }
+        Debug.DrawLine(pos, tile.position, Color.gray, 5);
         return tile;
     }
 
@@ -115,6 +116,11 @@ public class BuildingGrid : MonoBehaviour
         public bool ocupied = false;
         public GridTile(Vector3 _position)
         {
+            position = _position;
+        }
+        public GridTile(Vector3 _position, bool _ocupied)
+        {
+            ocupied = _ocupied;
             position = _position;
         }
     }

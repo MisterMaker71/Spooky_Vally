@@ -18,6 +18,7 @@ public class MainMenu : MonoBehaviour
     {
         if (Input.GetKeyDown(KeyCode.Escape))
             Quit();
+        print(PlayerPrefs.GetString("saveName"));
     }
     public void ChangeSaveName(string name)
     {

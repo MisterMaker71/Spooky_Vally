@@ -28,65 +28,68 @@ public class InventoryManager : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (Input.GetKeyDown(KeyCode.Alpha1))
+        if (PlayerMovement.PlayerInstance.schlagType == 0)
         {
-            selected = 0;
-            ChangeSlot();
-        }
-            if (Input.GetKeyDown(KeyCode.Alpha2))
-        {
-            selected = 1;
-            ChangeSlot();
-        }
-        if (Input.GetKeyDown(KeyCode.Alpha3))
-        {
-            selected = 2;
-            ChangeSlot();
-        }
-        if (Input.GetKeyDown(KeyCode.Alpha4))
-        {
-            selected = 3;
-            ChangeSlot();
-        }
-        if (Input.GetKeyDown(KeyCode.Alpha5))
-        {
-            selected = 4;
-            ChangeSlot();
-        }
-        if (Input.GetKeyDown(KeyCode.Alpha6))
-        {
-            selected = 5;
-            ChangeSlot();
-        }
-        if (Input.GetKeyDown(KeyCode.Alpha7))
-        {
-            selected = 6;
-            ChangeSlot();
-        }
-        if (Input.GetKeyDown(KeyCode.Alpha8))
-        {
-            selected = 7;
-            ChangeSlot();
-        }
-        if (Input.GetKeyDown(KeyCode.Alpha9))
-        {
-            selected = 8;
-            ChangeSlot();
-        }
-
-        if (Input.GetAxis("Mouse ScrollWheel") < 0f)
-        {
-            selected++;
-            if (selected > HB.slots.Count - 1)
+            if (Input.GetKeyDown(KeyCode.Alpha1))
+            {
                 selected = 0;
-            ChangeSlot();
-        }
-        else if (Input.GetAxis("Mouse ScrollWheel") > 0f)
-        {
-            selected--;
-            if (selected < 0)
-                selected = HB.slots.Count - 1;
-            ChangeSlot();
+                ChangeSlot();
+            }
+            if (Input.GetKeyDown(KeyCode.Alpha2))
+            {
+                selected = 1;
+                ChangeSlot();
+            }
+            if (Input.GetKeyDown(KeyCode.Alpha3))
+            {
+                selected = 2;
+                ChangeSlot();
+            }
+            if (Input.GetKeyDown(KeyCode.Alpha4))
+            {
+                selected = 3;
+                ChangeSlot();
+            }
+            if (Input.GetKeyDown(KeyCode.Alpha5))
+            {
+                selected = 4;
+                ChangeSlot();
+            }
+            if (Input.GetKeyDown(KeyCode.Alpha6))
+            {
+                selected = 5;
+                ChangeSlot();
+            }
+            if (Input.GetKeyDown(KeyCode.Alpha7))
+            {
+                selected = 6;
+                ChangeSlot();
+            }
+            if (Input.GetKeyDown(KeyCode.Alpha8))
+            {
+                selected = 7;
+                ChangeSlot();
+            }
+            if (Input.GetKeyDown(KeyCode.Alpha9))
+            {
+                selected = 8;
+                ChangeSlot();
+            }
+
+            if (Input.GetAxis("Mouse ScrollWheel") < 0f)
+            {
+                selected++;
+                if (selected > HB.slots.Count - 1)
+                    selected = 0;
+                ChangeSlot();
+            }
+            else if (Input.GetAxis("Mouse ScrollWheel") > 0f)
+            {
+                selected--;
+                if (selected < 0)
+                    selected = HB.slots.Count - 1;
+                ChangeSlot();
+            }
         }
 
         if(HBSelect != null)
@@ -200,9 +203,12 @@ public class InventoryManager : MonoBehaviour
     }
     public void ChangeSlot()
     {
-        if(HB.slots[selected].Item != null && GetComponentInChildren<ItemBehavier>() != null)
+        if(GetComponentInChildren<ItemBehavier>() != null)
         {
-            GetComponentInChildren<ItemBehavier>().ShowItem(HB.slots[selected].Item);
+            if (HB.slots[selected].Item != null)
+                GetComponentInChildren<ItemBehavier>().ShowItem(HB.slots[selected].Item);
+            else
+                GetComponentInChildren<ItemBehavier>().HideItem();
         }
     }
     public void AddItem(string itemName, int count)

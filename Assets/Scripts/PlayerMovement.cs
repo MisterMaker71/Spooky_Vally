@@ -32,10 +32,18 @@ public class PlayerMovement : MonoBehaviour
     float camYRotation = 0;
     InventoryManager inventoryManager;
     public Effects effect = new Effects();
-
+    [Space(5)]
+    public int schlagType = 0;
+    [Header("Helth")]
     public float health = 100.0f;
     public float maxHealth = 100.0f;
 
+    public void Heal(float helth)
+    {
+        health += health;
+        if (health > maxHealth)
+            health = maxHealth;
+    }
 
     // Start is called before the first frame update
     void Awake()
@@ -66,8 +74,11 @@ public class PlayerMovement : MonoBehaviour
 
         sSpeed += effect.Speed;
 
-        controller.Move(transform.forward * MoveVector.y * sSpeed * Time.deltaTime + transform.right * MoveVector.x * sSpeed * Time.deltaTime);
 
+        if (schlagType == 0)
+        {
+            controller.Move(transform.forward * MoveVector.y * sSpeed * Time.deltaTime + transform.right * MoveVector.x * sSpeed * Time.deltaTime);
+        }
         
         if(Input.GetKeyDown(KeyCode.F5))
         {
@@ -160,10 +171,22 @@ public class PlayerMovement : MonoBehaviour
 
         if (animator != null)
         {
-            animationMovementX = Vector3.MoveTowards(Vector3.one * animationMovementX, Vector3.one * inputX, Time.deltaTime * 10).x;
-            animationMovementY = Vector3.MoveTowards(Vector3.one * animationMovementY, Vector3.one * inputY, Time.deltaTime * 10).x;
-            animator.SetFloat("Input_X", animationMovementX);
-            animator.SetFloat("Input_Y", animationMovementY);
+            if(schlagType == 0)
+            {
+                animationMovementX = Vector3.MoveTowards(Vector3.one * animationMovementX, Vector3.one * inputX, Time.deltaTime * 10).x;
+                animationMovementY = Vector3.MoveTowards(Vector3.one * animationMovementY, Vector3.one * inputY, Time.deltaTime * 10).x;
+                animator.SetFloat("Input_X", animationMovementX);
+                animator.SetFloat("Input_Y", animationMovementY);
+            }
+            else
+            {
+                animationMovementX = Vector3.MoveTowards(Vector3.one * animationMovementX, Vector3.zero, Time.deltaTime * 10).x;
+                animationMovementY = Vector3.MoveTowards(Vector3.one * animationMovementY, Vector3.zero, Time.deltaTime * 10).x;
+                animator.SetFloat("Input_X", animationMovementX);
+                animator.SetFloat("Input_Y", animationMovementY);
+            }
+            if(Mathf.Abs(animationMovementX) < 0.2f && Mathf.Abs(animationMovementY) < 0.2f)
+                animator.SetInteger("schlagen", schlagType);
         }
     }
 
