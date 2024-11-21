@@ -12,6 +12,7 @@ public class SaveManager : MonoBehaviour
     public UnityEvent OnLoad;
     public List<GameObject> enabeldObjects = new List<GameObject>();
     public GameObject LoadImage;
+    [SerializeField] RenderTexture screenshot;
 
     void OnEnable()
     {
@@ -29,6 +30,7 @@ public class SaveManager : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+
         if (Input.GetKeyDown(KeyCode.F1))
             Save();
         if (Input.GetKeyDown(KeyCode.F2))
@@ -117,6 +119,18 @@ public class SaveManager : MonoBehaviour
         {
             Directory.CreateDirectory(Application.dataPath + "/Saves");
         }
+        //create scene shoot
+        //Application.dataPath + "/Saves/" + saveName + ".png"
+        //StartCoroutine(TakeScreenShot());
+        if (screenshot != null)
+        {
+            byte[] bites = toTexture2D(screenshot).EncodeToPNG();
+            print(bites);
+            File.WriteAllBytes(Application.dataPath + "/Saves/" + saveName + ".png", bites);
+
+        }
+
+        //write to file
         string j = JsonUtility.ToJson(save);
         File.WriteAllText(Application.dataPath + "/Saves/" + saveName + ".save", j);
     }
@@ -285,6 +299,17 @@ public class SaveManager : MonoBehaviour
         }
         return null;
     }
+    public Texture2D toTexture2D(RenderTexture rTex)
+    {
+        Texture2D tex = new Texture2D(rTex.width, rTex.height, TextureFormat.RGBAFloat, false);
+        var old_rt = RenderTexture.active;
+        RenderTexture.active = rTex;
+
+        tex.ReadPixels(new Rect(0, 0, rTex.width, rTex.height), 0, 0);
+        tex.Apply();
+        RenderTexture.active = old_rt;
+        return tex;
+    }
     public SaveItem GetItemInInventory(string inventory, int index)
     {
         foreach (SaveItem item in save.Items)
@@ -400,4 +425,21 @@ public class SaveManager : MonoBehaviour
         yield return new WaitForSeconds(0.2f);
         Load();
     }
+    //IEnumerator TakeScreenShot()
+    //{
+    //    yield return new WaitForEndOfFrame();
+    //    //screenshot = ScreenCapture.CaptureScreenshotAsTexture();
+    //    //screenshot.Resize();
+    //    if (screenshot != null)
+    //    {
+    //        screenshot.name = saveName;
+    //        screenshot.Apply();
+    //        screenshot = new Texture2D(1000, 1000, screenshot.format, false);
+    //        //if (screenshot.Reinitialize(100, 100))
+    //        //{
+    //        //byte[] bites = screenshot.EncodeToPNG();
+    //        //File.WriteAllBytes(Application.dataPath + "/Saves/" + saveName + ".png", bites);
+    //        //}
+    //    }
+    //}
 }

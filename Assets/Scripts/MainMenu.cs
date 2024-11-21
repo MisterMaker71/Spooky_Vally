@@ -12,10 +12,10 @@ public class MainMenu : MonoBehaviour
     private void Start()
     {
         Cursor.lockState = CursorLockMode.Confined;
-        Cursor.visible = true;
     }
     private void Update()
     {
+        Cursor.visible = false;
         if (Input.GetKeyDown(KeyCode.Escape))
             Quit();
         print(PlayerPrefs.GetString("saveName"));
@@ -26,7 +26,10 @@ public class MainMenu : MonoBehaviour
     }
     public void LoadSave()
     {
-        SceneManager.LoadScene("SampleScene");
+        if(PlayerPrefs.GetString("saveName", "") != "")
+        {
+            SceneManager.LoadScene("SampleScene");
+        }
     }
     public void Quit()
     {

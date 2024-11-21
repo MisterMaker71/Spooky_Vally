@@ -63,7 +63,7 @@ public class BuildingGrid : MonoBehaviour
             if (gam != null && b != null)
             {
                 GridTile t = nearestTile(v, 0.5f);
-                if(TestFreeTiles(b.coverdTiles, t.position + new Vector3(b.placeOffset.x / 2, 0, b.placeOffset.y / 2), 0.25f))
+                if(TestFreeTiles(b.coverdTiles, t.position + new Vector3(b.placeOffset.x / 2, 0, b.placeOffset.y / 2), 0.35f))
                 {
                     GameObject placed = Instantiate(gam, t.position + new Vector3(-b.placeOffset.x, 0, -b.placeOffset.y), Quaternion.identity, transform);
                     placed.name = gam.name;
@@ -71,7 +71,7 @@ public class BuildingGrid : MonoBehaviour
                     placed.transform.Rotate(b.placeRotationOffset);
                     foreach (Vector2 vector in b.coverdTiles)
                     {
-                        nearestTile(placed.transform.position + new Vector3(b.placeOffset.x / 2, 0, b.placeOffset.y / 2) + new Vector3(vector.x / 2, 0, vector.y / 2), 0.1f).ocupied = true;
+                        nearestTile(placed.transform.position + new Vector3(b.placeOffset.x / 2, 0, b.placeOffset.y / 2) + new Vector3(vector.x / 2, 0, vector.y / 2), 0.25f).ocupied = true;
                     }
                 }
             }
