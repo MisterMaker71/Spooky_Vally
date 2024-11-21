@@ -6,6 +6,9 @@ public class Tool : Item
 {
     public int maxDurebility = 100;
     public int Durebility = 100;
+    public int DurebilityLoss = 10;
+
+    public int animationType = 0;
 
     public UnityEvent use;
     public UnityEvent heal;
@@ -20,9 +23,13 @@ public class Tool : Item
         if (Durebility > maxDurebility)
             Durebility = maxDurebility;
     }
-    public bool Use()
+    public void Use()
     {
-        return Use(0);
+        PlayerMovement.PlayerInstance.schlagType = animationType;
+        if (!Use(DurebilityLoss))
+        {
+            Destroy(gameObject);
+        }
     }
     public bool Use(int durebility)
     {

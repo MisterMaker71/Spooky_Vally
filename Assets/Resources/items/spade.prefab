@@ -92,6 +92,8 @@ MonoBehaviour:
   count: 1
   maxDurebility: 100
   Durebility: 100
+  DurebilityLoss: 10
+  animationType: 3
   use:
     m_PersistentCalls:
       m_Calls: []

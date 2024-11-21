@@ -34,6 +34,7 @@ public class ItemBehavier : MonoBehaviour
                     //print("[" + item.Name + "]: Me is Visibel!");
                     
                     ItemModel.transform.localPosition = Vector3.zero;
+                    ItemModel.transform.localEulerAngles = Vector3.zero;
                 }
                 else
                 {

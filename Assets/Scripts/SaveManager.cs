@@ -12,8 +12,9 @@ public class SaveManager : MonoBehaviour
     public UnityEvent OnLoad;
     public List<GameObject> enabeldObjects = new List<GameObject>();
     public GameObject LoadImage;
-    // Start is called before the first frame update
-    void Start()
+    [SerializeField] RenderTexture screenshot;
+
+    void OnEnable()
     {
         //if (!Directory.Exists(Application.dataPath + "/Saves"))
         //{
@@ -22,12 +23,14 @@ public class SaveManager : MonoBehaviour
 
         saveName = PlayerPrefs.GetString("saveName", saveName);
 
+        print("Start Loading");
         StartCoroutine(st());
     }
 
     // Update is called once per frame
     void Update()
     {
+
         if (Input.GetKeyDown(KeyCode.F1))
             Save();
         if (Input.GetKeyDown(KeyCode.F2))
@@ -92,7 +95,7 @@ public class SaveManager : MonoBehaviour
         save.crops.Clear();
         foreach (HarvestTile ht in FindObjectsOfType<HarvestTile>())
         {
-            if(ht.farmebel != null)
+            if (ht.farmebel != null)
             {
                 if (ht.farmebel.GetComponent<GrowCrop>() != null)
                     save.crops.Add(new SaveCrop(ht.farmebel.name, ht.farmebel.GetComponent<GrowCrop>().GrowTime, ht.farmebel.GetComponent<GrowCrop>().GrowState));
@@ -105,17 +108,29 @@ public class SaveManager : MonoBehaviour
         save.Loaders.Clear();
         foreach (LoadAndDeload lad in FindObjectsOfType<LoadAndDeload>())
         {
-            if(lad.loadedScenes.Count > 0)
+            if (lad.loadedScenes.Count > 0)
                 save.Loaders.Add(new SaveLevelLoader(lad.saveId, lad.loadedScenes));
             else
                 save.Loaders.Add(new SaveLevelLoader(lad.saveId));
         }
 
         //Save:
-        if (!Directory.Exists(Application.dataPath+"/Saves"))
+        if (!Directory.Exists(Application.dataPath + "/Saves"))
         {
             Directory.CreateDirectory(Application.dataPath + "/Saves");
         }
+        //create scene shoot
+        //Application.dataPath + "/Saves/" + saveName + ".png"
+        //StartCoroutine(TakeScreenShot());
+        if (screenshot != null)
+        {
+            byte[] bites = toTexture2D(screenshot).EncodeToPNG();
+            print(bites);
+            File.WriteAllBytes(Application.dataPath + "/Saves/" + saveName + ".png", bites);
+
+        }
+
+        //write to file
         string j = JsonUtility.ToJson(save);
         File.WriteAllText(Application.dataPath + "/Saves/" + saveName + ".save", j);
     }
@@ -123,7 +138,7 @@ public class SaveManager : MonoBehaviour
 
     public void Load()
     {
-        Debug.Log("Loading: "+saveName+" ...");
+        Debug.Log("Loading: " + saveName + " ...");
         LoadImage.SetActive(true);
         OnLoad.Invoke();
         if (save == null)
@@ -136,118 +151,130 @@ public class SaveManager : MonoBehaviour
             if (File.Exists(Application.dataPath + "/Saves/" + saveName + ".save"))
             {
                 string j = File.ReadAllText(Application.dataPath + "/Saves/" + saveName + ".save");
-                save = JsonUtility.FromJson<Saver>(j);                
-            }
-            Debug.Log("Reading: " + new FileInfo(Application.dataPath + "/Saves/" + saveName + ".save").Length + " bites");
-        }
-        //Aplly changes:
+                save = JsonUtility.FromJson<Saver>(j);
+
+                Debug.Log("Reading: " + new FileInfo(Application.dataPath + "/Saves/" + saveName + ".save").Length + " bites");
+
+                //Aplly changes:
 
 
-        if (enabeldObjects.Count != save.enabeldObjects.Count)
-        {
-            save.enabeldObjects = new List<bool>(enabeldObjects.Count);
-        }
-        if (enabeldObjects.Count == save.enabeldObjects.Count)
-        {
-            for (int i = 0; i < enabeldObjects.Count; i++)
-            {
-                enabeldObjects[i].SetActive(save.enabeldObjects[i]);
-            }
-        }
-
-        if (File.Exists(Application.dataPath + "/Saves/" + saveName + ".save"))
-        {
-            DayNightCical.timeOfDay = save.timeOfDay;
-
-            if (PlayerMovement.PlayerInstance != null)
-                PlayerMovement.PlayerInstance.Teleport(save.PlayerPos, save.PlayerRot);
-
-            FarmManager fm = FindFirstObjectByType<FarmManager>();
-            fm.RainTime = save.rainTime;
-            fm.RainLenth = save.rainLenth;
-            fm.RainTestTime = save.rainTestTime;
-            fm.Raining = save.raining;
-
-            foreach (BuildingGrid item in FindObjectsOfType<BuildingGrid>())//clear Objects
-            {
-                foreach (Buildebel obj in item.objecsOnGrid)
+                if (enabeldObjects.Count != save.enabeldObjects.Count)
                 {
-                    Destroy(obj.gameObject);
+                    save.enabeldObjects = new List<bool>(enabeldObjects.Count);
                 }
-                item.objecsOnGrid.Clear();
-                item.ResetCoverd();
-            }
-            foreach (SavePlcebel plcebel in save.placed)//place Objects
-            {
-                GetGidByBuildebelName(plcebel.gridName).Place(plcebel.buildebelName, plcebel.position);
-            }
-
-
-            foreach (SaveLevelLoader loader in save.Loaders)
-            {
-                LoadAndDeload l = GetLevelLoader(loader.id);
-                if(l != null)
+                if (enabeldObjects.Count == save.enabeldObjects.Count)
                 {
-                    l.LoadAll(loader.loadedScenes);
-                }
-            }
-
-            foreach (Inventory inv in FindObjectsOfType<Inventory>())
-            {
-                foreach (InventorySlot slot in inv.slots)
-                {
-                    //print(slot.index);
-                    if (slot.Item != null)
+                    for (int i = 0; i < enabeldObjects.Count; i++)
                     {
-                        //print("Remove " + slot.Item.Name);
-                        Destroy(slot.Item.gameObject);
+                        enabeldObjects[i].SetActive(save.enabeldObjects[i]);
                     }
-                    if (GetItemInInventory(inv.name, slot.index) != null)
+                }
+
+                //if (File.Exists(Application.dataPath + "/Saves/" + saveName + ".save"))
+                //{
+                    DayNightCical.timeOfDay = save.timeOfDay;
+
+                    if (PlayerMovement.PlayerInstance != null)
+                        PlayerMovement.PlayerInstance.Teleport(save.PlayerPos, save.PlayerRot);
+
+                    FarmManager fm = FindFirstObjectByType<FarmManager>();
+                    fm.RainTime = save.rainTime;
+                    fm.RainLenth = save.rainLenth;
+                    fm.RainTestTime = save.rainTestTime;
+                    fm.Raining = save.raining;
+
+                    foreach (BuildingGrid item in FindObjectsOfType<BuildingGrid>())//clear Objects
                     {
-                        SaveItem i = GetItemInInventory(inv.name, slot.index);
-
-                        //print("added " + i.Name);
-
-
-                        GameObject GI = Resources.Load<GameObject>("items/" + i.Name);
-                        if (GI != null)
+                        foreach (Buildebel obj in item.objecsOnGrid)
                         {
-                            slot.Item = Instantiate(GI, slot.transform).GetComponent<Item>();
-                            slot.Item.count = i.count;
+                            Destroy(obj.gameObject);
+                        }
+                        item.objecsOnGrid.Clear();
+                        item.ResetCoverd();
+                    }
+                    foreach (SavePlcebel plcebel in save.placed)//place Objects
+                    {
+                        GetGidByBuildebelName(plcebel.gridName).Place(plcebel.buildebelName, plcebel.position);
+                    }
+
+
+                    foreach (SaveLevelLoader loader in save.Loaders)
+                    {
+                        LoadAndDeload l = GetLevelLoader(loader.id);
+                        if (l != null)
+                        {
+                            l.LoadAll(loader.loadedScenes);
                         }
                     }
-                }
-            }
 
-            foreach (var item in FindObjectsOfType<Farmebel>())
-            {
-                Destroy(item.gameObject);
-            }
-            for (int i = 0; i < save.crops.Count; i++)
-            {
-                HarvestTile ht = FindObjectsOfType<HarvestTile>()[i];
-                if (ht != null)
-                {
-                    if(FarmManager.instance.FindCrop(save.crops[i].Name) != null)
+                    foreach (Inventory inv in FindObjectsOfType<Inventory>())
                     {
-                        GameObject g = Instantiate(FarmManager.instance.FindCrop(save.crops[i].Name).gameObject, ht.transform);
-                        g.name = FarmManager.instance.FindCrop(save.crops[i].Name).name;
-                        g.GetComponent<GrowCrop>().GrowState = save.crops[i].state;
-                        g.GetComponent<GrowCrop>().GrowTime = save.crops[i].growTime;
-                        ht.farmebel = g.GetComponent<Farmebel>();
+                        foreach (InventorySlot slot in inv.slots)
+                        {
+                            //print(slot.index);
+                            if (slot.Item != null)
+                            {
+                                //print("Remove " + slot.Item.Name);
+                                Destroy(slot.Item.gameObject);
+                            }
+                            if (GetItemInInventory(inv.name, slot.index) != null)
+                            {
+                                SaveItem i = GetItemInInventory(inv.name, slot.index);
+
+                                //print("added " + i.Name);
+
+
+                                GameObject GI = Resources.Load<GameObject>("items/" + i.Name);
+                                if (GI != null)
+                                {
+                                    slot.Item = Instantiate(GI, slot.transform).GetComponent<Item>();
+                                    slot.Item.count = i.count;
+                                }
+                            }
+                        }
                     }
-                }
+
+                    foreach (var item in FindObjectsOfType<Farmebel>())
+                    {
+                        Destroy(item.gameObject);
+                    }
+                    for (int i = 0; i < save.crops.Count; i++)
+                    {
+                        HarvestTile ht = FindObjectsOfType<HarvestTile>()[i];
+                        if (ht != null)
+                        {
+                            if (FarmManager.instance.FindCrop(save.crops[i].Name) != null)
+                            {
+                                GameObject g = Instantiate(FarmManager.instance.FindCrop(save.crops[i].Name).gameObject, ht.transform);
+                                g.name = FarmManager.instance.FindCrop(save.crops[i].Name).name;
+                                g.GetComponent<GrowCrop>().GrowState = save.crops[i].state;
+                                g.GetComponent<GrowCrop>().GrowTime = save.crops[i].growTime;
+                                ht.farmebel = g.GetComponent<Farmebel>();
+                            }
+                        }
+                    }
+
+
+                //}
+                //else
+                //{
+                //    SceneManager.LoadScene(SceneManager.GetActiveScene().name);
+                //    Save();
+                //}
+                LoadImage.SetActive(false);
+                Debug.Log("Loading finished");
             }
-
-
+            else
+            {
+                SceneManager.LoadScene(SceneManager.GetActiveScene().name);
+                Save();
+                Debug.LogWarning("Missing File (trying to create new file)");
+            }
         }
         else
         {
-            SceneManager.LoadScene(SceneManager.GetActiveScene().name);
-            Save();
+            Debug.LogError("Invalid Directory");
         }
-        LoadImage.SetActive(false);
-        Debug.Log("Loading finished");
     }
 
     public BuildingGrid GetGidByBuildebelName(string gridName)
@@ -265,18 +292,29 @@ public class SaveManager : MonoBehaviour
     {
         foreach (LoadAndDeload lad in FindObjectsOfType<LoadAndDeload>())
         {
-            if(lad.saveId == id)
+            if (lad.saveId == id)
             {
                 return lad;
             }
         }
         return null;
     }
+    public Texture2D toTexture2D(RenderTexture rTex)
+    {
+        Texture2D tex = new Texture2D(rTex.width, rTex.height, TextureFormat.RGBAFloat, false);
+        var old_rt = RenderTexture.active;
+        RenderTexture.active = rTex;
+
+        tex.ReadPixels(new Rect(0, 0, rTex.width, rTex.height), 0, 0);
+        tex.Apply();
+        RenderTexture.active = old_rt;
+        return tex;
+    }
     public SaveItem GetItemInInventory(string inventory, int index)
     {
         foreach (SaveItem item in save.Items)
         {
-            if(item.inventoryName == inventory)
+            if (item.inventoryName == inventory)
             {
                 if (item.index == index)
                 {
@@ -294,13 +332,13 @@ public class SaveManager : MonoBehaviour
         public List<SaveLevelLoader> Loaders = new List<SaveLevelLoader>();
         public List<SaveItem> Items = new List<SaveItem>();
         public List<SavePlcebel> placed = new List<SavePlcebel>();
-        
+
         public bool raining;
 
         public float rainTime;
         public float rainTestTime;
         public float rainLenth;
-        
+
         public float timeOfDay;
         public TimedEvent timedEvent;
         public Vector3 PlayerPos;
@@ -387,4 +425,21 @@ public class SaveManager : MonoBehaviour
         yield return new WaitForSeconds(0.2f);
         Load();
     }
+    //IEnumerator TakeScreenShot()
+    //{
+    //    yield return new WaitForEndOfFrame();
+    //    //screenshot = ScreenCapture.CaptureScreenshotAsTexture();
+    //    //screenshot.Resize();
+    //    if (screenshot != null)
+    //    {
+    //        screenshot.name = saveName;
+    //        screenshot.Apply();
+    //        screenshot = new Texture2D(1000, 1000, screenshot.format, false);
+    //        //if (screenshot.Reinitialize(100, 100))
+    //        //{
+    //        //byte[] bites = screenshot.EncodeToPNG();
+    //        //File.WriteAllBytes(Application.dataPath + "/Saves/" + saveName + ".png", bites);
+    //        //}
+    //    }
+    //}
 }

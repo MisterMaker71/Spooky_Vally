@@ -75,7 +75,17 @@ public class MapListDropdown : MonoBehaviour
             foreach (var item in Directory.GetFiles(Application.dataPath + "/Saves/", "*.save"))
             {
                 //print(Path.GetFileNameWithoutExtension(item));
-                options.Add(new TMP_Dropdown.OptionData(Path.GetFileNameWithoutExtension(item)));
+                Texture2D tex = new Texture2D(200, 200);
+                if (File.Exists(Application.dataPath + "/Saves/" + Path.GetFileNameWithoutExtension(item) + ".png"))
+                {
+                    ImageConversion.LoadImage(tex, File.ReadAllBytes(Application.dataPath + "/Saves/" + Path.GetFileNameWithoutExtension(item) + ".png"));
+                    Sprite image = Sprite.Create(tex, new Rect(0, 0, tex.width, tex.height), new Vector2(tex.width / 2, tex.height / 2));
+                    //image.is
+                    image.name = Path.GetFileNameWithoutExtension(item);
+                    options.Add(new TMP_Dropdown.OptionData(Path.GetFileNameWithoutExtension(item), image));
+                }
+                else
+                    options.Add(new TMP_Dropdown.OptionData(Path.GetFileNameWithoutExtension(item)));
             }
             
             dropdown.AddOptions(options);
