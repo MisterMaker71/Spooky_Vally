@@ -10,11 +10,14 @@ public class Farmebel : MonoBehaviour
     //[SerializeField] Vector2 dropRange = Vector2.one;
     public bool canColect;
 
+    void Update()
+    {
+        canColect = GetComponent<GrowCrop>().IsFullyGrowen();
+    }
     public Farmebel Destroy()
     {
         if(GetComponent<GrowCrop>() != null)
         {
-            canColect = GetComponent<GrowCrop>().IsFullyGrowen();
             //print("test crop: " + canColect);
 
             if(canColect)

@@ -26,7 +26,8 @@ public class PaueMenu : MonoBehaviour
     }
     public void UnStuck()
     {
-        PlayerMovement.PlayerInstance.Teleport(Vector3.zero);
+        
+        PlayerMovement.PlayerInstance.Teleport(new Vector3(7, 0, 19.25f));
     }
     public void BackToMenu()
     {

@@ -11,6 +11,7 @@ public class MainMenu : MonoBehaviour
 
     private void Start()
     {
+        Time.timeScale = 1;
         Cursor.lockState = CursorLockMode.Confined;
     }
     private void Update()
@@ -18,7 +19,7 @@ public class MainMenu : MonoBehaviour
         Cursor.visible = false;
         if (Input.GetKeyDown(KeyCode.Escape))
             Quit();
-        print(PlayerPrefs.GetString("saveName"));
+        //print(PlayerPrefs.GetString("saveName"));
     }
     public void ChangeSaveName(string name)
     {

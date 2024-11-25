@@ -90,9 +90,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Name: Crowbar
   count: 1
-  maxDurebility: 100
-  Durebility: 100
-  DurebilityLoss: 10
+  maxDurebility: 1
+  Durebility: 1
+  DurebilityLoss: 0
   animationType: 2
   use:
     m_PersistentCalls:
@@ -100,4 +100,4 @@ MonoBehaviour:
   heal:
     m_PersistentCalls:
       m_Calls: []
-  damage: 15
+  damage: 5

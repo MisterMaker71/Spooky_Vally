@@ -98,11 +98,6 @@ public class InventoryManager : MonoBehaviour
                 HBSelect.position = HB.slots[selected].transform.position;
         }
 
-        if ((Input.GetKeyDown(KeyCode.I) || Input.GetKeyDown(KeyCode.Tab)) && Time.timeScale == 1)
-            InventoryIsVisibel = !InventoryIsVisibel;
-        if (Input.GetKeyDown(KeyCode.Escape))
-            InventoryIsVisibel = false;
-        inventory.SetActive(InventoryIsVisibel);
         if (dragging != null)
         {
             dragging.transform.position = Input.mousePosition;
@@ -123,6 +118,14 @@ public class InventoryManager : MonoBehaviour
                 //itemInfo.transform.position = SlotOver().transform.position + new Vector3(0, itemInfo.GetComponent<RectTransform>().rect.height, 0);
             }
         }
+    }
+    void LateUpdate()
+    {
+        if ((Input.GetKeyDown(KeyCode.I) || Input.GetKeyDown(KeyCode.Tab)) && Time.timeScale == 1)
+            InventoryIsVisibel = !InventoryIsVisibel;
+        if (Input.GetKeyDown(KeyCode.Escape))
+            InventoryIsVisibel = false;
+        inventory.SetActive(InventoryIsVisibel);
     }
     public void SetOpenState(bool state)
     {

@@ -34,7 +34,7 @@ public class Gegner : MonoBehaviour
             transform.LookAt(player.transform.position);
 
             float distanceToplayer = Vector3.Distance(transform.position, player.position);
-            if (distanceToplayer < followRange)
+            if (distanceToplayer < followRange && distanceToplayer > 0.85f)
             {
                 if (blend < 1)
                     blend += Time.deltaTime * 5;

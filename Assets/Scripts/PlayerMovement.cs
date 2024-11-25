@@ -206,6 +206,8 @@ public class PlayerMovement : MonoBehaviour
     {
         Debug.Log("Player has died!");
         //Respawn logik?
+        if(FindFirstObjectByType<SaveManager>() != null)
+        FindFirstObjectByType<SaveManager>().Load();
     }
 
 

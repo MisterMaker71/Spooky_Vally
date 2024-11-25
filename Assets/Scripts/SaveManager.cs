@@ -16,6 +16,9 @@ public class SaveManager : MonoBehaviour
 
     void OnEnable()
     {
+        //print(PlayerPrefs.GetString("saveName"));
+
+
         //if (!Directory.Exists(Application.dataPath + "/Saves"))
         //{
         //    Directory.CreateDirectory(Application.dataPath + "/Saves");
@@ -23,7 +26,7 @@ public class SaveManager : MonoBehaviour
 
         saveName = PlayerPrefs.GetString("saveName", saveName);
 
-        print("Start Loading");
+        //print("Start Loading");
         StartCoroutine(st());
     }
 
@@ -421,8 +424,11 @@ public class SaveManager : MonoBehaviour
     }
     IEnumerator st()
     {
+        Time.timeScale = 1;
         LoadImage.SetActive(true);
+        //print("befor wait wait");
         yield return new WaitForSeconds(0.2f);
+        //print("after wait");
         Load();
     }
     //IEnumerator TakeScreenShot()
