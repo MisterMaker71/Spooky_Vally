@@ -88,7 +88,7 @@ public class Interactor : MonoBehaviour
                                 {
                                     //GameObject g = Instantiate(Resources.Load<GameObject>("items/" + name), hit.transform);
                                     Seed s = (Seed)InventoryManager.MainInstance.HB.slots[InventoryManager.MainInstance.selected].Item;
-                                    print(s.crop.name);
+                                    //print(s.crop.name);
                                     GameObject g = Instantiate(FarmManager.instance.FindCrop(s.crop.name).gameObject, hit.transform);
                                     g.name = FarmManager.instance.FindCrop(s.crop.name).gameObject.name;
                                     hit.transform.GetComponent<HarvestTile>().farmebel = g.GetComponent<Farmebel>();

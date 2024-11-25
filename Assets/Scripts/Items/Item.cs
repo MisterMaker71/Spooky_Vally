@@ -5,7 +5,9 @@ using TMPro;
 public class Item : MonoBehaviour
 {
     TMP_Text countText = null;
-    public string Name = "";
+    public string Name = "Item Name";
+    [Multiline(5)]
+    public string Description = "This is a Item!";
     public int count = 1;
     // Start is called before the first frame update
     void Start()

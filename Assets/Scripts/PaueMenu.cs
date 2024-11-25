@@ -6,6 +6,7 @@ using UnityEngine.SceneManagement;
 public class PaueMenu : MonoBehaviour
 {
     public GameObject Menu;
+    public bool canQuit = false;
     void Start()
     {
         Menu.SetActive(false);
@@ -24,6 +25,12 @@ public class PaueMenu : MonoBehaviour
                 Time.timeScale = 1;
         }
     }
+    public void showMenu()
+    {
+        InventoryManager.MainInstance.InventoryIsVisibel = false;
+        Menu.SetActive(true);
+        Time.timeScale = 0;
+    }
     public void UnStuck()
     {
         
@@ -35,6 +42,7 @@ public class PaueMenu : MonoBehaviour
     }
     public void Quit()
     {
+        canQuit = true;
         Application.Quit();
 #if UNITY_EDITOR
         UnityEditor.EditorApplication.isPlaying = false;

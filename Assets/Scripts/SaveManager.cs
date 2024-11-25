@@ -59,8 +59,9 @@ public class SaveManager : MonoBehaviour
             PlayerMovement.PlayerInstance.transform.position,
             PlayerMovement.PlayerInstance.GetCamRotation(),
             DayNightCical.timeOfDay,
-            TimedEvents.timedEvent
-            );
+            TimedEvents.timedEvent,
+            PlayerMovement.PlayerInstance.health
+            ); ;
         save.enabeldObjects.Clear();
         foreach (var item in enabeldObjects)
         {
@@ -175,12 +176,15 @@ public class SaveManager : MonoBehaviour
 
                 //if (File.Exists(Application.dataPath + "/Saves/" + saveName + ".save"))
                 //{
-                    DayNightCical.timeOfDay = save.timeOfDay;
+                DayNightCical.timeOfDay = save.timeOfDay;
 
-                    if (PlayerMovement.PlayerInstance != null)
-                        PlayerMovement.PlayerInstance.Teleport(save.PlayerPos, save.PlayerRot);
+                if (PlayerMovement.PlayerInstance != null)
+                {
+                    PlayerMovement.PlayerInstance.Teleport(save.PlayerPos, save.PlayerRot);
+                    PlayerMovement.PlayerInstance.health = save.PlayerHealth;
+                }
 
-                    FarmManager fm = FindFirstObjectByType<FarmManager>();
+                FarmManager fm = FindFirstObjectByType<FarmManager>();
                     fm.RainTime = save.rainTime;
                     fm.RainLenth = save.rainLenth;
                     fm.RainTestTime = save.rainTestTime;
@@ -346,6 +350,7 @@ public class SaveManager : MonoBehaviour
         public TimedEvent timedEvent;
         public Vector3 PlayerPos;
         public Vector2 PlayerRot;
+        public float PlayerHealth = 100;
 
         public Saver(Vector3 PPos, Vector2 PRot, float _timeOfDay)
         {
@@ -354,12 +359,13 @@ public class SaveManager : MonoBehaviour
             PlayerPos = PPos;
             PlayerRot = PRot;
         }
-        public Saver(Vector3 PPos, Vector2 PRot, float _timeOfDay, TimedEvent _timedEvent)
+        public Saver(Vector3 PPos, Vector2 PRot, float _timeOfDay, TimedEvent _timedEvent, float PHp)
         {
             timeOfDay = _timeOfDay;
             timedEvent = _timedEvent;
             PlayerPos = PPos;
             PlayerRot = PRot;
+            PlayerHealth = PHp;
         }
     }
 
@@ -448,4 +454,14 @@ public class SaveManager : MonoBehaviour
     //        //}
     //    }
     //}
+    private void OnApplicationQuit()
+    {
+        PaueMenu pm = FindFirstObjectByType<PaueMenu>();
+        if(pm != null)
+        {
+            pm.showMenu();
+            if (!pm.canQuit)
+                Application.CancelQuit();
+        }
+    }
 }

@@ -89,5 +89,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Name: Planter Box Big2
+  Description: 
   count: 1
   buildebel: planter_box_big2

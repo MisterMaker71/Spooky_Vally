@@ -81,6 +81,7 @@ public class Gegner : MonoBehaviour
 
     public void takedmg(float damage)
     {
+        Partical.Create("blod_hit", transform.position + Vector3.up);
         health -= damage;
         if (health <= 0)
         {

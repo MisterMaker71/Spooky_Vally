@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
 using UnityEngine.SceneManagement;
+using System.IO;
 
 public class MainMenu : MonoBehaviour
 {
@@ -13,6 +14,23 @@ public class MainMenu : MonoBehaviour
     {
         Time.timeScale = 1;
         Cursor.lockState = CursorLockMode.Confined;
+    }
+    public void Delet()
+    {
+        print(PlayerPrefs.GetString("saveName", ""));
+        if (Directory.Exists(Application.dataPath + "/Saves"))
+        {
+            if (File.Exists(Application.dataPath + "/Saves/" + PlayerPrefs.GetString("saveName", "") + ".save"))
+            {
+                File.Delete(Application.dataPath + "/Saves/" + PlayerPrefs.GetString("saveName", "") + ".save");
+            }
+            if (File.Exists(Application.dataPath + "/Saves/" + PlayerPrefs.GetString("saveName", "") + ".png"))
+            {
+                File.Delete(Application.dataPath + "/Saves/" + PlayerPrefs.GetString("saveName", "") + ".png");
+            }
+            if (FindFirstObjectByType<MapListDropdown>() != null)
+                FindFirstObjectByType<MapListDropdown>().Refresh();
+        }
     }
     private void Update()
     {

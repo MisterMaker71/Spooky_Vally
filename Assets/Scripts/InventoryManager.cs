@@ -110,13 +110,21 @@ public class InventoryManager : MonoBehaviour
 
         if(itemInfo != null)
         {
-            itemInfo.gameObject.SetActive(false);
             if (SlotOver() != null)
             {
                 if(SlotOver().Item != null)
+                {
+                    //print("test");
                     itemInfo.gameObject.SetActive(true);
+                    itemInfo.Title = SlotOver().Item.Name;
+                    itemInfo.Description = SlotOver().Item.Description;
+                }
+                else
+                    itemInfo.gameObject.SetActive(false);
                 //itemInfo.transform.position = SlotOver().transform.position + new Vector3(0, itemInfo.GetComponent<RectTransform>().rect.height, 0);
             }
+            else
+                itemInfo.gameObject.SetActive(false);
         }
     }
     void LateUpdate()

@@ -32,6 +32,7 @@ public class HarvestTile : MonoBehaviour
 
     public Farmebel colectCrop()
     {
+        Partical.Create("dirt_pickup", transform.position);
         if (farmebel != null)
         {
             return farmebel.Destroy();
