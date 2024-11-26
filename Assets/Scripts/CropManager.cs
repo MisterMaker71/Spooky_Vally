@@ -8,9 +8,11 @@ public class CropManager : MonoBehaviour
     [SerializeField] int length = 3;
     [Tooltip("prefab of farmland")]
     public GameObject prefab;
+    public static List<HarvestTile> tiles = new List<HarvestTile>();
     // Start is called before the first frame update
-    void Start()
+    public void Init()
     {
+        tiles.Clear();
         //print(transform.position);
         for (int x = 0; x < width; x++)
         {
@@ -18,6 +20,7 @@ public class CropManager : MonoBehaviour
             {
                 GameObject g = Instantiate(prefab, Vector3.zero, Quaternion.identity, transform);
                 g.transform.localPosition = new Vector3(x, 0, y);
+                tiles.Add(g.GetComponent<HarvestTile>());
             }
         }
     }

@@ -25,6 +25,9 @@ public class SaveManager : MonoBehaviour
         //    Directory.CreateDirectory(Application.dataPath + "/Saves");
         //}
 
+        if (FindFirstObjectByType<CropManager>() != null)
+            FindFirstObjectByType<CropManager>().Init();
+
         saveName = PlayerPrefs.GetString("saveName", saveName);
 
         //print("Start Loading");
@@ -98,18 +101,30 @@ public class SaveManager : MonoBehaviour
             }
         }
         save.crops.Clear();
-        foreach (HarvestTile ht in FindObjectsOfType<HarvestTile>())
+        for (int i = 0; i < CropManager.tiles.Count; i++)
         {
-            if (ht.farmebel != null)
+            if (CropManager.tiles[i].farmebel != null)
             {
-                if (ht.farmebel.GetComponent<GrowCrop>() != null)
-                    save.crops.Add(new SaveCrop(ht.farmebel.name, ht.farmebel.GetComponent<GrowCrop>().GrowTime, ht.farmebel.GetComponent<GrowCrop>().GrowState));
+                if (CropManager.tiles[i].farmebel.GetComponent<GrowCrop>() != null)
+                    save.crops.Add(new SaveCrop(CropManager.tiles[i].farmebel.name, CropManager.tiles[i].farmebel.GetComponent<GrowCrop>().GrowTime, CropManager.tiles[i].farmebel.GetComponent<GrowCrop>().GrowState));
                 else
-                    save.crops.Add(new SaveCrop(ht.farmebel.name, 0, 0));
+                    save.crops.Add(new SaveCrop(CropManager.tiles[i].farmebel.name, 0, 0));
             }
             else
                 save.crops.Add(new SaveCrop("", 0, 0));
         }
+        //foreach (HarvestTile ht in CropManager.tiles)
+        //{
+        //    if (ht.farmebel != null)
+        //    {
+        //        if (ht.farmebel.GetComponent<GrowCrop>() != null)
+        //            save.crops.Add(new SaveCrop(ht.farmebel.name, ht.farmebel.GetComponent<GrowCrop>().GrowTime, ht.farmebel.GetComponent<GrowCrop>().GrowState));
+        //        else
+        //            save.crops.Add(new SaveCrop(ht.farmebel.name, 0, 0));
+        //    }
+        //    else
+        //        save.crops.Add(new SaveCrop("", 0, 0));
+        //}
         save.Loaders.Clear();
         foreach (LoadAndDeload lad in FindObjectsOfType<LoadAndDeload>())
         {
@@ -249,7 +264,9 @@ public class SaveManager : MonoBehaviour
                     }
                     for (int i = 0; i < save.crops.Count; i++)
                     {
-                        HarvestTile ht = FindObjectsOfType<HarvestTile>()[i];
+                        if(i < CropManager.tiles.Count)
+                        {
+                        HarvestTile ht = CropManager.tiles[i];
                         if (ht != null)
                         {
                             if (FarmManager.instance.FindCrop(save.crops[i].Name) != null)
@@ -260,6 +277,7 @@ public class SaveManager : MonoBehaviour
                                 g.GetComponent<GrowCrop>().GrowTime = save.crops[i].growTime;
                                 ht.farmebel = g.GetComponent<Farmebel>();
                             }
+                        }
                         }
                     }
 
