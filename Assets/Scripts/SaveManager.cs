@@ -7,6 +7,7 @@ using System.IO;
 
 public class SaveManager : MonoBehaviour
 {
+    public static bool loaded = false;
     public string saveName = "DEV";
     public Saver save;
     public UnityEvent OnLoad;
@@ -142,6 +143,7 @@ public class SaveManager : MonoBehaviour
 
     public void Load()
     {
+        loaded = false;
         Debug.Log("Loading: " + saveName + " ...");
         LoadImage.SetActive(true);
         OnLoad.Invoke();
@@ -282,6 +284,7 @@ public class SaveManager : MonoBehaviour
         {
             Debug.LogError("Invalid Directory");
         }
+        loaded = true;
     }
 
     public BuildingGrid GetGidByBuildebelName(string gridName)

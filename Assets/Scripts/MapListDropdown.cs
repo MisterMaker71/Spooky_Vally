@@ -31,6 +31,7 @@ public class MapListDropdown : MonoBehaviour
     }
     public void SelectLastMap()
     {
+        //print(PlayerPrefs.GetString(playerPrefs, ""));
         int i = GetOptionIndex(PlayerPrefs.GetString(playerPrefs, ""));
         if (i > 0)
             dropdown.value = i;
@@ -48,7 +49,7 @@ public class MapListDropdown : MonoBehaviour
     }
     public void ChangeEditorMap(int i)
     {
-        print("select:" + i);
+        //print("select:" + i);
         if (dropdown.options.Count > 0)
         {
             if (i < dropdown.options.Count)
@@ -65,9 +66,11 @@ public class MapListDropdown : MonoBehaviour
     }
     public void Refresh()
     {
+        //print("Last save: "+PlayerPrefs.GetString(playerPrefs, ""));
         string last = "";
-        if (dropdown.value > 0)
+        if (dropdown.value >= 0)
             last = dropdown.options[dropdown.value].text;
+        //print("last: "+last);
         dropdown.ClearOptions();
         if (Directory.Exists(Application.dataPath + "/Saves"))
         {
@@ -90,13 +93,18 @@ public class MapListDropdown : MonoBehaviour
             
             dropdown.AddOptions(options);
         }
-        int i = GetOptionIndex(last);
-        if (i > 0)
-            dropdown.value = i;
-        else
-        {
-            dropdown.value = 0;
-            ChangeEditorMap(0);
-        }
+
+
+        SelectLastMap();
+
+        //int i = GetOptionIndex(last);
+
+        //if (i >= 0)
+        //    dropdown.value = i;
+        //else
+        //{
+        //    dropdown.value = 0;
+        //    ChangeEditorMap(0);
+        //}
     }
 }

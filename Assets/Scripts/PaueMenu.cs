@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
+using Steamworks;
+
 public class PaueMenu : MonoBehaviour
 {
     public GameObject Menu;
@@ -15,14 +17,29 @@ public class PaueMenu : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (Input.GetKeyDown(KeyCode.Escape) && !InventoryManager.MainInstance.InventoryIsVisibel)
+        if(SaveManager.loaded)
         {
-            Menu.SetActive(!Menu.activeSelf);
-            
-            if(Menu.activeSelf)
-                Time.timeScale = 0;
-            else
-                Time.timeScale = 1;
+            if (Input.GetKeyDown(KeyCode.Escape) && !InventoryManager.MainInstance.InventoryIsVisibel)
+            {
+                Menu.SetActive(!Menu.activeSelf);
+
+                if (Menu.activeSelf)
+                    Time.timeScale = 0;
+                else
+                    Time.timeScale = 1;
+            }
+            if (SteamManager.Initialized && SteamAPI.IsSteamRunning())
+            {
+                //print(SteamUtils.IsOverlayEnabled());
+                //if (SteamUtils.IsOverlayEnabled())
+                //    Time.timeScale = 0;
+                //else
+                //    Time.timeScale = 1;
+            }
+        }
+        else
+        {
+            Time.timeScale = 1;
         }
     }
     public void showMenu()

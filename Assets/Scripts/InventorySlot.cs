@@ -41,10 +41,10 @@ public class InventorySlot : MonoBehaviour
         //}
 
 
-        if(IsSelected())
+        if(IsSelected() && InventoryManager.MainInstance.InventoryIsVisibel)
         {
             GetComponent<Image>().color = SelecktedCollor;
-            if(Input.GetMouseButtonDown(0))
+            if(Input.GetMouseButtonDown(0) && !Input.GetMouseButton(1))
             {
                 if (Item != null)
                 {
@@ -53,7 +53,26 @@ public class InventorySlot : MonoBehaviour
                 }
 
             }
-            if (Input.GetMouseButtonUp(0))
+            else if(Input.GetMouseButtonDown(1) && !Input.GetMouseButton(0))
+            {
+                if (Item != null)
+                {
+                    if (Item.count > 1)
+                    {
+                        Item.count -= 1;
+                        GameObject ItemClone = Instantiate(Item.gameObject, Item.transform);
+                        ItemClone.GetComponent<Item>().count = 1;
+                        InventoryManager.MainInstance.StartDragging(ItemClone.GetComponent<Item>(), Item.GetComponentInParent<InventorySlot>());
+                    }
+                    else
+                    {
+                        InventoryManager.MainInstance.StartDragging(Item);
+                        Item = null;
+                    }
+                }
+
+            }
+            if (Input.GetMouseButtonUp(0) && !Input.GetMouseButton(1))
             {
                 if(Item == null)
                     AddToSlot(InventoryManager.MainInstance.StopDragging(this));
@@ -63,7 +82,25 @@ public class InventorySlot : MonoBehaviour
                     Destroy(InventoryManager.MainInstance.dragging.gameObject);
                 }
                 else
-                    InventoryManager.MainInstance.Cancle();
+                {
+                    InventoryManager.MainInstance.StopDragging(this);
+                    //InventoryManager.MainInstance.Cancle();
+                }
+            }
+            if (Input.GetMouseButtonUp(1) && !Input.GetMouseButton(0))
+            {
+                if(Item == null)
+                    AddToSlot(InventoryManager.MainInstance.StopDragging(this));
+                else if(Item.Name == InventoryManager.MainInstance.dragging.Name)
+                {
+                    Item.count += InventoryManager.MainInstance.dragging.count;
+                    Destroy(InventoryManager.MainInstance.dragging.gameObject);
+                }
+                else
+                {
+                    InventoryManager.MainInstance.StopDragging(this);
+                    //InventoryManager.MainInstance.Cancle();
+                }
             }
         }
         else

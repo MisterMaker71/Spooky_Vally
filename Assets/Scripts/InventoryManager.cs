@@ -28,7 +28,7 @@ public class InventoryManager : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (PlayerMovement.PlayerInstance.schlagType == 0)
+        if (PlayerMovement.PlayerInstance.schlagType == 0 && Time.timeScale != 0)
         {
             if (Input.GetKeyDown(KeyCode.Alpha1))
             {
@@ -116,7 +116,7 @@ public class InventoryManager : MonoBehaviour
                 {
                     //print("test");
                     itemInfo.gameObject.SetActive(true);
-                    itemInfo.Title = SlotOver().Item.Name;
+                    itemInfo.Title = SlotOver().Item.displayName;
                     itemInfo.Description = SlotOver().Item.Description;
                 }
                 else
@@ -134,6 +134,10 @@ public class InventoryManager : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.Escape))
             InventoryIsVisibel = false;
         inventory.SetActive(InventoryIsVisibel);
+        if(!InventoryIsVisibel && isDragging)
+        {
+            Cancle();
+        }
     }
     public void SetOpenState(bool state)
     {
@@ -165,12 +169,16 @@ public class InventoryManager : MonoBehaviour
 
     public void StartDragging(Item i)
     {
-        print(i);
+        StartDragging(i, i.transform.parent.GetComponent<InventorySlot>());
+    }
+    public void StartDragging(Item i, InventorySlot last)
+    {
+        //print(i);
         if (i != null)
         {
-            lastSlot = i.transform.parent.GetComponent<InventorySlot>();
+            lastSlot = last;
             if (i.GetComponentInParent<Canvas>() != null)
-                i.transform.parent = i.GetComponentInParent<Canvas>().transform;
+                i.transform.SetParent(i.GetComponentInParent<Canvas>().transform);
             isDragging = true;
             dragging = i;
         }
@@ -182,8 +190,25 @@ public class InventoryManager : MonoBehaviour
 
         if(i != null)
         {
-            i.transform.parent = target.transform;
-            i.transform.localPosition = Vector3.zero;
+            if (target.Item == null || lastSlot.Item != null)
+            {
+                print("move");
+                i.transform.SetParent(target.transform);
+                i.transform.localPosition = Vector3.zero;
+                target.Item = i;
+            }
+            else
+            {
+                print("switch");
+                target.Item.transform.SetParent(lastSlot.transform);
+                target.Item.transform.localPosition = Vector3.zero;
+                lastSlot.Item = target.Item;
+
+
+                i.transform.SetParent(target.transform);
+                i.transform.localPosition = Vector3.zero;
+                target.Item = i;
+            }
         }
 
         dragging = null;
@@ -197,7 +222,7 @@ public class InventoryManager : MonoBehaviour
     {
         if (dragging != null)
         {
-            dragging.transform.parent = lastSlot.transform;
+            dragging.transform.SetParent(lastSlot.transform);
             lastSlot.Item = dragging;
             dragging.transform.localPosition = Vector3.zero;
             dragging = null;

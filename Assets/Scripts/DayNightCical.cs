@@ -21,7 +21,7 @@ public class DayNightCical : MonoBehaviour
 
     private void OnEnable()
     {
-        print("[" + name + "] is active");
+        //print("[" + name + "] is active");
     }
 
     void Start()

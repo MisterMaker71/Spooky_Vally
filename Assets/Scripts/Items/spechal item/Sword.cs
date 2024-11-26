@@ -8,6 +8,7 @@ public class Sword : Wapon
 
     private void Start()
     {
+        Init();
         use.AddListener(Atack);
     }
     public void Atack()
