@@ -40,19 +40,19 @@ public class SaveManager : MonoBehaviour
 
         if (Input.GetKeyDown(KeyCode.F1))
             Save();
-        if (Input.GetKeyDown(KeyCode.F2))
-            Load();
+        //if (Input.GetKeyDown(KeyCode.F2))
+        //    Load();
 
-        if (Input.GetKeyDown(KeyCode.Delete))
-            if (Directory.Exists(Application.dataPath + "/Saves"))
-            {
-                if (File.Exists(Application.dataPath + "/Saves/" + saveName + ".save"))
-                {
-                    File.Delete(Application.dataPath + "/Saves/" + saveName + ".save");
-                }
-                save = new Saver(new Vector3(), new Vector2(), 0);
-                SceneManager.LoadScene(SceneManager.GetActiveScene().name);
-            }
+        //if (Input.GetKeyDown(KeyCode.Delete))
+        //    if (Directory.Exists(Application.dataPath + "/Saves"))
+        //    {
+        //        if (File.Exists(Application.dataPath + "/Saves/" + saveName + ".save"))
+        //        {
+        //            File.Delete(Application.dataPath + "/Saves/" + saveName + ".save");
+        //        }
+        //        save = new Saver(new Vector3(), new Vector2(), 0);
+        //        SceneManager.LoadScene(SceneManager.GetActiveScene().name);
+        //    }
     }
 
     public void Save()
@@ -144,7 +144,8 @@ public class SaveManager : MonoBehaviour
         //StartCoroutine(TakeScreenShot());
         if (screenshot != null)
         {
-            byte[] bites = toTexture2D(screenshot).EncodeToPNG();
+            byte[] bites = BrightnessContrast(toTexture2D(screenshot)).EncodeToPNG();
+           // byte[] bites = BrightnessContrast(toTexture2D(screenshot), 1.1f, 1.2f).EncodeToPNG();
             print(bites);
             File.WriteAllBytes(Application.dataPath + "/Saves/" + saveName + ".png", bites);
 
@@ -475,6 +476,37 @@ public class SaveManager : MonoBehaviour
     //        //}
     //    }
     //}
+
+
+    public static float AdjustChannel(float colour,
+           float brightness, float contrast, float gamma)
+    {
+        return Mathf.Pow(colour, gamma) * contrast + brightness;
+    }
+
+    public static Texture2D BrightnessContrast(Texture2D tex,
+               float brightness = 1f, float contrast = 1f, float gamma = 1f)
+    {
+        float adjustedBrightness = brightness - 1.0f;
+
+        Color[] pixels = tex.GetPixels();
+
+        for (int i = 0; i < pixels.Length; i++)
+        {
+            var p = pixels[i];
+            p.r = AdjustChannel(p.r, adjustedBrightness, contrast, gamma);
+            p.g = AdjustChannel(p.g, adjustedBrightness, contrast, gamma);
+            p.b = AdjustChannel(p.b, adjustedBrightness, contrast, gamma);
+            pixels[i] = p;
+        }
+
+        tex.SetPixels(pixels);
+        tex.Apply();
+
+        return tex;
+    }
+
+
     private void OnApplicationQuit()
     {
         PaueMenu pm = FindFirstObjectByType<PaueMenu>();
@@ -485,4 +517,6 @@ public class SaveManager : MonoBehaviour
                 Application.CancelQuit();
         }
     }
+
+
 }

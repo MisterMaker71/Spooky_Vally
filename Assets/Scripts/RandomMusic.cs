@@ -24,10 +24,10 @@ public class RandomMusic : MonoBehaviour
         {
             if (!source.isPlaying)
             {
-                pauseTime -= Time.deltaTime;
-                if(pauseTime <= 0)
+                //pauseTime -= Time.deltaTime;
+                if(Time.realtimeSinceStartup >= pauseTime)
                 {
-                    pauseTime = Random.Range(PauseRange.x, PauseRange.y);
+                    pauseTime = Time.realtimeSinceStartup + Random.Range(PauseRange.x, PauseRange.y);
                     PlyRandom();
                 }
             }

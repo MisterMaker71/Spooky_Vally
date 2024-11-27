@@ -10,7 +10,11 @@ public class DayNightCical : MonoBehaviour
     public static DayTime time;
     //[SerializeField] float y;
     //[SerializeField] float z;
-    [Tooltip("Angel of the sun")]
+    [Tooltip("Start angel of the sun")]
+    [SerializeField]float startTime = 0;
+    /// <summary>
+    /// Angel of the sun
+    /// </summary>
     public static float timeOfDay = 0;
     Light sun;
     [Tooltip("Sun rotation (night is 5 times faster)")]
@@ -26,6 +30,8 @@ public class DayNightCical : MonoBehaviour
 
     void Start()
     {
+        if(startTime >= 0)
+            timeOfDay = startTime;
         sun = GetComponent<Light>();
         //y = transform.localRotation.eulerAngles.y;
         //z = transform.localRotation.eulerAngles.z;
@@ -65,7 +71,11 @@ public class DayNightCical : MonoBehaviour
             transform.localRotation = Quaternion.Euler(new Vector3(timeOfDay, 0, 0));
         if (sun != null)
         {
-            if(FarmManager.instance.Raining)
+            bool b = false;
+            if (FarmManager.instance!= null)
+                b = FarmManager.instance.Raining;
+
+            if (b)
             {
                 sun.intensity -= Time.deltaTime * speed / 5;
             }
