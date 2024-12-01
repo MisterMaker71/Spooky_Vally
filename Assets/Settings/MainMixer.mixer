@@ -90,7 +90,7 @@ AudioMixerController:
   - guid: 6a46bfb1fe197414da9ea8106123c57a
     name: AmbianceVolume
   - guid: 9f994f21d6a17914585cec7076a84eb1
-    name: EffecgtVolume
+    name: EffectVolume
   - guid: ab0898f4411a6ee4b91ebaeb4c1bd3e4
     name: MasterVolume
   - guid: e20e03b3a7e41f844a43c55eba204d5d

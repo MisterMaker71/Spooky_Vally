@@ -40,8 +40,7 @@ public class InventorySlot : MonoBehaviour
         //    }
         //}
 
-
-        if(IsSelected() && InventoryManager.MainInstance.InventoryIsVisibel)
+        if (IsSelected() && InventoryManager.MainInstance.InventoryIsVisibel)
         {
             GetComponent<Image>().color = SelecktedCollor;
             if(Input.GetMouseButtonDown(0) && !Input.GetMouseButton(1))
@@ -76,7 +75,7 @@ public class InventorySlot : MonoBehaviour
             {
                 if(Item == null)
                     AddToSlot(InventoryManager.MainInstance.StopDragging(this));
-                else if(Item.Name == InventoryManager.MainInstance.dragging.Name)
+                else if(Item.Name == InventoryManager.MainInstance.draggingName && InventoryManager.MainInstance.lastSlot != this && InventoryManager.MainInstance.dragging != null)
                 {
                     Item.count += InventoryManager.MainInstance.dragging.count;
                     Destroy(InventoryManager.MainInstance.dragging.gameObject);
@@ -90,21 +89,30 @@ public class InventorySlot : MonoBehaviour
             if (Input.GetMouseButtonUp(1) && !Input.GetMouseButton(0))
             {
                 if(Item == null)
+                    //InventoryManager.MainInstance.Cancle();
                     AddToSlot(InventoryManager.MainInstance.StopDragging(this));
-                else if(Item.Name == InventoryManager.MainInstance.dragging.Name)
+                else if(Item.Name == InventoryManager.MainInstance.draggingName && InventoryManager.MainInstance.lastSlot != this && InventoryManager.MainInstance.dragging != null)
                 {
                     Item.count += InventoryManager.MainInstance.dragging.count;
                     Destroy(InventoryManager.MainInstance.dragging.gameObject);
                 }
                 else
                 {
+                    print("canc");
                     InventoryManager.MainInstance.StopDragging(this);
                     //InventoryManager.MainInstance.Cancle();
                 }
             }
         }
         else
+        {
+            if(!InventoryManager.MainInstance.InventoryIsVisibel&& InventoryManager.MainInstance.isDragging)
+            {
+                print("cancle");
+                InventoryManager.MainInstance.StopDragging(this);
+            }
             GetComponent<Image>().color = c1;
+        }
     }
 
     /// <returns>Returns if item could be added</returns>

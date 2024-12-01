@@ -332,6 +332,6 @@ MonoBehaviour:
   - {fileID: 2100000, guid: f9a1e79f77112524a926be010dd088f7, type: 2}
   growSpeed: 35
   growNoise: {x: 0, y: 1}
-  GrowMultyplyerByRain: 2
+  GrowMultyplyerByRain: 2.2
   GrowTime: 0
   GrowState: 0

@@ -307,7 +307,7 @@ MonoBehaviour:
   - item: {fileID: 6595116681051174210, guid: 347d9a96dcfa56d41a4e15d50e996393, type: 3}
     countRange: {x: 1, y: 1}
   - item: {fileID: -7156611825095598562, guid: 624f151e3a65b714fb11455667570b8b, type: 3}
-    countRange: {x: 0, y: 3}
+    countRange: {x: 0, y: 4}
   unGrowenItemNames:
   - item: {fileID: -7156611825095598562, guid: 624f151e3a65b714fb11455667570b8b, type: 3}
     countRange: {x: 1, y: 1}

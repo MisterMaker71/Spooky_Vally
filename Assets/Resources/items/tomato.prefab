@@ -89,5 +89,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Name: tomato
+  displayName: Tomato
+  Description: 'Can be Eaten to regain health.
+
+    Health Regen: 25'
   count: 1
-  nutrien: 0
+  nutrien: 25

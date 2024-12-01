@@ -89,5 +89,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Name: tomato_seeds
+  displayName: Tomato Seeds
+  Description: Can be Planted.
   count: 1
   crop: {fileID: 4198255156978345931, guid: c01a692f6c4630849b032b3bd2cb4044, type: 3}

@@ -89,6 +89,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Name: Axe1
+  displayName: Axe
+  Description: 'Can''t use on trees!
+
+    Damage: 20'
   count: 1
   maxDurebility: 500
   Durebility: 500

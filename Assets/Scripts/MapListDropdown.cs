@@ -11,6 +11,10 @@ public class MapListDropdown : MonoBehaviour
     public string playerPrefs = "LoadLevel";
     void Start()
     {
+        if (!Directory.Exists(Application.dataPath + "/Saves"))
+        {
+            Directory.CreateDirectory(Application.dataPath + "/Saves");
+        }
         Refresh();
         SelectLastMap();
     }

@@ -89,6 +89,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Name: Crowbar
+  displayName: Crowbar
+  Description: 'Industrucktubel tool to remove buildings.
+
+    Damage: 5'
   count: 1
   maxDurebility: 1
   Durebility: 1

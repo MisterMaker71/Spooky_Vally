@@ -89,5 +89,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Name: Wheat seeds
+  displayName: Wheat Seeds
+  Description: Can be Planted.
   count: 1
   crop: {fileID: 4198255156978345931, guid: deeef7775d14a8647a2c866fdfed7423, type: 3}

@@ -53,7 +53,11 @@ public class BuildingGrid : MonoBehaviour
             item.ocupied = false;
         }
     }
-    public void Place(string g, Vector3 v)
+    public Buildebel Place(string g, Vector3 v)
+    {
+        return Place(g, v, "");
+    }
+    public Buildebel Place(string g, Vector3 v, string id)
     {
         //print(v);
         if(Resources.Load("Buildebels/" + g) != null)
@@ -62,6 +66,7 @@ public class BuildingGrid : MonoBehaviour
             Buildebel b = gam.GetComponent<Buildebel>();
             if (gam != null && b != null)
             {
+                b.SetID(id);
                 GridTile t = nearestTile(v, 0.5f);
                 if(TestFreeTiles(b.coverdTiles, t.position + new Vector3(b.placeOffset.x / 2, 0, b.placeOffset.y / 2), 0.35f))
                 {
@@ -73,9 +78,11 @@ public class BuildingGrid : MonoBehaviour
                     {
                         nearestTile(placed.transform.position + new Vector3(b.placeOffset.x / 2, 0, b.placeOffset.y / 2) + new Vector3(vector.x / 2, 0, vector.y / 2), 0.25f).ocupied = true;
                     }
+                    return b;
                 }
             }
         }
+        return null;
     }
     public bool TestFreeTiles(Vector2[] positions, Vector3 origin, float searchRadius)
     {

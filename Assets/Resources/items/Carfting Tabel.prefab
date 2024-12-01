@@ -89,5 +89,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Name: Carfting Tabel
+  displayName: Carfting Tabel
+  Description: Combine Items to Create new ons.
   count: 1
   buildebel: CraftingTabel

@@ -89,5 +89,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Name: Planter Box Big
+  displayName: Planter Box Medium
+  Description: Plant 2 seeds.
   count: 1
   buildebel: planter_box_big

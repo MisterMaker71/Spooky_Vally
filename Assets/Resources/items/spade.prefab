@@ -89,6 +89,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Name: spade
+  displayName: Spade
+  Description: 'Damage: 10'
   count: 1
   maxDurebility: 500
   Durebility: 500

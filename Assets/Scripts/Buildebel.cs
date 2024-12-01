@@ -4,10 +4,19 @@ using UnityEngine;
 
 public class Buildebel : MonoBehaviour
 {
+    public string id = "";
     public Vector2 placeOffset;
     public Vector3 placeRotationOffset;
     public Vector2[] coverdTiles;
 
+    public void SetID(string _id)
+    {
+        //print(_id);
+        if (_id == "" || _id == null)
+            id = Random.Range(100000, 1000000).ToString();
+        else
+            id = _id;
+    }
     //public GetCoverdTile
     private void OnDrawGizmosSelected()
     {

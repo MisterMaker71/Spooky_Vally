@@ -11,6 +11,7 @@ public class Interactor : MonoBehaviour
     public LayerMask interactionLayer;
     public Image cursor;
     public static string selectedCrop = "Wheat";
+    public Animator cursorAnimations;
     void Start()
     {
 
@@ -19,7 +20,7 @@ public class Interactor : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        cursor.color = new Color(0.6886792f, 0.6886792f, 0.6886792f, 0.7882353f);//default
+        //cursor.color = new Color(0.6886792f, 0.6886792f, 0.6886792f, 0.7882353f);//default
         if (!InventoryManager.MainInstance.InventoryIsVisibel)
         {
             RaycastHit hit;
@@ -29,13 +30,34 @@ public class Interactor : MonoBehaviour
                 //sets color of cursor
                 if (hit.transform.GetComponent<Interactebel>() != null)
                 {
-                    print("can inter act with interactebel");
-                    cursor.color = new Color(0.5f, 0.5f, 0.5f, 0.7882353f);//gray
+                    //print("can inter act with interactebel");
+                    cursorAnimations.SetInteger("cursor", 2);
+                    //cursor.color = new Color(0.5f, 0.5f, 0.5f, 0.7882353f);//gray
                 }
                 else if (hit.transform.GetComponent<HarvestTile>() != null)
                 {
-                    print("can inter act with farmland");
-                    cursor.color = new Color(0.3030562f, 0.4716981f, 0.2865788f, 0.7882353f);//grean
+                    //print(InventoryManager.selectedItem.GetType());
+                    //print("can inter act with farmland");
+                    if (hit.transform.GetComponent<HarvestTile>().farmebel != null)
+                    {
+                        cursorAnimations.SetInteger("cursor", 3);
+                    }
+                    else if (InventoryManager.selectedItem != null)
+                    {
+                        if(InventoryManager.selectedItem.GetType() == typeof(Seed))
+                            cursorAnimations.SetInteger("cursor", 1);
+                        else
+                            cursorAnimations.SetInteger("cursor", 0);
+                    }
+                    else
+                    {
+                        cursorAnimations.SetInteger("cursor", 0);
+                    }
+                    //cursor.color = new Color(0.3030562f, 0.4716981f, 0.2865788f, 0.7882353f);//grean
+                }
+                else
+                {
+                    cursorAnimations.SetInteger("cursor", 0);
                 }
 
 
@@ -45,8 +67,12 @@ public class Interactor : MonoBehaviour
                 {
                     //print(hit.transform.tag);
                     if (hit.transform.tag == "FarmLand")
+                    {
                         outline.gameObject.SetActive(true);
-                    outline.position = new Vector3(Mathf.Floor(hit.point.x) + 0.5f, 0, Mathf.Floor(hit.point.z) + 0.5f);
+                        outline.position = new Vector3(Mathf.Floor(hit.point.x) + 0.5f, 0, Mathf.Floor(hit.point.z) + 0.5f);
+                    }
+                    else
+                        outline.gameObject.SetActive(false);
                     //Debug.DrawRay(new Vector3(Mathf.Floor(hit.point.x) + 0.5f, 0, Mathf.Floor(hit.point.z) + 0.5f), Vector3.up, Color.red, 1);
 
                     if ((Input.GetKeyDown(KeyCode.E) || Input.GetMouseButtonDown(0)) && !InventoryManager.MainInstance.InventoryIsVisibel)
@@ -164,10 +190,14 @@ public class Interactor : MonoBehaviour
                     }
                 }
                 else
+                {
                     outline.gameObject.SetActive(false);
+                    cursorAnimations.SetInteger("cursor", 0);
+                }
             }
             else
             {
+                cursorAnimations.SetInteger("cursor", 0);
                 outline.gameObject.SetActive(false);
             }
 
@@ -194,6 +224,11 @@ public class Interactor : MonoBehaviour
                 if (point != null)
                     point.position = Vector3.MoveTowards(point.position, transform.position + transform.forward * 8, Time.deltaTime * 10 * (Vector3.Distance(point.position, hit.point) / 2));
             }
+        }
+        else
+        {
+            cursorAnimations.SetInteger("cursor", 0);
+            outline.gameObject.SetActive(false);
         }
     }
 }

@@ -14,6 +14,7 @@ public class SaveManager : MonoBehaviour
     public List<GameObject> enabeldObjects = new List<GameObject>();
     public GameObject LoadImage;
     [SerializeField] RenderTexture screenshot;
+    [SerializeField] Camera screenshotCamera;
 
     void OnEnable()
     {
@@ -85,7 +86,7 @@ public class SaveManager : MonoBehaviour
         {
             foreach (Buildebel obj in grid.objecsOnGrid)
             {
-                save.placed.Add(new SavePlcebel(grid.name, obj.name, obj.transform.position + new Vector3(obj.placeOffset.x, 0, obj.placeOffset.y)));
+                save.placed.Add(new SavePlcebel(grid.name, obj.name, obj.transform.position + new Vector3(obj.placeOffset.x, 0, obj.placeOffset.y), obj.id));
             }
         }
         save.Items.Clear();
@@ -133,6 +134,29 @@ public class SaveManager : MonoBehaviour
             else
                 save.Loaders.Add(new SaveLevelLoader(lad.saveId));
         }
+        save.Invs.Clear();
+        foreach (var invs in FindObjectsOfType<PlacebelIStoragent>())
+        {
+            SaveInventory si = new SaveInventory(invs.id);
+            foreach (var siv in invs.items)
+            {
+                si.Items.Add(new SaveItem("", siv.index, siv.Name, siv.count));
+            }
+            save.Invs.Add(si);
+        }
+        save.placebelFarmland.Clear();
+        foreach (var pfl in FindObjectsOfType<PlacebelFarmLand>())
+        {
+            SavePlacebelFarmland si = new SavePlacebelFarmland(pfl.id);
+            foreach (var siv in pfl.harvestTiles)
+            {
+                if(siv.farmebel != null)
+                    si.crops.Add(new SaveCrop(siv.farmebel.name, siv.farmebel.GetComponent<GrowCrop>().GrowTime, siv.farmebel.GetComponent<GrowCrop>().GrowState));
+                else
+                    si.crops.Add(null);
+            }
+            save.placebelFarmland.Add(si);
+        }
 
         //Save:
         if (!Directory.Exists(Application.dataPath + "/Saves"))
@@ -144,12 +168,14 @@ public class SaveManager : MonoBehaviour
         //StartCoroutine(TakeScreenShot());
         if (screenshot != null)
         {
+            screenshotCamera.gameObject.SetActive(true);
             byte[] bites = BrightnessContrast(toTexture2D(screenshot)).EncodeToPNG();
-           // byte[] bites = BrightnessContrast(toTexture2D(screenshot), 1.1f, 1.2f).EncodeToPNG();
+            // byte[] bites = BrightnessContrast(toTexture2D(screenshot), 1.1f, 1.2f).EncodeToPNG();
             print(bites);
             File.WriteAllBytes(Application.dataPath + "/Saves/" + saveName + ".png", bites);
-
+            screenshotCamera.gameObject.SetActive(false);
         }
+
 
         //write to file
         string j = JsonUtility.ToJson(save);
@@ -203,70 +229,85 @@ public class SaveManager : MonoBehaviour
                 }
 
                 FarmManager fm = FindFirstObjectByType<FarmManager>();
-                    fm.RainTime = save.rainTime;
-                    fm.RainLenth = save.rainLenth;
-                    fm.RainTestTime = save.rainTestTime;
-                    fm.Raining = save.raining;
+                fm.RainTime = save.rainTime;
+                fm.RainLenth = save.rainLenth;
+                fm.RainTestTime = save.rainTestTime;
+                fm.Raining = save.raining;
 
-                    foreach (BuildingGrid item in FindObjectsOfType<BuildingGrid>())//clear Objects
+                foreach (BuildingGrid item in FindObjectsOfType<BuildingGrid>())//clear Objects
+                {
+                    foreach (Buildebel obj in item.objecsOnGrid)
                     {
-                        foreach (Buildebel obj in item.objecsOnGrid)
-                        {
-                            Destroy(obj.gameObject);
-                        }
-                        item.objecsOnGrid.Clear();
-                        item.ResetCoverd();
+                        Destroy(obj.gameObject);
                     }
-                    foreach (SavePlcebel plcebel in save.placed)//place Objects
+                    item.objecsOnGrid.Clear();
+                    item.ResetCoverd();
+                }
+                foreach (SavePlcebel plcebel in save.placed)//place Objects
+                {
+                    GetGidByBuildebelName(plcebel.gridName).Place(plcebel.buildebelName, plcebel.position, plcebel.id);
+                }
+                foreach (PlacebelIStoragent pinv in FindObjectsOfType<PlacebelIStoragent>())
+                {
+                    //print("Loading invetorys");
+                    //pinv.items.Clear();
+                    foreach (SaveInventory pi in save.Invs)
                     {
-                        GetGidByBuildebelName(plcebel.gridName).Place(plcebel.buildebelName, plcebel.position);
-                    }
-
-
-                    foreach (SaveLevelLoader loader in save.Loaders)
-                    {
-                        LoadAndDeload l = GetLevelLoader(loader.id);
-                        if (l != null)
+                        if (pi.id == pinv.id)
                         {
-                            l.LoadAll(loader.loadedScenes);
-                        }
-                    }
-
-                    foreach (Inventory inv in FindObjectsOfType<Inventory>())
-                    {
-                        foreach (InventorySlot slot in inv.slots)
-                        {
-                            //print(slot.index);
-                            if (slot.Item != null)
+                            foreach (SaveItem pii in pi.Items)
                             {
-                                //print("Remove " + slot.Item.Name);
-                                Destroy(slot.Item.gameObject);
-                            }
-                            if (GetItemInInventory(inv.name, slot.index) != null)
-                            {
-                                SaveItem i = GetItemInInventory(inv.name, slot.index);
-
-                                //print("added " + i.Name);
-
-
-                                GameObject GI = Resources.Load<GameObject>("items/" + i.Name);
-                                if (GI != null)
-                                {
-                                    slot.Item = Instantiate(GI, slot.transform).GetComponent<Item>();
-                                    slot.Item.count = i.count;
-                                }
+                                pinv.Add(new PlacebelIStoragent.PlItem(pii.Name, pii.count, pii.index));
                             }
                         }
                     }
+                }
 
-                    foreach (var item in FindObjectsOfType<Farmebel>())
+
+                foreach (SaveLevelLoader loader in save.Loaders)
+                {
+                    LoadAndDeload l = GetLevelLoader(loader.id);
+                    if (l != null)
                     {
-                        Destroy(item.gameObject);
+                        l.LoadAll(loader.loadedScenes);
                     }
-                    for (int i = 0; i < save.crops.Count; i++)
+                }
+
+                foreach (Inventory inv in FindObjectsOfType<Inventory>())
+                {
+                    foreach (InventorySlot slot in inv.slots)
                     {
-                        if(i < CropManager.tiles.Count)
+                        //print(slot.index);
+                        if (slot.Item != null)
                         {
+                            //print("Remove " + slot.Item.Name);
+                            Destroy(slot.Item.gameObject);
+                        }
+                        if (GetItemInInventory(inv.name, slot.index) != null)
+                        {
+                            SaveItem i = GetItemInInventory(inv.name, slot.index);
+
+                            //print("added " + i.Name);
+
+
+                            GameObject GI = Resources.Load<GameObject>("items/" + i.Name);
+                            if (GI != null)
+                            {
+                                slot.Item = Instantiate(GI, slot.transform).GetComponent<Item>();
+                                slot.Item.count = i.count;
+                            }
+                        }
+                    }
+                }
+
+                foreach (var item in FindObjectsOfType<Farmebel>())
+                {
+                    Destroy(item.gameObject);
+                }
+                for (int i = 0; i < save.crops.Count; i++)
+                {
+                    if (i < CropManager.tiles.Count)
+                    {
                         HarvestTile ht = CropManager.tiles[i];
                         if (ht != null)
                         {
@@ -279,9 +320,35 @@ public class SaveManager : MonoBehaviour
                                 ht.farmebel = g.GetComponent<Farmebel>();
                             }
                         }
+                    }
+                }
+
+
+                foreach (PlacebelFarmLand ps in FindObjectsOfType<PlacebelFarmLand>())
+                {
+                    foreach (SavePlacebelFarmland fl in save.placebelFarmland)
+                    {
+                        if (ps.id == fl.id)
+                        {
+                            for (int i = 0; i < fl.crops.Count; i++)
+                            {
+                                if (FarmManager.instance.FindCrop(fl.crops[i].Name) != null)
+                                {
+                                    GameObject ga = Instantiate(FarmManager.instance.FindCrop(fl.crops[i].Name).gameObject, ps.harvestTiles[i].transform);
+                                    ga.name = FarmManager.instance.FindCrop(fl.crops[i].Name).name;
+                                    ga.GetComponent<GrowCrop>().GrowState = fl.crops[i].state;
+                                    ga.GetComponent<GrowCrop>().GrowTime = fl.crops[i].growTime;
+                                    ps.harvestTiles[i].farmebel = ga.GetComponent<Farmebel>();
+                                    print(ps.harvestTiles[i].farmebel);
+                                }
+                                //else
+                                //{
+                                //    print(fl.crops[i].Name);
+                                //}
+                            }
                         }
                     }
-
+                }
 
                 //}
                 //else
@@ -361,6 +428,8 @@ public class SaveManager : MonoBehaviour
         public List<SaveLevelLoader> Loaders = new List<SaveLevelLoader>();
         public List<SaveItem> Items = new List<SaveItem>();
         public List<SavePlcebel> placed = new List<SavePlcebel>();
+        public List<SaveInventory> Invs = new List<SaveInventory>();
+        public List<SavePlacebelFarmland> placebelFarmland = new List<SavePlacebelFarmland>();
 
         public bool raining;
 
@@ -411,15 +480,44 @@ public class SaveManager : MonoBehaviour
     [System.Serializable]
     public class SavePlcebel
     {
+        public string id;
         public string gridName;
         public string buildebelName;
         public Vector3 position;
 
-        public SavePlcebel(string _gridName, string _buildebelName, Vector3 _position)
+        public SavePlcebel(string _gridName, string _buildebelName, Vector3 _position, string _id)
         {
+            id = _id;
             gridName = _gridName;
             buildebelName = _buildebelName;
             position = _position;
+        }
+    }
+    [System.Serializable]
+    public class SaveInventory
+    {
+        public string id;
+        public List<SaveItem> Items = new List<SaveItem>();
+
+        public SaveInventory(string _id)
+        {
+            id = _id;
+        }
+        public SaveInventory(string _id, List<SaveItem> _Items)
+        {
+            id = _id;
+            Items = _Items;
+        }
+    }
+    [System.Serializable]
+    public class SavePlacebelFarmland
+    {
+        public string id;
+        public List<SaveCrop> crops = new List<SaveCrop>();
+
+        public SavePlacebelFarmland(string _id)
+        {
+            id = _id;
         }
     }
     [System.Serializable]
@@ -510,7 +608,7 @@ public class SaveManager : MonoBehaviour
     private void OnApplicationQuit()
     {
         PaueMenu pm = FindFirstObjectByType<PaueMenu>();
-        if(pm != null)
+        if (pm != null)
         {
             pm.showMenu();
             if (!pm.canQuit)

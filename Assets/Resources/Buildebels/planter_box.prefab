@@ -16,7 +16,7 @@ GameObject:
   - component: {fileID: 3338223982531385310}
   - component: {fileID: 4581070881342438327}
   m_Layer: 0
-  m_Name: Sprite (1)
+  m_Name: Farmland
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -31,9 +31,9 @@ Transform:
   m_GameObject: {fileID: 1604168808022757650}
   serializedVersion: 2
   m_LocalRotation: {x: 0.7071068, y: -0, z: -0, w: 0.7071068}
-  m_LocalPosition: {x: 0, y: -0, z: 0.00338}
-  m_LocalScale: {x: 0.01, y: 0.009999995, z: 0.009999995}
-  m_ConstrainProportionsScale: 0
+  m_LocalPosition: {x: 0, y: -0, z: 0.374}
+  m_LocalScale: {x: 0.5, y: 0.5, z: 0.5}
+  m_ConstrainProportionsScale: 1
   m_Children: []
   m_Father: {fileID: 6533656073073053855}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -75,22 +75,22 @@ MonoBehaviour:
   - m_Vertices: 03000000
   m_SharedTextures: []
   m_Positions:
-  - {x: -0.42360687, y: 0.000000062942526, z: -0.17342873}
-  - {x: -0.42360687, y: 0.00000006294252, z: 0.17342874}
-  - {x: 0.42360687, y: 0.000000062942526, z: -0.17342871}
-  - {x: 0.42360687, y: 0.00000006294252, z: 0.17342874}
+  - {x: -0.84721375, y: 0.00000023794178, z: -0.3468577}
+  - {x: -0.84721375, y: 0.00000023794178, z: 0.34685764}
+  - {x: 0.84721375, y: 0.00000023794178, z: -0.34685764}
+  - {x: 0.84721375, y: 0.00000023794178, z: 0.34685764}
   m_Textures0:
-  - {x: 0.3265713, y: 0.9236069}
-  - {x: 0.6734288, y: 0.9236069}
-  - {x: 0.3265713, y: 0.07639313}
-  - {x: 0.6734287, y: 0.07639313}
+  - {x: 0.15314236, y: 1.3472137}
+  - {x: 0.84685767, y: 1.3472137}
+  - {x: 0.15314236, y: -0.34721375}
+  - {x: 0.84685767, y: -0.34721375}
   m_Textures2: []
   m_Textures3: []
   m_Tangents:
-  - {x: 0, y: -2.048515e-14, z: 1, w: -1}
-  - {x: -3.05e-43, y: -2.048515e-14, z: 1, w: -1}
-  - {x: -3.05e-43, y: -2.048515e-14, z: 1, w: -1}
-  - {x: 0, y: -2.0485151e-14, z: 1, w: -1}
+  - {x: 0, y: 0, z: 1, w: -1}
+  - {x: 0, y: 0, z: 1, w: -1}
+  - {x: 0, y: 0, z: 1, w: -1}
+  - {x: 0, y: 0, z: 1, w: -1}
   m_Colors: []
   m_UnwrapParameters:
     m_HardAngle: 88
@@ -100,7 +100,7 @@ MonoBehaviour:
   m_PreserveMeshAssetOnDestroy: 0
   assetGuid: 
   m_Mesh: {fileID: 0}
-  m_VersionIndex: 1993
+  m_VersionIndex: 2093
   m_IsSelectable: 1
   m_SelectedFaces: 
   m_SelectedEdges: []
@@ -229,6 +229,18 @@ PrefabInstance:
     m_TransformParent: {fileID: 0}
     m_Modifications:
     - target: {fileID: -8679921383154817045, guid: f34007b39c05d0a47813d271de75c323, type: 3}
+      propertyPath: m_LocalScale.x
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: f34007b39c05d0a47813d271de75c323, type: 3}
+      propertyPath: m_LocalScale.y
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: f34007b39c05d0a47813d271de75c323, type: 3}
+      propertyPath: m_LocalScale.z
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: f34007b39c05d0a47813d271de75c323, type: 3}
       propertyPath: m_LocalPosition.x
       value: -0.5
       objectReference: {fileID: 0}
@@ -268,6 +280,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: f34007b39c05d0a47813d271de75c323, type: 3}
+      propertyPath: m_ConstrainProportionsScale
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: -7511558181221131132, guid: f34007b39c05d0a47813d271de75c323, type: 3}
       propertyPath: 'm_Materials.Array.data[0]'
       value: 
@@ -288,7 +304,7 @@ PrefabInstance:
       addedObject: {fileID: 6309494674430581175}
     - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: f34007b39c05d0a47813d271de75c323, type: 3}
       insertIndex: -1
-      addedObject: {fileID: 4641895474643955518}
+      addedObject: {fileID: 4153906553999590075}
   m_SourcePrefab: {fileID: 100100000, guid: f34007b39c05d0a47813d271de75c323, type: 3}
 --- !u!1 &5901937867296836133 stripped
 GameObject:
@@ -316,7 +332,7 @@ BoxCollider:
   serializedVersion: 3
   m_Size: {x: 0.009126114, y: 0.0041366806, z: 0.0030508507}
   m_Center: {x: 0.0000041010976, y: 0.0000030079484, z: 0.0015257134}
---- !u!114 &4641895474643955518
+--- !u!114 &4153906553999590075
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -325,14 +341,17 @@ MonoBehaviour:
   m_GameObject: {fileID: 5901937867296836133}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 43ff295b33bd5de408414d9a239f3a4e, type: 3}
+  m_Script: {fileID: 11500000, guid: 0e4e4e0b00a523b40961513f34aaacd6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  id: 
   placeOffset: {x: -0.25, y: 0}
   placeRotationOffset: {x: -90, y: 0, z: 0}
   coverdTiles:
   - {x: 0, y: 0}
   - {x: 1, y: 0}
+  harvestTiles:
+  - {fileID: 4581070881342438327}
 --- !u!4 &6533656073073053855 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: -8679921383154817045, guid: f34007b39c05d0a47813d271de75c323, type: 3}

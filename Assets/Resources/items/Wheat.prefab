@@ -89,4 +89,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Name: Wheat
+  displayName: Wheat
+  Description: This is a Item!
   count: 1
+  nutrien: 0

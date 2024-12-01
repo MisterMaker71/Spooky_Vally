@@ -8,9 +8,11 @@ public class InventoryManager : MonoBehaviour
     public bool InventoryIsVisibel = false;
     public GameObject inventory;
     public static InventoryManager MainInstance;
+    public static Item selectedItem;
     public Item dragging;
+    public string draggingName;
     public bool isDragging;
-    InventorySlot lastSlot = null;
+    public InventorySlot lastSlot = null;
     public Inventory HB;
     public Inventory INV;
     public Transform HBSelect;
@@ -28,6 +30,11 @@ public class InventoryManager : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+            if (HB.slots[selected].Item == null)
+                selectedItem = null;
+            else
+                selectedItem = HB.slots[selected].Item;
+
         if (PlayerMovement.PlayerInstance.schlagType == 0 && Time.timeScale != 0)
         {
             if (Input.GetKeyDown(KeyCode.Alpha1))
@@ -181,6 +188,7 @@ public class InventoryManager : MonoBehaviour
                 i.transform.SetParent(i.GetComponentInParent<Canvas>().transform);
             isDragging = true;
             dragging = i;
+            draggingName = i.Name;
         }
         ChangeSlotHidden();
     }
@@ -190,14 +198,15 @@ public class InventoryManager : MonoBehaviour
 
         if(i != null)
         {
-            if (target.Item == null || lastSlot.Item != null)
+            if (target.Item == null)
+            //if (target.Item == null || lastSlot.Item != null)
             {
                 print("move");
                 i.transform.SetParent(target.transform);
                 i.transform.localPosition = Vector3.zero;
                 target.Item = i;
             }
-            else
+            else if (target.Item == null && lastSlot.Item == null)
             {
                 print("switch");
                 target.Item.transform.SetParent(lastSlot.transform);
@@ -209,9 +218,26 @@ public class InventoryManager : MonoBehaviour
                 i.transform.localPosition = Vector3.zero;
                 target.Item = i;
             }
+            else
+            {
+                if(lastSlot.Item != null)
+                {
+                    print("cancel split");
+                    lastSlot.Item.count += i.count;
+                    Destroy(i.gameObject);
+                }
+                else
+                {
+                    print("cancel move");
+                    i.transform.SetParent(lastSlot.transform);
+                    i.transform.localPosition = Vector3.zero;
+                    lastSlot.Item = i;
+                }
+            }
         }
 
         dragging = null;
+        draggingName = "";
 
         isDragging = false;
 
