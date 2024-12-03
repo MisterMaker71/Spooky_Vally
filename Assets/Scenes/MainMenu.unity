@@ -1983,7 +1983,7 @@ Mesh:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: pb_Mesh145716
+  m_Name: pb_Mesh90638
   serializedVersion: 11
   m_SubMeshes:
   - serializedVersion: 2
@@ -2297,7 +2297,7 @@ Mesh:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: pb_Mesh145982
+  m_Name: pb_Mesh91030
   serializedVersion: 11
   m_SubMeshes:
   - serializedVersion: 2
@@ -3074,7 +3074,7 @@ Mesh:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: pb_Mesh145642
+  m_Name: pb_Mesh90528
   serializedVersion: 11
   m_SubMeshes:
   - serializedVersion: 2
@@ -6116,6 +6116,7 @@ GameObject:
   - component: {fileID: 561399075}
   - component: {fileID: 561399074}
   - component: {fileID: 561399073}
+  - component: {fileID: 561399076}
   m_Layer: 5
   m_Name: cursor
   m_TagString: Untagged
@@ -6167,7 +6168,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 0.5, g: 0.5, b: 0.5, a: 0.69803923}
+  m_Color: {r: 0.46226418, g: 0.46226418, b: 0.46226418, a: 0.69803923}
   m_RaycastTarget: 0
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 0
@@ -6192,6 +6193,29 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 561399071}
   m_CullTransparentMesh: 1
+--- !u!223 &561399076
+Canvas:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 561399071}
+  m_Enabled: 1
+  serializedVersion: 3
+  m_RenderMode: 2
+  m_Camera: {fileID: 0}
+  m_PlaneDistance: 100
+  m_PixelPerfect: 0
+  m_ReceivesEvents: 1
+  m_OverrideSorting: 1
+  m_OverridePixelPerfect: 1
+  m_SortingBucketNormalizedSize: 0
+  m_VertexColorAlwaysGammaSpace: 0
+  m_AdditionalShaderChannelsFlag: 0
+  m_UpdateRectTransformForStandalone: 0
+  m_SortingLayerID: 0
+  m_SortingOrder: 32767
+  m_TargetDisplay: 0
 --- !u!1 &570359387
 GameObject:
   m_ObjectHideFlags: 0
@@ -6578,7 +6602,7 @@ Mesh:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: pb_Mesh145736
+  m_Name: pb_Mesh90664
   serializedVersion: 11
   m_SubMeshes:
   - serializedVersion: 2
@@ -8844,8 +8868,8 @@ Camera:
     y: 0
     width: 1
     height: 1
-  near clip plane: 0.3
-  far clip plane: 1000
+  near clip plane: 4
+  far clip plane: 25
   field of view: 60
   orthographic: 0
   orthographic size: 5
@@ -9289,7 +9313,7 @@ Mesh:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: pb_Mesh145672
+  m_Name: pb_Mesh90574
   serializedVersion: 11
   m_SubMeshes:
   - serializedVersion: 2
