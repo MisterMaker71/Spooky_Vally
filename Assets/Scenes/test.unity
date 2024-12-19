@@ -149,7 +149,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3dea93ba99bf54d4886cde30a38f463e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  gegnerPrefab: {fileID: 2698339896070349067, guid: afbb93868fa308141899e47e7b600127, type: 3}
+  gegnerPrefab:
+  - {fileID: 2698339896070349067, guid: afbb93868fa308141899e47e7b600127, type: 3}
+  - {fileID: 2698339896070349067, guid: 79bc9939a9f841e46913c3a64f8710f3, type: 3}
   spawnPoint: {fileID: 350583682}
   numberOfEnemies: 3
   spawnRadius: 25
@@ -197,7 +199,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3dea93ba99bf54d4886cde30a38f463e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  gegnerPrefab: {fileID: 2698339896070349067, guid: afbb93868fa308141899e47e7b600127, type: 3}
+  gegnerPrefab:
+  - {fileID: 2698339896070349067, guid: afbb93868fa308141899e47e7b600127, type: 3}
+  - {fileID: 2698339896070349067, guid: 79bc9939a9f841e46913c3a64f8710f3, type: 3}
   spawnPoint: {fileID: 1099326788}
   numberOfEnemies: 3
   spawnRadius: 25
@@ -245,7 +249,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3dea93ba99bf54d4886cde30a38f463e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  gegnerPrefab: {fileID: 2698339896070349067, guid: afbb93868fa308141899e47e7b600127, type: 3}
+  gegnerPrefab:
+  - {fileID: 2698339896070349067, guid: afbb93868fa308141899e47e7b600127, type: 3}
+  - {fileID: 2698339896070349067, guid: 79bc9939a9f841e46913c3a64f8710f3, type: 3}
   spawnPoint: {fileID: 1267398165}
   numberOfEnemies: 3
   spawnRadius: 25
@@ -417,7 +423,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3dea93ba99bf54d4886cde30a38f463e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  gegnerPrefab: {fileID: 2698339896070349067, guid: afbb93868fa308141899e47e7b600127, type: 3}
+  gegnerPrefab:
+  - {fileID: 2698339896070349067, guid: afbb93868fa308141899e47e7b600127, type: 3}
+  - {fileID: 2698339896070349067, guid: 79bc9939a9f841e46913c3a64f8710f3, type: 3}
   spawnPoint: {fileID: 1903513949}
   numberOfEnemies: 3
   spawnRadius: 25
@@ -465,7 +473,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3dea93ba99bf54d4886cde30a38f463e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  gegnerPrefab: {fileID: 2698339896070349067, guid: afbb93868fa308141899e47e7b600127, type: 3}
+  gegnerPrefab:
+  - {fileID: 2698339896070349067, guid: afbb93868fa308141899e47e7b600127, type: 3}
+  - {fileID: 2698339896070349067, guid: 79bc9939a9f841e46913c3a64f8710f3, type: 3}
   spawnPoint: {fileID: 1944494081}
   numberOfEnemies: 3
   spawnRadius: 25

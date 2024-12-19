@@ -10,6 +10,8 @@ public class Item : MonoBehaviour
     [Multiline(5)]
     public string Description = "This is a Item!";
     public int count = 1;
+    [Space(3)]
+    public bool CreateItemCount = true;
     // Start is called before the first frame update
     void Start()
     {
@@ -17,19 +19,22 @@ public class Item : MonoBehaviour
     }
     public void Init()
     {
-        countText = GetComponentInChildren<TMP_Text>();
-        if (countText == null)
-        {
-            GameObject g = Instantiate(Resources.Load<GameObject>("ItemCount"), transform);
-            if (g != null)
-                countText = g.GetComponent<TMP_Text>();
+        if (CreateItemCount)
+        { 
+            countText = GetComponentInChildren<TMP_Text>();
+            if (countText == null)
+            {
+                GameObject g = Instantiate(Resources.Load<GameObject>("ItemCount"), transform);
+                if (g != null)
+                    countText = g.GetComponent<TMP_Text>();
+            }
         }
     }
 
     // Update is called once per frame
     void Update()
     {
-        if (countText != null)
+        if (countText != null && CreateItemCount)
         {
             if (count > 1)
             {

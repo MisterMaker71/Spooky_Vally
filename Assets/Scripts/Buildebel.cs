@@ -5,9 +5,11 @@ using UnityEngine;
 public class Buildebel : MonoBehaviour
 {
     public string id = "";
+    public string[] itemNames = {""};
     public Vector2 placeOffset;
     public Vector3 placeRotationOffset;
     public Vector2[] coverdTiles;
+    public bool canBeRemoved = true;
 
     public void SetID(string _id)
     {

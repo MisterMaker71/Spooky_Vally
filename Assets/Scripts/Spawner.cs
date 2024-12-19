@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class Spawner : MonoBehaviour
 {
-    public GameObject gegnerPrefab;
+    public GameObject[] gegnerPrefab;
     public Transform spawnPoint;
     public int numberOfEnemies = 3;
     bool PlayerInside = false;
@@ -22,7 +22,7 @@ public class Spawner : MonoBehaviour
     {
         for (int i = 0; i < numberOfEnemies - spawnedEnemies.Count ; i++)
         {
-            GameObject newEnemy = Instantiate(gegnerPrefab, spawnPoint.position + new Vector3(Random.Range(-5, 5), 0, Random.Range(-5, 5)), Quaternion.identity, transform);
+            GameObject newEnemy = Instantiate(gegnerPrefab[Random.Range(0, gegnerPrefab.Length)], spawnPoint.position + new Vector3(Random.Range(-5, 5), 0, Random.Range(-5, 5)), Quaternion.identity, transform);
             spawnedEnemies.Add(newEnemy);
         }
     }

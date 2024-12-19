@@ -4,6 +4,8 @@ using UnityEngine;
 
 public class Farmebel : MonoBehaviour
 {
+    //[HideInInspector]
+    public float timeSincplaced;
     [Header("Don't forget to add a new Farmebel\n to the FarmManager rCrops List.")]
     public ItemPropertys[] itemNames = { new ItemPropertys(null, Vector2Int.one), new ItemPropertys(null, Vector2Int.one) };
     public ItemPropertys[] unGrowenItemNames = { new ItemPropertys(null, Vector2Int.one) };
@@ -13,6 +15,12 @@ public class Farmebel : MonoBehaviour
     void Update()
     {
         canColect = GetComponent<GrowCrop>().IsFullyGrowen();
+        if (timeSincplaced > 0)
+            timeSincplaced -= Time.deltaTime;
+    }
+    private void OnEnable()
+    {
+        timeSincplaced = 1f;
     }
     public Farmebel Destroy()
     {

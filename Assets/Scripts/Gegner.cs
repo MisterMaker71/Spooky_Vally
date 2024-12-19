@@ -4,12 +4,13 @@ using UnityEngine;
 
 public class Gegner : MonoBehaviour
 {
-    [SerializeField] Animator animator;
+    public Animator animator;
     Transform player;
     [SerializeField] float blend;
     public float speed = 2.0f;
     public float followRange = 20.0f;
     public float disepearRange = 30.0f;
+    public float maxHealth = 100;
     public float health = 100;
     private float timeSinceoutofrange = 0.0f;
     public float maxOutofrangetime = 10.0f;
@@ -17,8 +18,8 @@ public class Gegner : MonoBehaviour
     public float attackRange = 2.0f;
     public float attackDmg = 10.0f;
     public float attackCd = 2.0f;
-    public float lastAttackTime = 0.0f;
-
+    public bool isAtacking = false;
+    public int waffenType = 1;
 
     
 
@@ -34,7 +35,7 @@ public class Gegner : MonoBehaviour
             transform.LookAt(player.transform.position);
 
             float distanceToplayer = Vector3.Distance(transform.position, player.position);
-            if (distanceToplayer < followRange && distanceToplayer > 0.85f)
+            if (distanceToplayer < followRange && distanceToplayer > 0.85f && !isAtacking)
             {
                 if (blend < 1)
                     blend += Time.deltaTime * 5;
@@ -44,10 +45,9 @@ public class Gegner : MonoBehaviour
                 transform.position = Vector3.MoveTowards(transform.position, player.position, Time.deltaTime * speed);
             
                 //NEWENEWNNENEW
-                if (distanceToplayer <= attackRange && Time.time - lastAttackTime >= attackCd)
+                if (distanceToplayer <= attackRange && !isAtacking)
                 {
                     AttackPlayer();
-                    lastAttackTime = Time.time;
                 }
                 
             }
@@ -76,7 +76,10 @@ public class Gegner : MonoBehaviour
 
     void AttackPlayer()
     {
-        PlayerMovement.PlayerInstance.takedmg(attackDmg);
+        if (animator != null)
+            animator.SetInteger("schlagen", waffenType);
+            //animator.SetInteger("schlagen", Random.Range(1, 3+1));
+        isAtacking = true;
     }
 
     public void takedmg(float damage)

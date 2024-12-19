@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 3590187617690784741}
   - component: {fileID: 1293008540214002217}
   - component: {fileID: 950261533177140140}
-  - component: {fileID: 9028283134539112849}
+  - component: {fileID: 4860448408374433889}
   m_Layer: 5
   m_Name: Crowbar
   m_TagString: Untagged
@@ -76,7 +76,7 @@ MonoBehaviour:
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
   m_PixelsPerUnitMultiplier: 1
---- !u!114 &9028283134539112849
+--- !u!114 &4860448408374433889
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -85,7 +85,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 3394705674139290374}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 6af163c1ea55ad944b79d0cc5c2afa61, type: 3}
+  m_Script: {fileID: 11500000, guid: 0ed74ceab2cc1724c87903c74829df3f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   Name: Crowbar
@@ -104,4 +104,4 @@ MonoBehaviour:
   heal:
     m_PersistentCalls:
       m_Calls: []
-  damage: 5
+  damage: 10

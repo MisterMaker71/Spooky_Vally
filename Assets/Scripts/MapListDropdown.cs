@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 using TMPro;
 using System.IO;
 
@@ -9,6 +10,7 @@ public class MapListDropdown : MonoBehaviour
     [SerializeField] TMP_Dropdown dropdown;
     bool open = false;
     public string playerPrefs = "LoadLevel";
+    [SerializeField] Button lodeButton;
     void Start()
     {
         if (!Directory.Exists(Application.dataPath + "/Saves"))
@@ -17,9 +19,16 @@ public class MapListDropdown : MonoBehaviour
         }
         Refresh();
         SelectLastMap();
+        if (dropdown.options.Count <= 0)
+            PlayerPrefs.DeleteKey("saveName");
     }
     void Update()
     {
+        if(lodeButton != null)
+        {
+            lodeButton.interactable = dropdown.options.Count > 0;
+        }
+
         if (dropdown.IsExpanded)
         {
             if (!open)

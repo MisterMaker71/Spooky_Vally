@@ -339,7 +339,7 @@ public class SaveManager : MonoBehaviour
                                     ga.GetComponent<GrowCrop>().GrowState = fl.crops[i].state;
                                     ga.GetComponent<GrowCrop>().GrowTime = fl.crops[i].growTime;
                                     ps.harvestTiles[i].farmebel = ga.GetComponent<Farmebel>();
-                                    print(ps.harvestTiles[i].farmebel);
+                                    //print(ps.harvestTiles[i].farmebel);
                                 }
                                 //else
                                 //{

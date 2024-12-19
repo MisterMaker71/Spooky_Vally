@@ -812,7 +812,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0e4e4e0b00a523b40961513f34aaacd6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  id: 
+  id: Planter Box Big
+  itemNames:
+  - 
   placeOffset: {x: 0, y: 0}
   placeRotationOffset: {x: -90, y: 0, z: 0}
   coverdTiles:

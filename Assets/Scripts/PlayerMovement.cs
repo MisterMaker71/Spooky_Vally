@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 using UnityEngine.Animations.Rigging;
 
 public enum CameraMode { ThirdPerson, FirstPerson, TopDown }
@@ -16,6 +17,7 @@ public class PlayerMovement : MonoBehaviour
     public Animator BAnimator;
     public Animator AAnimator;
     Animator animator;
+    public LayerMask groundLayers;
     float animationMovementX = 0;
     float animationMovementY = 0;
     public Transform damagePosition;
@@ -37,6 +39,7 @@ public class PlayerMovement : MonoBehaviour
     [Header("Helth")]
     public float health = 100.0f;
     public float maxHealth = 100.0f;
+    public Image HealthBar;
 
     public void Heal(float helth)
     {
@@ -60,6 +63,7 @@ public class PlayerMovement : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+
         if (Input.GetKeyDown(KeyCode.F10))
             isBeta = !isBeta;
         effect.Update();
@@ -91,7 +95,7 @@ public class PlayerMovement : MonoBehaviour
         }
 
 
-        if((!Input.GetMouseButton(1) && !inventoryManager.InventoryIsVisibel) && Time.timeScale == 1)
+        if((!Input.GetMouseButton(2) && !inventoryManager.InventoryIsVisibel) && Time.timeScale == 1)
         {
             Cursor.lockState = CursorLockMode.Locked;
 
@@ -142,7 +146,7 @@ public class PlayerMovement : MonoBehaviour
         }
 
         //FP
-        if(Mathf.Abs(cExtander.Distance) < 0.1f)
+        if(Mathf.Abs(cExtander.Distance) < 0.2f)
         {
             if(AHead.localScale.x > 0.5f)
             {
@@ -188,9 +192,18 @@ public class PlayerMovement : MonoBehaviour
             if(Mathf.Abs(animationMovementX) < 0.2f && Mathf.Abs(animationMovementY) < 0.2f)
                 animator.SetInteger("schlagen", schlagType);
         }
+
+        RaycastHit hit;
+        if (Physics.SphereCast(new Ray(transform.position, Vector3.down), controller.radius, out hit, 1f, groundLayers))
+        {
+            Teleport(new Vector3(transform.position.x, hit.point.y, transform.position.z));
+        }
+
+        if (HealthBar != null) HealthBar.fillAmount = health / maxHealth;
     }
 
-    //NEWNEWNEWNEW
+
+
     public void takedmg( float dmg)
     {
         health -= dmg;

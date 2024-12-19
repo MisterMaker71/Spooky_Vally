@@ -9,7 +9,7 @@ public class CammeraExtander : MonoBehaviour
     float mD = 0;
     public float moveSpeed = 23;
     [SerializeField] LayerMask cameraCollisionLayer;
-    [HideInInspector]
+    //[HideInInspector]
     float distance = 0;
     public float Distance { get { return distance; } }
     // Start is called before the first frame update
@@ -58,17 +58,21 @@ public class CammeraExtander : MonoBehaviour
         }
 
         RaycastHit hit;
-        if(Physics.Raycast(transform.parent.position, transform.parent.forward * (mD - -1) / (1 - -1), out hit, Mathf.Abs(mD) + 0.4f, cameraCollisionLayer))
+        if(Physics.Raycast(transform.parent.position, transform.parent.forward * (mD - -1) / (1 - -1), out hit, Mathf.Abs(mD) + 0.2f, cameraCollisionLayer))
         {
-            transform.position = Vector3.MoveTowards(transform.position, hit.point - (transform.parent.forward * ((mD - -1) / (1 - -1) * 0.2f)), Time.deltaTime * moveSpeed);
+            if (hit.distance <= 0.5f && mD >= 0.1f)
+                transform.position = Vector3.MoveTowards(transform.position, hit.point - ((transform.parent.forward * hit.distance) * ((mD - -1) / (1 - -1))), Time.deltaTime * moveSpeed);
+            else
+                transform.position = Vector3.MoveTowards(transform.position, hit.point - ((transform.parent.forward * 0.2f) * ((mD - -1) / (1 - -1))) , Time.deltaTime * moveSpeed);
             Debug.DrawLine(transform.parent.position, hit.point, Color.white);
             Debug.DrawLine(transform.position, hit.point, Color.red);
-            distance = Vector3.Distance(transform.position, hit.point);
+            //distance = Vector3.Distance(transform.position, transform.parent.position);
         }
         else
         {
-            distance = Vector3.Distance(transform.position, transform.parent.position);
+            //distance = Vector3.Distance(transform.position, transform.parent.position);
             transform.position = Vector3.MoveTowards(transform.position, transform.parent.position + transform.parent.forward * mD, Time.deltaTime * moveSpeed);
         }
+        distance = Vector3.Distance(transform.position, transform.parent.position);
     }
 }

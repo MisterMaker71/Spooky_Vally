@@ -13,14 +13,13 @@ public class Sword : Wapon
     }
     public void Atack()
     {
+        if (PlayerMovement.PlayerInstance.schlagType == 0)
+        {
+            PlayerMovement.PlayerInstance.schlagType = animationType;
+            Audioevent.playAudio("swing", transform.position);
+            DamageEnemy.damage = damage;
+        }
         //Inserte Damege Script here
         //print("sword used");
-        foreach(Gegner g in FindObjectsOfType<Gegner>())
-        {
-            if(Vector3.Distance(PlayerMovement.PlayerInstance.damagePosition.position, g.transform.position) < 2.5f)
-            {
-                g.takedmg(damage);
-            }
-        }
     }
 }

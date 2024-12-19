@@ -51,12 +51,23 @@ public class MainMenu : MonoBehaviour
         if (lodeNameField.text == "")
             lodeButton.interactable = false;
         else
-            lodeButton.interactable = true;
+        {
+            if (!SaveExistes(lodeNameField.text))
+                lodeButton.interactable = true;
+            else
+                lodeButton.interactable = false;
+        }
 
         Cursor.visible = false;
         if (Input.GetKeyDown(KeyCode.Escape))
             Quit();
         //print(PlayerPrefs.GetString("saveName"));
+    }
+    public bool SaveExistes(string name)
+    {
+        if (File.Exists(Application.dataPath + "/Saves/" + name + ".save"))
+            return true;
+        return false;
     }
     public void ChangeSaveName(string name)
     {

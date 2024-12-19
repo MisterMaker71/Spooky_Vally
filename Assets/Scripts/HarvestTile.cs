@@ -35,9 +35,16 @@ public class HarvestTile : MonoBehaviour
         Partical.Create("dirt_pickup", transform.position);
         if (farmebel != null)
         {
+            if (farmebel.canColect)
+                Audioevent.playAudio("harvest_full", farmebel.transform.position);
+            else
+                Audioevent.playAudio("harvest", farmebel.transform.position);
             return farmebel.Destroy();
         }
         else
+        {
+            Audioevent.playAudio("harvest", farmebel.transform.position);
             return null;
+        }
     }
 }

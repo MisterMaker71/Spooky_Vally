@@ -98,6 +98,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 43ff295b33bd5de408414d9a239f3a4e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  id: 
+  itemNames:
+  - Dublicator
   placeOffset: {x: 0, y: 0}
   placeRotationOffset: {x: 0, y: 0, z: 0}
   coverdTiles:

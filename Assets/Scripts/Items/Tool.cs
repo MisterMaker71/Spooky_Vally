@@ -11,6 +11,7 @@ public class Tool : Item
     public int animationType = 0;
 
     public UnityEvent use;
+    public UnityEvent useS;
     public UnityEvent heal;
     public void Heal()
     {
@@ -25,15 +26,49 @@ public class Tool : Item
     }
     public void Use()
     {
-        PlayerMovement.PlayerInstance.schlagType = animationType;
+        //PlayerMovement.PlayerInstance.schlagType = animationType;
         if (!Use(DurebilityLoss))
         {
-            Destroy(gameObject);
+            if (count <= 0)
+            {
+                InventoryManager.MainInstance.ChangeSlot();
+                Destroy(gameObject);
+            }
+            else
+            {
+                count -= 1;
+                Durebility += maxDurebility;
+            }
         }
     }
     public bool Use(int durebility)
     {
         use.Invoke();
+        Durebility -= durebility;
+        if (Durebility <= 0)
+            return false;
+        return true;
+    }
+    public void UseSec()
+    {
+        //PlayerMovement.PlayerInstance.schlagType = animationType;
+        if (!UseSec(DurebilityLoss))
+        {
+            if (count <= 0)
+            {
+                InventoryManager.MainInstance.ChangeSlot();
+                Destroy(gameObject);
+            }
+            else
+            {
+                count -= 1;
+                Durebility += maxDurebility;
+            }
+        }
+    }
+    public bool UseSec(int durebility)
+    {
+        useS.Invoke();
         Durebility -= durebility;
         if (Durebility <= 0)
             return false;

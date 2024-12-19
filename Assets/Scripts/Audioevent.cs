@@ -11,12 +11,12 @@ public class Audioevent : MonoBehaviour
     }
     public void playAudio(string audio)
     {
-        if(Resources.Load(audio) != null)
+        if(Resources.Load("audio/" + audio) != null)
             Instantiate(Resources.Load<GameObject>("audio/" + audio), transform.position, Quaternion.identity);
     }
     public static void playAudio(string audio, Vector3 position)
     {
-        if (Resources.Load(audio) != null)
+        if (Resources.Load("audio/" + audio) != null)
             Instantiate(Resources.Load<GameObject>("audio/" + audio), position, Quaternion.identity);
     }
 }

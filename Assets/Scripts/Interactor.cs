@@ -26,6 +26,7 @@ public class Interactor : MonoBehaviour
             RaycastHit hit;
             if (Physics.Raycast(Camera.main.ScreenPointToRay(Input.mousePosition), out hit, 10, interactionLayer) && Time.timeScale == 1)
             {
+                //print(hit.transform);
                 //print(hit.transform.gameObject);
                 //sets color of cursor
                 if (hit.transform.GetComponent<Interactebel>() != null)
@@ -34,17 +35,51 @@ public class Interactor : MonoBehaviour
                     cursorAnimations.SetInteger("cursor", 2);
                     //cursor.color = new Color(0.5f, 0.5f, 0.5f, 0.7882353f);//gray
                 }
+                else if (InventoryManager.selectedItem != null && hit.transform.GetComponent<BuildingGrid>() != null)
+                {
+                    if (InventoryManager.selectedItem.GetType() == typeof(BuildebelItem))
+                        cursorAnimations.SetInteger("cursor", 1);
+                    else
+                        cursorAnimations.SetInteger("cursor", 0);
+                }
                 else if (hit.transform.GetComponent<HarvestTile>() != null)
                 {
                     //print(InventoryManager.selectedItem.GetType());
                     //print("can inter act with farmland");
                     if (hit.transform.GetComponent<HarvestTile>().farmebel != null)
                     {
-                        cursorAnimations.SetInteger("cursor", 3);
+                        if (InventoryManager.selectedItem != null)
+                        {
+                            //print(InventoryManager.selectedItem.GetType());
+                            if (InventoryManager.selectedItem.GetType() != typeof(Sword) &&
+                                InventoryManager.selectedItem.GetType() != typeof(Tool) &&
+                                InventoryManager.selectedItem.GetType() != typeof(Seed) &&
+                                InventoryManager.selectedItem.GetType() != typeof(Crop) 
+                                /*|| hit.transform.GetComponent<HarvestTile>().farmebel.timeSincplaced <= 0*/)
+                            {
+                                cursorAnimations.SetInteger("cursor", 3);
+                            }
+                            else
+                            {
+                                if (hit.transform.GetComponent<HarvestTile>().farmebel.timeSincplaced <= 0 &&
+                                InventoryManager.selectedItem.GetType() != typeof(Seed))
+                                {
+                                    cursorAnimations.SetInteger("cursor", 3);//0
+                                }
+                                else
+                                {
+                                    cursorAnimations.SetInteger("cursor", 1);
+                                }
+                            }
+                        }
+                        else
+                        {
+                            cursorAnimations.SetInteger("cursor", 3);
+                        }
                     }
                     else if (InventoryManager.selectedItem != null)
                     {
-                        if(InventoryManager.selectedItem.GetType() == typeof(Seed))
+                        if (InventoryManager.selectedItem.GetType() == typeof(Seed))
                             cursorAnimations.SetInteger("cursor", 1);
                         else
                             cursorAnimations.SetInteger("cursor", 0);
@@ -90,7 +125,7 @@ public class Interactor : MonoBehaviour
                                     bool holdingBlackList2 = holdingItem.GetType() != typeof(Seed);
                                     if (holdingBlackList1 || Input.GetKeyDown(KeyCode.E))
                                     {
-                                        if (holdingBlackList2 || Input.GetKeyDown(KeyCode.E))
+                                        if (holdingBlackList2 || Input.GetKeyDown(KeyCode.E) || hit.transform.GetComponent<HarvestTile>().farmebel.timeSincplaced <= 0)
                                         {
                                             //if(hit.transform.GetComponent<HarvestTile>().farmebel.canColect)
                                             //{
@@ -124,11 +159,11 @@ public class Interactor : MonoBehaviour
                         if (InventoryManager.MainInstance.HB.slots[InventoryManager.MainInstance.selected].Item != null)
                         {
                             //Wapon w = InventoryManager.MainInstance.HB.slots[InventoryManager.MainInstance.selected].Item.GetComponent<Wapon>() as Wapon;
-                            if (InventoryManager.MainInstance.HB.slots[InventoryManager.MainInstance.selected].Item.GetType() == typeof(Seed))
-                            {
-                                if (hit.transform.GetComponent<HarvestTile>() != null)
-                                {
 
+                            if (hit.transform.GetComponent<HarvestTile>() != null)
+                            {
+                                if (InventoryManager.MainInstance.HB.slots[InventoryManager.MainInstance.selected].Item.GetType() == typeof(Seed))
+                                {
                                     if (hit.transform.GetComponent<HarvestTile>().farmebel == null)
                                     {
                                         //GameObject g = Instantiate(Resources.Load<GameObject>("items/" + name), hit.transform);
@@ -145,45 +180,46 @@ public class Interactor : MonoBehaviour
                                             Destroy(InventoryManager.MainInstance.HB.slots[InventoryManager.MainInstance.selected].Item.gameObject);
                                         }
                                     }
-                                    else if (InventoryManager.MainInstance.HB.slots[InventoryManager.MainInstance.selected].Item.GetType() == typeof(Crop))
-                                    {
-                                        if (((Crop)(InventoryManager.MainInstance.HB.slots[InventoryManager.MainInstance.selected].Item)).nutrien > 0)
-                                        {
-                                            //PlayerMovement.PlayerInstance.health += ((Crop)(InventoryManager.MainInstance.HB.slots[InventoryManager.MainInstance.selected].Item)).nutrien;
-                                            InventoryManager.MainInstance.HB.slots[InventoryManager.MainInstance.selected].Item.count -= 1;
-
-                                            //Heals player when eaten food
-                                            PlayerMovement.PlayerInstance.Heal(((Crop)(InventoryManager.MainInstance.HB.slots[InventoryManager.MainInstance.selected].Item)).nutrien);
-
-                                            if (InventoryManager.MainInstance.HB.slots[InventoryManager.MainInstance.selected].Item.count <= 0)
-                                            {
-                                                Destroy(InventoryManager.MainInstance.HB.slots[InventoryManager.MainInstance.selected].Item.gameObject);
-                                            }
-                                        }
-                                    }
-                                }
-                                else if (InventoryManager.MainInstance.HB.slots[InventoryManager.MainInstance.selected].Item.GetType() == typeof(Crop))//Eat Crop
-                                {
-                                    if (((Crop)(InventoryManager.MainInstance.HB.slots[InventoryManager.MainInstance.selected].Item)).nutrien > 0)
-                                    {
-                                        //PlayerMovement.PlayerInstance.health += ((Crop)(InventoryManager.MainInstance.HB.slots[InventoryManager.MainInstance.selected].Item)).nutrien;
-                                        InventoryManager.MainInstance.HB.slots[InventoryManager.MainInstance.selected].Item.count -= 1;
-
-                                        //Heals player when eaten food
-                                        PlayerMovement.PlayerInstance.Heal(((Crop)(InventoryManager.MainInstance.HB.slots[InventoryManager.MainInstance.selected].Item)).nutrien);
-
-                                        if (InventoryManager.MainInstance.HB.slots[InventoryManager.MainInstance.selected].Item.count <= 0)
-                                        {
-                                            Destroy(InventoryManager.MainInstance.HB.slots[InventoryManager.MainInstance.selected].Item.gameObject);
-                                        }
-                                    }
                                 }
                             }
-                            else if (InventoryManager.MainInstance.HB.slots[InventoryManager.MainInstance.selected].Item.GetType() == typeof(BuildebelItem))//Build
+
+                            if (InventoryManager.MainInstance.HB.slots[InventoryManager.MainInstance.selected].Item.GetType() == typeof(BuildebelItem))//Build
                             {
                                 if (BuildManager.isGridSelected)
                                 {
                                     BuildManager.grids[BuildManager.selectedGrid].Place(((BuildebelItem)(InventoryManager.MainInstance.HB.slots[InventoryManager.MainInstance.selected].Item)).buildebel, hit.point);
+                                }
+                            }
+                        }
+                    }
+                    else if (Input.GetMouseButtonDown(1))
+                    {
+                        if (InventoryManager.MainInstance.HB.slots[InventoryManager.MainInstance.selected].Item != null)
+                        {
+                            if (InventoryManager.MainInstance.HB.slots[InventoryManager.MainInstance.selected].Item.GetType() == typeof(BuildebelItem))//Build
+                            {
+                                if (BuildManager.isGridSelected)
+                                {
+                                    BuildManager.grids[BuildManager.selectedGrid].Place(((BuildebelItem)(InventoryManager.MainInstance.HB.slots[InventoryManager.MainInstance.selected].Item)).buildebel, hit.point);
+                                }
+                            }
+                            else if (InventoryManager.MainInstance.HB.slots[InventoryManager.MainInstance.selected].Item.GetType() == typeof(Seed))
+                            {
+                                if (hit.transform.GetComponent<HarvestTile>().farmebel == null)
+                                {
+                                    //GameObject g = Instantiate(Resources.Load<GameObject>("items/" + name), hit.transform);
+                                    Seed s = (Seed)InventoryManager.MainInstance.HB.slots[InventoryManager.MainInstance.selected].Item;
+                                    //print(s.crop.name);
+                                    GameObject g = Instantiate(FarmManager.instance.FindCrop(s.crop.name).gameObject, hit.transform);
+                                    g.name = FarmManager.instance.FindCrop(s.crop.name).gameObject.name;
+                                    hit.transform.GetComponent<HarvestTile>().farmebel = g.GetComponent<Farmebel>();
+
+                                    InventoryManager.MainInstance.HB.slots[InventoryManager.MainInstance.selected].Item.count -= 1;
+
+                                    if (InventoryManager.MainInstance.HB.slots[InventoryManager.MainInstance.selected].Item.count <= 0)
+                                    {
+                                        Destroy(InventoryManager.MainInstance.HB.slots[InventoryManager.MainInstance.selected].Item.gameObject);
+                                    }
                                 }
                             }
                         }
@@ -202,14 +238,33 @@ public class Interactor : MonoBehaviour
             }
 
             //Use Wapon
-            if (InventoryManager.MainInstance.HB.slots[InventoryManager.MainInstance.selected].Item != null && Input.GetMouseButtonDown(0) && Time.timeScale > 0)
+            if (InventoryManager.MainInstance.HB.slots[InventoryManager.MainInstance.selected].Item != null && (Input.GetMouseButtonDown(0) || Input.GetMouseButtonDown(1)) && Time.timeScale > 0)
             {
                 Wapon w = InventoryManager.MainInstance.HB.slots[InventoryManager.MainInstance.selected].Item.GetComponent<Wapon>() as Wapon;
                 //Tool w = InventoryManager.MainInstance.HB.slots[InventoryManager.MainInstance.selected].Item.GetComponent<Tool>();
                 //Tool w = (Tool)(InventoryManager.MainInstance.HB.slots[InventoryManager.MainInstance.selected].Item);
                 if (w != null)// Use Tool
                 {
-                    w.Use();
+                    if(Input.GetMouseButtonDown(0))
+                        w.Use();
+                    if(Input.GetMouseButtonDown(1))
+                        w.UseSec();
+                }
+                else if (InventoryManager.MainInstance.HB.slots[InventoryManager.MainInstance.selected].Item.GetType() == typeof(Crop))//Eat Crop
+                {
+                    if (((Crop)(InventoryManager.MainInstance.HB.slots[InventoryManager.MainInstance.selected].Item)).nutrien > 0)
+                    {
+                        //PlayerMovement.PlayerInstance.health += ((Crop)(InventoryManager.MainInstance.HB.slots[InventoryManager.MainInstance.selected].Item)).nutrien;
+                        InventoryManager.MainInstance.HB.slots[InventoryManager.MainInstance.selected].Item.count -= 1;
+
+                        //Heals player when eaten food
+                        PlayerMovement.PlayerInstance.Heal(((Crop)(InventoryManager.MainInstance.HB.slots[InventoryManager.MainInstance.selected].Item)).nutrien);
+
+                        if (InventoryManager.MainInstance.HB.slots[InventoryManager.MainInstance.selected].Item.count <= 0)
+                        {
+                            Destroy(InventoryManager.MainInstance.HB.slots[InventoryManager.MainInstance.selected].Item.gameObject);
+                        }
+                    }
                 }
             }
 
