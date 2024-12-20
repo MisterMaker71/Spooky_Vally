@@ -116,6 +116,17 @@ public class PrefabPlacer : EditorWindow
         //    }
         //}
     }
+    private void GetTopLevelChildrenName(Transform parentObject)
+    {
+        var current = parentObject;
+        while (current.parent) // Go up until obj does not have a parent
+            current = current.parent;
+
+        foreach (Transform child in current) // iterate over children
+        {
+            Debug.Log(child.name);
+        }
+    }
     private void OnSelectionChange()
     {
         //Refresh
