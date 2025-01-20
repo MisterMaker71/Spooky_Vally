@@ -4,5 +4,5 @@ using UnityEngine;using UnityEngine.UI;
 public class EnemyHealthBar : MonoBehaviour{
     public Image i;Gegner g;
     void Start(){g = GetComponent<Gegner>();}
-    void Update(){if (i != null)i.fillAmount = g.health / g.maxHealth;}
+    void Update(){if (i != null)i.fillAmount = g.health / g.maxHealth; i.transform.parent.gameObject.SetActive(g.isVisebel); }
 }

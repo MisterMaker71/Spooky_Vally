@@ -203,22 +203,25 @@ public class Interactor : MonoBehaviour
                                     BuildManager.grids[BuildManager.selectedGrid].Place(((BuildebelItem)(InventoryManager.MainInstance.HB.slots[InventoryManager.MainInstance.selected].Item)).buildebel, hit.point);
                                 }
                             }
-                            else if (InventoryManager.MainInstance.HB.slots[InventoryManager.MainInstance.selected].Item.GetType() == typeof(Seed))
+                            else if (InventoryManager.MainInstance.HB.slots[InventoryManager.MainInstance.selected].Item.GetType() == typeof(Seed) && hit.transform.GetComponent<HarvestTile>() != null)
                             {
-                                if (hit.transform.GetComponent<HarvestTile>().farmebel == null)
+                                if(hit.transform.GetComponent<HarvestTile>().farmebel != null)
                                 {
-                                    //GameObject g = Instantiate(Resources.Load<GameObject>("items/" + name), hit.transform);
-                                    Seed s = (Seed)InventoryManager.MainInstance.HB.slots[InventoryManager.MainInstance.selected].Item;
-                                    //print(s.crop.name);
-                                    GameObject g = Instantiate(FarmManager.instance.FindCrop(s.crop.name).gameObject, hit.transform);
-                                    g.name = FarmManager.instance.FindCrop(s.crop.name).gameObject.name;
-                                    hit.transform.GetComponent<HarvestTile>().farmebel = g.GetComponent<Farmebel>();
-
-                                    InventoryManager.MainInstance.HB.slots[InventoryManager.MainInstance.selected].Item.count -= 1;
-
-                                    if (InventoryManager.MainInstance.HB.slots[InventoryManager.MainInstance.selected].Item.count <= 0)
+                                    if (hit.transform.GetComponent<HarvestTile>().farmebel == null)
                                     {
-                                        Destroy(InventoryManager.MainInstance.HB.slots[InventoryManager.MainInstance.selected].Item.gameObject);
+                                        //GameObject g = Instantiate(Resources.Load<GameObject>("items/" + name), hit.transform);
+                                        Seed s = (Seed)InventoryManager.MainInstance.HB.slots[InventoryManager.MainInstance.selected].Item;
+                                        //print(s.crop.name);
+                                        GameObject g = Instantiate(FarmManager.instance.FindCrop(s.crop.name).gameObject, hit.transform);
+                                        g.name = FarmManager.instance.FindCrop(s.crop.name).gameObject.name;
+                                        hit.transform.GetComponent<HarvestTile>().farmebel = g.GetComponent<Farmebel>();
+
+                                        InventoryManager.MainInstance.HB.slots[InventoryManager.MainInstance.selected].Item.count -= 1;
+
+                                        if (InventoryManager.MainInstance.HB.slots[InventoryManager.MainInstance.selected].Item.count <= 0)
+                                        {
+                                            Destroy(InventoryManager.MainInstance.HB.slots[InventoryManager.MainInstance.selected].Item.gameObject);
+                                        }
                                     }
                                 }
                             }

@@ -6,6 +6,9 @@ public class Gegner : MonoBehaviour
 {
     public Animator animator;
     Transform player;
+    public bool isVisebel = true;
+    public bool canMove = true;
+
     [SerializeField] float blend;
     public float speed = 2.0f;
     public float followRange = 20.0f;
@@ -30,7 +33,19 @@ public class Gegner : MonoBehaviour
     }
     void Update()
     {
-        if (player != null)
+        if(!isVisebel)
+        {
+            if(Camera.main.WorldToViewportPoint(transform.position).x >  1.01 ||
+               Camera.main.WorldToViewportPoint(transform.position).x < -0.01 ||
+               Camera.main.WorldToViewportPoint(transform.position).y >  1.05 ||
+               Camera.main.WorldToViewportPoint(transform.position).y < -0.05)
+            {
+                isVisebel = true;
+                canMove = true;
+            }
+        }
+
+        if (player != null && canMove)
         {
             transform.LookAt(player.transform.position);
 
@@ -67,10 +82,33 @@ public class Gegner : MonoBehaviour
             if (animator != null)
                 animator.SetFloat("walkingBlend", blend);
         }
+        else
+        {
+            if (blend > 0)
+                blend -= Time.deltaTime * 5;
+            if (blend < 0)
+                blend = 0;
+            timeSinceoutofrange = 0;
+            if (animator != null)
+                animator.SetFloat("walkingBlend", blend);
+        }
 
         if (timeSinceoutofrange >= maxOutofrangetime)
         {
             Die();
+        }
+
+        //for (int i = 0; i < transform.childCount; i++)
+        //{
+        //    transform.GetChild(i).gameObject.SetActive(isVisebel); ;
+        //}
+        foreach (var item in GetComponentsInChildren<Renderer>())
+        {
+            item.enabled = isVisebel;
+        }
+        foreach (var item in GetComponentsInChildren<Collider>())
+        {
+            item.enabled = isVisebel;
         }
     }
 
@@ -94,6 +132,9 @@ public class Gegner : MonoBehaviour
 
     private void Die()
     {
+        GameObject g = Instantiate(Resources.Load<GameObject>(name + "-Ragdoll"), transform.position, transform.rotation, transform.parent);
+        if (g.GetComponentInChildren<Ragdoll>() != null)
+            g.GetComponentInChildren<Ragdoll>().CoppyHumanoid(transform);
         Destroy(gameObject);
     }
 }

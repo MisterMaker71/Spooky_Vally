@@ -1,0 +1,21 @@
+newmtl Rock_3
+map_Kd tiger_rock_diff_1k.png
+bump tiger_rock_nor_gl_1k.png
+disp tiger_rock_disp_1k.png
+Kd 1 1 1
+d 1
+
+newmtl Wood_002
+map_Kd worn_planks_diff_1k.png
+bump worn_planks_nor_gl_1k.png
+disp worn_planks_disp_1k.png
+Kd 1 1 1
+d 1
+
+newmtl Rock_2
+map_Kd rock_face_04_diff_1k.png
+bump rock_face_03_nor_gl_1k.png
+disp rock_face_03_disp_1k.png
+Kd 1 1 1
+d 1
+

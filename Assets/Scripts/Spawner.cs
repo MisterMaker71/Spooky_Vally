@@ -22,7 +22,14 @@ public class Spawner : MonoBehaviour
     {
         for (int i = 0; i < numberOfEnemies - spawnedEnemies.Count ; i++)
         {
-            GameObject newEnemy = Instantiate(gegnerPrefab[Random.Range(0, gegnerPrefab.Length)], spawnPoint.position + new Vector3(Random.Range(-5, 5), 0, Random.Range(-5, 5)), Quaternion.identity, transform);
+            GameObject g = gegnerPrefab[Random.Range(0, gegnerPrefab.Length)];
+            GameObject newEnemy = Instantiate(g, spawnPoint.position + new Vector3(Random.Range(-5, 5), 0, Random.Range(-5, 5)), Quaternion.identity, transform);
+            newEnemy.name = g.name;
+            if(newEnemy.GetComponent<Gegner>() != null)
+            {
+                newEnemy.GetComponent<Gegner>().isVisebel = false;
+                newEnemy.GetComponent<Gegner>().canMove = false;
+            }
             spawnedEnemies.Add(newEnemy);
         }
     }
