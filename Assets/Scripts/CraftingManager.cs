@@ -21,7 +21,7 @@ public class CraftingManager : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if(Vector3.Distance(crafterPosition, FindObjectOfType<PlayerMovement>().transform.position) > 5 && crafterPosition != new Vector3(1000, 1000, 1000))
+        if(Vector3.Distance(crafterPosition, PlayerMovement.PlayerInstance.transform.position) > Interactor.interactionDistance / 2 && crafterPosition != new Vector3(1000, 1000, 1000))
         {
             CraftingIsVisibel = false;
             InventoryManager.MainInstance.InventoryIsVisibel = false;
@@ -42,5 +42,9 @@ public class CraftingManager : MonoBehaviour
             InventoryManager.MainInstance.SetOpenState(true);
             CraftingIsVisibel = true;
         }
+    }
+    private void OnDrawGizmosSelected()
+    {
+        Gizmos.DrawWireSphere(crafterPosition, 0.1f);
     }
 }

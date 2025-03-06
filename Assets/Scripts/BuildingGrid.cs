@@ -46,6 +46,19 @@ public class BuildingGrid : MonoBehaviour
             isSelected = false;
         }
     }
+    /// <summary>
+    /// not used
+    /// </summary>
+    public void Clean()
+    {
+        //foreach (Buildebel buildebel in objecsOnGrid)
+        //{
+        //    if (buildebel == null)
+        //    {
+        //        objecsOnGrid.Remove(buildebel);
+        //    }
+        //}
+    }
     public void ResetCoverd()
     {
         foreach (var item in covertGrid)
@@ -55,9 +68,17 @@ public class BuildingGrid : MonoBehaviour
     }
     public Buildebel Place(string g, Vector3 v)
     {
-        return Place(g, v, "");
+        return Place(g, v, new Vector3());
+    }
+    public Buildebel Place(string g, Vector3 v, Vector3 r)
+    {
+        return Place(g, v, r, "");
     }
     public Buildebel Place(string g, Vector3 v, string id)
+    {
+        return Place(g, v, new Vector3(), id);
+    }
+    public Buildebel Place(string g, Vector3 v, Vector3 r, string id)
     {
         //print(v);
         if(Resources.Load("Buildebels/" + g) != null)
@@ -67,16 +88,23 @@ public class BuildingGrid : MonoBehaviour
             if (gam != null && b != null)
             {
                 b.SetID(id);
-                GridTile t = nearestTile(v, 0.5f);
-                if(TestFreeTiles(b.coverdTiles, t.position + new Vector3(b.placeOffset.x / 2, 0, b.placeOffset.y / 2), 0.35f))
+                GridTile t = nearestTile(v + new Vector3(r.x * b.placeOffset.x / 2, 0, r.z * b.placeOffset.y / 2), 0.5f);
+                if(TestFreeTiles(b.coverdTiles, t.position, 0.35f))
                 {
-                    GameObject placed = Instantiate(gam, t.position + new Vector3(-b.placeOffset.x, 0, -b.placeOffset.y), Quaternion.identity, transform);
+                    GameObject placed = Instantiate(gam, Interactor.prepos, Quaternion.identity, transform);
+                    if (v != Vector3.zero)
+                        placed.transform.position = v;
+                    placed.transform.forward = r;
+                    print(r);
+                    //placed.transform.position += placed.transform.right * b.placeOffset.x + placed.transform.forward * b.placeOffset.y;
+
                     placed.name = gam.name;
                     objecsOnGrid.Add(placed.GetComponent<Buildebel>());
                     placed.transform.Rotate(b.placeRotationOffset);
                     foreach (Vector2 vector in b.coverdTiles)
                     {
-                        nearestTile(placed.transform.position + new Vector3(b.placeOffset.x / 2, 0, b.placeOffset.y / 2) + new Vector3(vector.x / 2, 0, vector.y / 2), 0.25f).ocupied = true;
+                        Debug.DrawLine(t.position, placed.transform.position + new Vector3(r.x * (vector.x / 2), 0, r.z * (vector.y / 2)), Color.yellow, 2);
+                        nearestTile(t.position + new Vector3(r.x * (vector.x / 2), 0, r.z * (vector.y / 2)), 0.25f).ocupied = true;
                     }
                     return b;
                 }

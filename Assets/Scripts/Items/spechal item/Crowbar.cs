@@ -5,7 +5,6 @@ using UnityEngine;
 public class Crowbar : Sword
 {
     // Start is called before the first frame update
-
     private void Start()
     {
         Init();

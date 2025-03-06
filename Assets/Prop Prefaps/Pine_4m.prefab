@@ -78,7 +78,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3765008572921532784, guid: ceb91b15818bca74f851f57abe4537f7, type: 3}
       propertyPath: m_ReceiveShadows
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 4742473837712756890, guid: ceb91b15818bca74f851f57abe4537f7, type: 3}
       propertyPath: m_LODs.Array.data[0].screenRelativeHeight

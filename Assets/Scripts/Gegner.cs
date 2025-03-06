@@ -1,10 +1,13 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.AI;
 
+[RequireComponent(typeof(NavMeshAgent))]
 public class Gegner : MonoBehaviour
 {
     public Animator animator;
+    NavMeshAgent agent;
     Transform player;
     public bool isVisebel = true;
     public bool canMove = true;
@@ -29,6 +32,7 @@ public class Gegner : MonoBehaviour
     // Update is called once per frame
     void Start()
     {
+        agent = GetComponent<NavMeshAgent>();
         player = PlayerMovement.PlayerInstance.transform;
     }
     void Update()
@@ -47,7 +51,7 @@ public class Gegner : MonoBehaviour
 
         if (player != null && canMove)
         {
-            transform.LookAt(player.transform.position);
+            //transform.LookAt(player.transform.position);
 
             float distanceToplayer = Vector3.Distance(transform.position, player.position);
             if (distanceToplayer < followRange && distanceToplayer > 0.85f && !isAtacking)
@@ -57,22 +61,30 @@ public class Gegner : MonoBehaviour
                 if (blend > 1)
                     blend = 1;
                 timeSinceoutofrange = 0.0f;
-                transform.position = Vector3.MoveTowards(transform.position, player.position, Time.deltaTime * speed);
-            
+                agent.SetDestination(player.position);
+                //transform.position = Vector3.MoveTowards(transform.position, player.position, Time.deltaTime * speed);
+
                 //NEWENEWNNENEW
                 if (distanceToplayer <= attackRange && !isAtacking)
                 {
                     AttackPlayer();
+                    agent.isStopped = true;
+                }
+                if(!isAtacking && agent.isStopped)
+                {
+                    agent.isStopped = false;
                 }
                 
             }
             else if (distanceToplayer > disepearRange)
             {
+                agent.isStopped = true;
                 blend = 0;
                 timeSinceoutofrange += Time.deltaTime;
             }
             else
             {
+                agent.isStopped = true;
                 if (blend > 0)
                     blend -= Time.deltaTime * 5;
                 if (blend < 0)

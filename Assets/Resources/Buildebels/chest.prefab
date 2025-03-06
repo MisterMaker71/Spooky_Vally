@@ -81,7 +81,7 @@ PrefabInstance:
       addedObject: {fileID: 5217239006516256168}
     - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: d3e2284c2e8d21347a531eb56922aa75, type: 3}
       insertIndex: -1
-      addedObject: {fileID: 3083696833288941508}
+      addedObject: {fileID: 4352438925803573059}
     - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: d3e2284c2e8d21347a531eb56922aa75, type: 3}
       insertIndex: -1
       addedObject: {fileID: 2015310956498611714}
@@ -112,7 +112,7 @@ BoxCollider:
   serializedVersion: 3
   m_Size: {x: 0.89831007, y: 0.6196105, z: 0.49599022}
   m_Center: {x: 0, y: 0.30504617, z: 0}
---- !u!114 &3083696833288941508
+--- !u!114 &4352438925803573059
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -121,7 +121,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 4285939493660489223}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 1c8964a3c964e0f4ebf99cb27a1919b2, type: 3}
+  m_Script: {fileID: 11500000, guid: 964d9f79ca0daa04f996cf8ce2d19a60, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   id: 
@@ -132,6 +132,7 @@ MonoBehaviour:
   coverdTiles:
   - {x: 1, y: 0}
   - {x: 0, y: 0}
+  canBeRemoved: 1
   items: []
 --- !u!114 &2015310956498611714
 MonoBehaviour:
@@ -148,8 +149,8 @@ MonoBehaviour:
   interact:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 3083696833288941508}
-        m_TargetAssemblyTypeName: PlacebelIStoragent, Assembly-CSharp
+      - m_Target: {fileID: 4352438925803573059}
+        m_TargetAssemblyTypeName: ChestObject, Assembly-CSharp
         m_MethodName: Open
         m_Mode: 1
         m_Arguments:

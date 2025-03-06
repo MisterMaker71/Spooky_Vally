@@ -102,9 +102,10 @@ MonoBehaviour:
   itemNames:
   - Dublicator
   placeOffset: {x: 0, y: 0}
-  placeRotationOffset: {x: 0, y: 0, z: 0}
+  placeRotationOffset: {x: 0, y: 90, z: 0}
   coverdTiles:
   - {x: 0, y: 0}
+  canBeRemoved: 1
 --- !u!114 &7572894346457218531
 MonoBehaviour:
   m_ObjectHideFlags: 0

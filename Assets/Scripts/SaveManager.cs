@@ -84,9 +84,13 @@ public class SaveManager : MonoBehaviour
         save.placed.Clear();
         foreach (BuildingGrid grid in FindObjectsOfType<BuildingGrid>())
         {
+            grid.Clean();
             foreach (Buildebel obj in grid.objecsOnGrid)
             {
-                save.placed.Add(new SavePlcebel(grid.name, obj.name, obj.transform.position + new Vector3(obj.placeOffset.x, 0, obj.placeOffset.y), obj.id));
+                if (obj != null)
+                {
+                    save.placed.Add(new SavePlcebel(grid.name, obj.name, obj.transform.position + new Vector3(obj.placeOffset.x, 0, obj.placeOffset.y), obj.transform.forward, obj.id));
+                }
             }
         }
         save.Items.Clear();
@@ -245,7 +249,7 @@ public class SaveManager : MonoBehaviour
                 }
                 foreach (SavePlcebel plcebel in save.placed)//place Objects
                 {
-                    GetGidByBuildebelName(plcebel.gridName).Place(plcebel.buildebelName, plcebel.position, plcebel.id);
+                    GetGidByBuildebelName(plcebel.gridName).Place(plcebel.buildebelName, plcebel.position, plcebel.forward, plcebel.id);
                 }
                 foreach (PlacebelIStoragent pinv in FindObjectsOfType<PlacebelIStoragent>())
                 {
@@ -484,13 +488,15 @@ public class SaveManager : MonoBehaviour
         public string gridName;
         public string buildebelName;
         public Vector3 position;
+        public Vector3 forward;
 
-        public SavePlcebel(string _gridName, string _buildebelName, Vector3 _position, string _id)
+        public SavePlcebel(string _gridName, string _buildebelName, Vector3 _position, Vector3 _forward, string _id)
         {
             id = _id;
             gridName = _gridName;
             buildebelName = _buildebelName;
             position = _position;
+            forward = _forward;
         }
     }
     [System.Serializable]

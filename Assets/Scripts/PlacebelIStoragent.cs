@@ -3,10 +3,14 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class PlacebelIStoragent : Buildebel
-{
+{   
     [Space(20)]
     public List<PlItem> items = new List<PlItem>();
     bool open = false;
+    void Start()
+    {
+        canBeRemoved = items.Count <= 0;
+    }
     public void Open()
     {
         InventoryManager.MainInstance.InventoryIsVisibel = true;

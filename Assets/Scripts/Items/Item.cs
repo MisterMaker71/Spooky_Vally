@@ -10,6 +10,7 @@ public class Item : MonoBehaviour
     [Multiline(5)]
     public string Description = "This is a Item!";
     public int count = 1;
+    public int maxCount = 64;
     [Space(3)]
     public bool CreateItemCount = true;
     // Start is called before the first frame update
@@ -17,6 +18,9 @@ public class Item : MonoBehaviour
     {
         Init();
     }
+    /// <summary>
+    /// Creates Item Counter
+    /// </summary>
     public void Init()
     {
         if (CreateItemCount)
@@ -29,6 +33,29 @@ public class Item : MonoBehaviour
                     countText = g.GetComponent<TMP_Text>();
             }
         }
+    }
+    /// <summary>
+    /// removes 1 item and delets it when reaching 0;
+    /// </summary>
+    /// <returns>number of leftover items</returns>
+    public int RemoveItem()
+    {
+        return RemoveItem(1);
+    }
+    /// <summary>
+    /// removes X item and delets it when reaching 0;
+    /// </summary>
+    /// <returns>number of leftover items</returns>
+    public int RemoveItem(int _count)
+    {
+        count -= _count;
+        if (count <= 0)
+        {
+            GetComponentInParent<InventorySlot>().Item = null;
+            Destroy(gameObject);
+            return 0;
+        }
+        return count;
     }
 
     // Update is called once per frame

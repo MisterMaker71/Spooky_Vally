@@ -22,9 +22,9 @@ public class SlotMashineObject : MonoBehaviour
         {
             spinTime = -100;
             RaycastHit hit;
-            if (Physics.Raycast(wheal.position + offset, direction, out hit, 0.4f))
+            if (Physics.Raycast(wheal.position + (transform.right * offset.x + transform.up * offset.y + transform.forward * offset.z), (transform.right * direction.x + transform.up * direction.y + transform.forward * direction.z), out hit, 0.4f))
             {
-                //print("win = " + hit.transform.name);
+                print("win = " + hit.transform.name);
                 FindFirstObjectByType<SlotMashine>().spin(hit.transform.name == "WinParts");
             }
         }
@@ -40,7 +40,7 @@ public class SlotMashineObject : MonoBehaviour
     }
     void OnDrawGizmosSelected()
     {
-        Gizmos.DrawWireSphere(wheal.position + offset, 0.01f);
-        Gizmos.DrawLine(wheal.position + offset, wheal.position + offset + (direction.normalized / 10) * 0.4f);
+        Gizmos.DrawWireSphere(wheal.position + (transform.right * offset.x + transform.up * offset.y + transform.forward * offset.z), 0.01f);
+        Gizmos.DrawLine(wheal.position + (transform.right * offset.x + transform.up * offset.y + transform.forward * offset.z), wheal.position + (transform.right * offset.x + transform.up * offset.y + transform.forward * offset.z) + ((transform.right * direction.x + transform.up * direction.y + transform.forward * direction.z).normalized / 10) * 0.4f);
     }
 }

@@ -13,8 +13,8 @@ GameObject:
   - component: {fileID: 2880230681776430607}
   - component: {fileID: 5322232980145440734}
   - component: {fileID: 1440623570408701079}
-  - component: {fileID: 198473683386152882}
   - component: {fileID: 966916385523109130}
+  - component: {fileID: 5403073275912339628}
   m_Layer: 8
   m_Name: farm land
   m_TagString: FarmLand
@@ -1132,8 +1132,23 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2108126580591900009}
   m_Mesh: {fileID: 0}
---- !u!64 &198473683386152882
-MeshCollider:
+--- !u!114 &966916385523109130
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2108126580591900009}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4834b603fd8281249b7b5e28aa14af88, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  isWhett: 0
+  whettTime: 0
+  farmebel: {fileID: 0}
+--- !u!65 &5403073275912339628
+BoxCollider:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
@@ -1150,22 +1165,6 @@ MeshCollider:
   m_IsTrigger: 0
   m_ProvidesContacts: 0
   m_Enabled: 1
-  serializedVersion: 5
-  m_Convex: 0
-  m_CookingOptions: 30
-  m_Mesh: {fileID: 0}
---- !u!114 &966916385523109130
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2108126580591900009}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 4834b603fd8281249b7b5e28aa14af88, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  isWhett: 0
-  whettTime: 0
-  farmebel: {fileID: 0}
+  serializedVersion: 3
+  m_Size: {x: 1.01, y: 0.25, z: 1.01}
+  m_Center: {x: -0.000000059604645, y: -0.125, z: 0.00000011920929}

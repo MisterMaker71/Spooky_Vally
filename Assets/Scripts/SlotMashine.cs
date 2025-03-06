@@ -19,7 +19,7 @@ public class SlotMashine : MonoBehaviour
     }
     void Update()
     {
-        if (Vector3.Distance(GambelPoint, FindObjectOfType<PlayerMovement>().transform.position) > 2 && GambelPoint != new Vector3(1000, 1000, 1000))
+        if (Vector3.Distance(GambelPoint, PlayerMovement.PlayerInstance.transform.position) > Interactor.interactionDistance / 2 && GambelPoint != new Vector3(1000, 1000, 1000))
         {
             inventoryIsVisibel = false;
             InventoryManager.MainInstance.InventoryIsVisibel = false;
@@ -40,5 +40,9 @@ public class SlotMashine : MonoBehaviour
             InventoryManager.MainInstance.SetOpenState(true);
             inventoryIsVisibel = true;
         }
+    }
+    private void OnDrawGizmosSelected()
+    {
+        Gizmos.DrawWireSphere(GambelPoint, 0.1f);
     }
 }

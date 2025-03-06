@@ -290,7 +290,7 @@ public class InventoryManager : MonoBehaviour
     {
         if (Resources.Load<GameObject>("items/" + item.Name) != null)
         {
-            if (HB.FirstFreeSlot() != -1)
+            if (HB.FirstFreeSlot(item.Name) != -1)
             {
                 int i = 0;
                 //GameObject g = Instantiate(Resources.Load<GameObject>("items/" + item.Name), HB.slots[i = HB.FirstFreeSlot(item.Name)].transform);
@@ -329,7 +329,7 @@ public class InventoryManager : MonoBehaviour
                     //print("add " + name + " at " + i);
                 }
             }
-            else if (INV.FirstFreeSlot() != -1)
+            else if (INV.FirstFreeSlot(item.Name) != -1)
             {
                 int i = -1;
                 //GameObject g = Instantiate(Resources.Load<GameObject>("items/" + item.Name), INV.slots[i = INV.FirstFreeSlot(item.Name)].transform);
