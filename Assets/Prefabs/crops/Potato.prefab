@@ -248,7 +248,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 5f18a73930a3ce847a597b85e43b9a56, type: 2}
+  - {fileID: 2100000, guid: a63b1dff790fc5e4c877d5c62bbb9b96, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -303,6 +303,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cb4bb42a1da059945939c7788081b1b5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  timeSincplaced: 0
   itemNames:
   - item: {fileID: 6595116681051174210, guid: 347d9a96dcfa56d41a4e15d50e996393, type: 3}
     countRange: {x: 1, y: 1}
@@ -325,11 +326,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   states:
-  - {fileID: 2100000, guid: 17cadf2deb23e3845a84529b1f641aec, type: 2}
-  - {fileID: 2100000, guid: 2bd45c05d31818246b645f7b90286e6a, type: 2}
-  - {fileID: 2100000, guid: e24ba0ef7ce969a459e3842aee80d99a, type: 2}
-  - {fileID: 2100000, guid: 1ab29a75503b59642bf09f4d35cdedd6, type: 2}
-  - {fileID: 2100000, guid: 5f18a73930a3ce847a597b85e43b9a56, type: 2}
+  - {fileID: 2100000, guid: 5d32c0d662a93184fa9fcc5e366e769c, type: 2}
+  - {fileID: 2100000, guid: 20cf98d8cb9c7934baca3863698fe5b9, type: 2}
+  - {fileID: 2100000, guid: cd5002f701d697949911c3e51e59f3a6, type: 2}
+  - {fileID: 2100000, guid: a63b1dff790fc5e4c877d5c62bbb9b96, type: 2}
   growSpeed: 35
   growNoise: {x: 0, y: 1.5}
   GrowMultyplyerByRain: 2

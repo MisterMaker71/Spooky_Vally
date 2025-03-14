@@ -147,6 +147,7 @@ public class Gegner : MonoBehaviour
         GameObject g = Instantiate(Resources.Load<GameObject>(name + "-Ragdoll"), transform.position, transform.rotation, transform.parent);
         if (g.GetComponentInChildren<Ragdoll>() != null)
             g.GetComponentInChildren<Ragdoll>().CoppyHumanoid(transform);
+        PlayerPrefs.SetInt("Points", PlayerPrefs.GetInt("Points", 0) + 1);
         Destroy(gameObject);
     }
 }

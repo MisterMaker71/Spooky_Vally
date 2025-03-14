@@ -124,13 +124,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 964d9f79ca0daa04f996cf8ce2d19a60, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  id: 
+  id: 651899
   itemNames:
   - Chest
-  placeOffset: {x: -0.25, y: 0}
-  placeRotationOffset: {x: 0, y: 0, z: 0}
+  placeOffset: {x: 0.25, y: 0}
+  placeRotationOffset: {x: 0, y: 180, z: 0}
   coverdTiles:
-  - {x: 1, y: 0}
+  - {x: -1, y: 0}
   - {x: 0, y: 0}
   canBeRemoved: 1
   items: []

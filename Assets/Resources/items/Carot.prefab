@@ -11,7 +11,6 @@ GameObject:
   - component: {fileID: 3590187617690784741}
   - component: {fileID: 1293008540214002217}
   - component: {fileID: 950261533177140140}
-  - component: {fileID: -7156611825095598562}
   - component: {fileID: -2066189763643364883}
   m_Layer: 5
   m_Name: Carot
@@ -77,24 +76,6 @@ MonoBehaviour:
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
   m_PixelsPerUnitMultiplier: 1
---- !u!114 &-7156611825095598562
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3394705674139290374}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 44e7a2ca982a7584194427fc2ef26778, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  Name: Carot
-  displayName: Carot
-  Description: Can be Planted.
-  count: 1
-  CreateItemCount: 1
-  crop: {fileID: 4198255156978345931, guid: e9eb1965795462b4ea0850406dcb1bdd, type: 3}
 --- !u!114 &-2066189763643364883
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -109,7 +90,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Name: Carot
   displayName: Carot
-  Description: Can be Planted.
+  Description: 'Can be Eaten to regain health.
+
+    Health Regen: 20'
   count: 1
-  CreateItemCount: 0
-  nutrien: 5
+  maxCount: 64
+  CreateItemCount: 1
+  nutrien: 20

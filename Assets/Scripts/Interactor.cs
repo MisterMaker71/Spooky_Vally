@@ -219,7 +219,7 @@ public class Interactor : MonoBehaviour
                             {
                                 if (BuildManager.isGridSelected)
                                 {
-                                    Buildebel bu = BuildManager.grids[BuildManager.selectedGrid].Place(((BuildebelItem)(InventoryManager.MainInstance.HB.slots[InventoryManager.MainInstance.selected].Item)).buildebel, hit.point, prevDir);
+                                    Buildebel bu = BuildManager.grids[BuildManager.selectedGrid].Place(((BuildebelItem)(InventoryManager.MainInstance.HB.slots[InventoryManager.MainInstance.selected].Item)).buildebel, /*hit.point*/buildPrev.transform.position, prevDir);
                                     if (bu != null)
                                     {
                                         InventoryManager.MainInstance.HB.slots[InventoryManager.MainInstance.selected].Item.RemoveItem(1);
@@ -236,7 +236,7 @@ public class Interactor : MonoBehaviour
                             {
                                 if (BuildManager.isGridSelected)
                                 {
-                                    Buildebel b = BuildManager.grids[BuildManager.selectedGrid].Place(((BuildebelItem)(InventoryManager.MainInstance.HB.slots[InventoryManager.MainInstance.selected].Item)).buildebel, Vector3.zero, hit.point);
+                                    Buildebel b = BuildManager.grids[BuildManager.selectedGrid].Place(((BuildebelItem)(InventoryManager.MainInstance.HB.slots[InventoryManager.MainInstance.selected].Item)).buildebel, /*hit.point*/buildPrev.transform.position, Vector3.zero);
                                     if(b != null)
                                         InventoryManager.MainInstance.HB.slots[InventoryManager.MainInstance.selected].Item.RemoveItem();
                                 }

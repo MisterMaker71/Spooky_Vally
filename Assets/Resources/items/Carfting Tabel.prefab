@@ -92,4 +92,6 @@ MonoBehaviour:
   displayName: Carfting Tabel
   Description: Combine Items to Create new ons.
   count: 1
+  maxCount: 64
+  CreateItemCount: 1
   buildebel: CraftingTabel

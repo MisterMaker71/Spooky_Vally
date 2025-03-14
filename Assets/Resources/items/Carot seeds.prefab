@@ -66,7 +66,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 21300000, guid: dc2df042838585a4ba087529a015df7f, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 0d2486379a5fea543a08c08821b9ca12, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -92,4 +92,6 @@ MonoBehaviour:
   displayName: Carot Seeds
   Description: Can be Planted.
   count: 1
+  maxCount: 64
+  CreateItemCount: 1
   crop: {fileID: 4198255156978345931, guid: e9eb1965795462b4ea0850406dcb1bdd, type: 3}

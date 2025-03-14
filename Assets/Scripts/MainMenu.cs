@@ -78,7 +78,7 @@ public class MainMenu : MonoBehaviour
         print("Lode: " + PlayerPrefs.GetString("saveName", ""));
         if(PlayerPrefs.GetString("saveName", "") != "")
         {
-            SceneManager.LoadScene("SampleScene");
+            SceneManager.LoadSceneAsync("SampleScene");
         }
     }
     public void NewSave()

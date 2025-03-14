@@ -23,10 +23,10 @@ public class Buildebel : MonoBehaviour
     private void OnDrawGizmosSelected()
     {
         Gizmos.color = Color.blue;
-        Gizmos.DrawSphere(transform.position + new Vector3(placeOffset.x, 0, placeOffset.y), 0.05f);
+        Gizmos.DrawWireSphere(transform.position + transform.right * placeOffset.x + transform.forward * placeOffset.y, 0.05f);
         foreach (Vector2 item in coverdTiles)
         {
-            Gizmos.DrawWireCube(transform.position + new Vector3(placeOffset.x, 0, placeOffset.y) + new Vector3(item.x / 2, 0, item.y / 2), new Vector3(0.3f, 0, 0.3f));
+            Gizmos.DrawWireCube(transform.position + (transform.right * placeOffset.x + transform.forward * placeOffset.y) + (transform.right * item.x / 2 + transform.forward * item.y / 2), new Vector3(0.3f, 0, 0.3f));
         }
     }
 }

@@ -72,13 +72,17 @@ public class BuildingGrid : MonoBehaviour
     }
     public Buildebel Place(string g, Vector3 v, Vector3 r)
     {
-        return Place(g, v, r, "");
+            return Place(g, v, r, "");
     }
     public Buildebel Place(string g, Vector3 v, string id)
     {
         return Place(g, v, new Vector3(), id);
     }
     public Buildebel Place(string g, Vector3 v, Vector3 r, string id)
+    {
+        return Place(g, v, r, id, false);
+    }
+    public Buildebel Place(string g, Vector3 v, Vector3 r, string id, bool saved)
     {
         //print(v);
         if(Resources.Load("Buildebels/" + g) != null)
@@ -88,35 +92,69 @@ public class BuildingGrid : MonoBehaviour
             if (gam != null && b != null)
             {
                 b.SetID(id);
-                GridTile t = nearestTile(v + new Vector3(r.x * b.placeOffset.x / 2, 0, r.z * b.placeOffset.y / 2), 0.5f);
-                if(TestFreeTiles(b.coverdTiles, t.position, 0.35f))
+                //GridTile t = nearestTile(v + new Vector3(r.x * b.placeOffset.x / 2, 0, r.z * b.placeOffset.y / 2), 0.5f);
+                //GridTile t = nearestTile(v, 0.5f);
+
+                GameObject placed = Instantiate(gam, v, Quaternion.identity, transform);
+
+                if (saved)
                 {
-                    GameObject placed = Instantiate(gam, Interactor.prepos, Quaternion.identity, transform);
-                    if (v != Vector3.zero)
-                        placed.transform.position = v;
+                    placed.transform.localEulerAngles = r;
+                    //placed.transform.position = v;
+                }
+                else
+                {
+                    //if (v != Vector3.zero)
                     placed.transform.forward = r;
-                    print(r);
-                    //placed.transform.position += placed.transform.right * b.placeOffset.x + placed.transform.forward * b.placeOffset.y;
+                    placed.transform.Rotate(b.placeRotationOffset);
+                    //placed.transform.position = v;
+                    //placed.transform.position = v + placed.transform.right * b.placeOffset.x + placed.transform.forward * b.placeOffset.y;
+                }
+
+                if (TestFreeTiles(b.coverdTiles, v, placed.transform, b.placeOffset, 0.35f))
+                {
+                    //GameObject placed = Instantiate(gam, Interactor.prepos, Quaternion.identity, transform);
 
                     placed.name = gam.name;
                     objecsOnGrid.Add(placed.GetComponent<Buildebel>());
-                    placed.transform.Rotate(b.placeRotationOffset);
+
+
                     foreach (Vector2 vector in b.coverdTiles)
                     {
-                        Debug.DrawLine(t.position, placed.transform.position + new Vector3(r.x * (vector.x / 2), 0, r.z * (vector.y / 2)), Color.yellow, 2);
-                        nearestTile(t.position + new Vector3(r.x * (vector.x / 2), 0, r.z * (vector.y / 2)), 0.25f).ocupied = true;
+                        //if (saved)
+                        //{
+                            //Debug.DrawLine(v, placed.transform.position + placed.transform.right * -vector.x + placed.transform.forward * -vector.y, Color.yellow, 2);
+                            nearestTile(v + (placed.transform.right * b.placeOffset.x + placed.transform.forward * b.placeOffset.y) + (placed.transform.right * vector.x / 2 + placed.transform.right * vector.y / 2), 0.25f).ocupied = true;
+                        /*}
+                        else
+                        {
+                            Debug.DrawLine(t.position, placed.transform.position + new Vector3(r.x * vector.x / 2, 0, r.z * vector.y / 2), Color.yellow, 2);
+                            nearestTile(t.position + new Vector3(r.x * vector.x / 2, 0, r.z * vector.y / 2), 0.25f).ocupied = true;
+                            //nearestTile(t.position + new Vector3(r.x * vector.x / 2, 0, r.z * vector.y / 2), 0.25f).ocupied = true;
+                        }*/
                     }
                     return b;
+                }
+                else
+                {
+                    Destroy(placed);
+                    return null;
                 }
             }
         }
         return null;
     }
-    public bool TestFreeTiles(Vector2[] positions, Vector3 origin, float searchRadius)
+    /// <summary>
+    /// 
+    /// </summary>
+    /// <param name="vr">right normal</param>
+    /// <param name="vl">left normal</param>
+    public bool TestFreeTiles(Vector2[] positions, Vector3 origin, Transform dir, Vector2 offset, float searchRadius)
     {
         foreach (Vector2 pos in positions)
         {
-            GridTile t = nearestTile(new Vector3(pos.x / 2, 0, pos.y / 2) + origin, searchRadius);
+            GridTile t = nearestTile(origin + (dir.right * offset.x + dir.forward * offset.y) + (dir.right * pos.x / 2 + dir.right * pos.y / 2), searchRadius);
+            //GridTile t = nearestTile((dir.right * pos.x / 2 + dir.forward * pos.y / 2) + origin, searchRadius);
             if (t.ocupied)
             {
                 Debug.DrawRay(t.position, Vector3.up, Color.red, 5);

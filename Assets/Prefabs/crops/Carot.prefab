@@ -305,10 +305,12 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   timeSincplaced: 0
   itemNames:
-  - item: {fileID: -7156611825095598562, guid: fdd57917bfa9c59478b235b503a31c90, type: 3}
-    countRange: {x: 3, y: 5}
+  - item: {fileID: -7156611825095598562, guid: 28cb4832e1dd1754daf87373cd579c37, type: 3}
+    countRange: {x: 1, y: 2}
+  - item: {fileID: -2066189763643364883, guid: fdd57917bfa9c59478b235b503a31c90, type: 3}
+    countRange: {x: 0, y: 7}
   unGrowenItemNames:
-  - item: {fileID: -7156611825095598562, guid: fdd57917bfa9c59478b235b503a31c90, type: 3}
+  - item: {fileID: -7156611825095598562, guid: 28cb4832e1dd1754daf87373cd579c37, type: 3}
     countRange: {x: 1, y: 1}
   canColect: 0
 --- !u!114 &1771766272412576735

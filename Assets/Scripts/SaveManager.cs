@@ -89,7 +89,7 @@ public class SaveManager : MonoBehaviour
             {
                 if (obj != null)
                 {
-                    save.placed.Add(new SavePlcebel(grid.name, obj.name, obj.transform.position + new Vector3(obj.placeOffset.x, 0, obj.placeOffset.y), obj.transform.forward, obj.id));
+                    save.placed.Add(new SavePlcebel(grid.name, obj.name, obj.transform.position, obj.transform.localEulerAngles, obj.id));
                 }
             }
         }
@@ -162,6 +162,8 @@ public class SaveManager : MonoBehaviour
             save.placebelFarmland.Add(si);
         }
 
+        save.points = PlayerPrefs.GetInt("Points", 0);
+
         //Save:
         if (!Directory.Exists(Application.dataPath + "/Saves"))
         {
@@ -209,6 +211,7 @@ public class SaveManager : MonoBehaviour
 
                 //Aplly changes:
 
+                PlayerPrefs.SetInt("Points", save.points);
 
                 if (enabeldObjects.Count != save.enabeldObjects.Count)
                 {
@@ -249,7 +252,7 @@ public class SaveManager : MonoBehaviour
                 }
                 foreach (SavePlcebel plcebel in save.placed)//place Objects
                 {
-                    GetGidByBuildebelName(plcebel.gridName).Place(plcebel.buildebelName, plcebel.position, plcebel.forward, plcebel.id);
+                    GetGidByBuildebelName(plcebel.gridName).Place(plcebel.buildebelName, plcebel.position, plcebel.forward, plcebel.id, true);
                 }
                 foreach (PlacebelIStoragent pinv in FindObjectsOfType<PlacebelIStoragent>())
                 {
@@ -427,6 +430,7 @@ public class SaveManager : MonoBehaviour
     [System.Serializable]
     public class Saver
     {
+        public int points = 0;
         public List<bool> enabeldObjects = new List<bool>();
         public List<SaveCrop> crops = new List<SaveCrop>();
         public List<SaveLevelLoader> Loaders = new List<SaveLevelLoader>();
